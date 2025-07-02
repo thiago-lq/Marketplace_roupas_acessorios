@@ -31,20 +31,6 @@ Desenvolver uma loja online onde usuários possam visualizar produtos e, futuram
 
 > Em breve será adicionada uma prévia do visual do site.
 
-## 📂 Organização
-
-src/
-├── assets/
-├── components/
-├── data/
-├── firebase/
-├── pages/
-├── App.css
-├── App.jsx
-├── index.css
-└── main.jsx
-
-
 ## 📌 Status
 
 Este projeto está em desenvolvimento e serve como prática e portfólio pessoal.
