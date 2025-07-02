@@ -4,7 +4,7 @@ Este é um projeto em desenvolvimento de um marketplace moderno feito com **Reac
 
 > ⚠️ Projeto em construção.
 
-## ✨ Objetivo
+## Objetivo
 
 Desenvolver uma loja online onde usuários possam visualizar produtos e, futuramente, realizar compras e acompanhar pedidos.
 
