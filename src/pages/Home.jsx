@@ -1,60 +1,57 @@
-// src/pages/Home.jsx
-import products from "../data/products";
+import { useEffect, useState } from "react";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "../firebase/configs";
+
 import ProductScroll from "../components/ProductScroll";
 import Carousel from "../components/Carousel";
 
-export default function Home() {
-  const handleAddToCart = (product) => {
-    console.log("Adicionado ao carrinho:", product);
-  };
+export default function Home({ onAddToCart }) {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const q = collection(db, "Produtos");
+    const unsub = onSnapshot(q, (snapshot) => {
+      const lista = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setProducts(lista);
+    });
+
+    return () => unsub();
+  }, []);
 
   return (
-    <div className="max-w-8xl mx-auto px-6 py-8">
-      <div className="force-margin"> {/* Container extra para margem */}
-        <section>
-          <h1 className="text-2xl font-semibold">Produtos em Destaque</h1>
-          <Carousel products={products.filter(p => p.id <= 20)} />
-        </section>
-      </div>
-      <div className="force-margin"> {/* Container extra para margem */}
-        <section>
-          <h2 className="text-xl font-semibold text-center">Masculino</h2>
-          <ProductScroll
-            products={products.filter(p => p.id > 20 && p.category === "Masculino")}
-            onAddToCart={handleAddToCart}
-          />
-        </section>
-      </div>
-      <div className="force-margin">
-        <section>
-          <div className="relative w-full h-20 overflow-hidden">
-            <div
-              className="absolute inset-0"
-              style={{
-                clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
-                background: 'linear-gradient(to bottom right, black 50%, white 50%)',
-              }}
-            ></div>
-            <h2 className="absolute inset-0 flex items-center justify-center text-4xl font-bold">
-              <span className="text-white pr-1">Femi</span>
-              <span className="text-black">nino</span>
-            </h2>
-          </div>
-          <ProductScroll
-            products={products.filter(p => p.id > 20 && p.category === "Feminino")}
-            onAddToCart={handleAddToCart}
-          />
-        </section>
-      </div>
-      <div className="force-margin">
-        <section>
-          <h2 className="text-xl font-semibold text-center">Lançamentos</h2>
-          <ProductScroll
-            products={products.filter(p => p.id > 20 && p.category === "Novos")}
-            onAddToCart={handleAddToCart}
-          />
-        </section>
-      </div>
-    </div>
+    <main className="max-w-8xl mx-auto px-6 py-12 space-y-20">
+      {/* Produtos em Destaque */}
+      <section className="force-margin">
+        <h1 className="text-3xl font-extrabold text-gray-900 mb-8 border-b border-gray-300 pb-3">
+          Produtos em Destaque
+        </h1>
+        <Carousel products={products.slice(0, 10)} />
+      </section>
+
+      {/* Masculino */}
+      <section className="force-margin">
+        <h2 className="text-4xl font-extrabold text-center bg-gradient-to-r text-gray-800 mb-6">
+          Masculino
+        </h2>
+        <ProductScroll
+          products={products.filter((p) => p.categoria === "masculino")}
+          onAddToCart={onAddToCart}
+        />
+      </section>
+
+      {/* Feminino */}
+      <section className="force-margin">
+        <h2 className="text-4xl font-extrabold text-center bg-gradient-to-r text-gray-800 mb-6">
+          Feminino
+        </h2>
+        <ProductScroll
+          products={products.filter((p) => p.categoria === "feminino")}
+          onAddToCart={onAddToCart}
+        />
+      </section>
+    </main>
   );
 }
