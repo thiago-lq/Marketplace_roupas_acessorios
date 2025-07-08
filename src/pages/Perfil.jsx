@@ -11,7 +11,8 @@ import { useState, useEffect } from "react";
 
 export default function Perfil() {
   const [InputProduto, setInputProduto] = useState([]);
-  const [modalAberto, setModalAberto] = useState(false);
+  const [modalAbertoEditar, setModalAbertoEditar] = useState(false);
+  const [modalAbertoAdicionar, setModalAbertoAdicionar] = useState(false);
   const [produtoEditando, setProdutoEditando] = useState(null);
 
   useEffect(() => {
@@ -48,11 +49,12 @@ export default function Perfil() {
 
   const SalvaDB = async (e) => {
     e.preventDefault();
-    const formulario = document.getElementById("formulario");
+    const formulario = document.getElementById("formularioAdicionar");
     const produto = serializeForm(formulario);
-    console.log("Produto:", produto);
     await addDoc(collection(db, "Produtos"), produto);
+    setModalAbertoAdicionar(false);
   };
+
   async function excluirProduto(id) {
     if (confirm("Tem certeza que deseja excluir este produto?")) {
       await deleteDoc(doc(db, "Produtos", id));
@@ -61,7 +63,7 @@ export default function Perfil() {
 
   function editarProduto(produto) {
     setProdutoEditando(produto);
-    setModalAberto(true);
+    setModalAbertoEditar(true);
   }
 
   async function salvarEdicao(e) {
@@ -76,69 +78,22 @@ export default function Perfil() {
       imagem,
     });
 
-    setModalAberto(false);
+    setModalAbertoEditar(false);
     setProdutoEditando(null);
   }
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 flex flex-col items-center">
-      <form
-        onSubmit={SalvaDB}
-        id="formulario"
-        className="bg-white shadow-lg rounded-xl p-8 w-full max-w-lg space-y-6"
+      {/* Botão para abrir modal de adicionar */}
+      <button
+        onClick={() => setModalAbertoAdicionar(true)}
+        className="mb-8 px-6 py-3 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition"
       >
-        <h2 className="text-3xl font-extrabold text-center text-gray-800 mb-6">
-          Cadastro de Produto
-        </h2>
+        Adicionar Produto
+      </button>
 
-        <input
-          type="text"
-          name="nome"
-          placeholder="Nome do produto"
-          className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 transition"
-          required
-        />
-
-        <input
-          type="number"
-          name="preco"
-          placeholder="Preço do produto"
-          className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 transition"
-          min="0"
-          step="0.01"
-          required
-        />
-
-        <select
-          name="categoria"
-          required
-          className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 text-gray-700 transition"
-          defaultValue=""
-        >
-          <option value="" disabled>
-            Selecione a categoria...
-          </option>
-          <option value="masculino">Masculino</option>
-          <option value="feminino">Feminino</option>
-        </select>
-
-        <input
-          type="url"
-          name="imagem"
-          placeholder="URL da imagem do produto"
-          className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 transition"
-          required
-        />
-
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-4 rounded-xl font-semibold hover:bg-blue-700 transition"
-        >
-          Salvar
-        </button>
-      </form>
-
-      <div className="mt-12 w-full max-w-7xl p-4 bg-white rounded-xl shadow-lg overflow-x-auto">
+      {/* Lista de produtos */}
+      <div className="w-full max-w-7xl p-4 bg-white rounded-xl shadow-lg overflow-x-auto">
         <h2 className="text-3xl font-extrabold mb-6 text-gray-800">
           Lista de Produtos
         </h2>
@@ -190,12 +145,78 @@ export default function Perfil() {
         </table>
       </div>
 
-      {modalAberto && (
+      {/* Modal Adicionar Produto */}
+      {modalAbertoAdicionar && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-8 relative">
             <h3 className="text-2xl font-bold mb-6 text-gray-900">
-              Editar Produto
+              Adicionar Produto
             </h3>
+            <form
+              id="formularioAdicionar"
+              onSubmit={SalvaDB}
+              className="space-y-6"
+            >
+              <input
+                type="text"
+                name="nome"
+                placeholder="Nome do produto"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 transition"
+                required
+              />
+              <input
+                type="number"
+                name="preco"
+                placeholder="Preço do produto"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 transition"
+                min="0"
+                step="0.01"
+                required
+              />
+              <select
+                name="categoria"
+                required
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 transition"
+                defaultValue=""
+              >
+                <option value="" disabled>
+                  Selecione a categoria...
+                </option>
+                <option value="masculino">Masculino</option>
+                <option value="feminino">Feminino</option>
+              </select>
+              <input
+                type="url"
+                name="imagem"
+                placeholder="URL da imagem do produto"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 transition"
+                required
+              />
+              <div className="flex justify-end mt-6 gap-4">
+                <button
+                  type="button"
+                  onClick={() => setModalAbertoAdicionar(false)}
+                  className="bg-gray-300 px-5 py-2 rounded-lg hover:bg-gray-400 transition font-semibold"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 transition font-semibold"
+                >
+                  Adicionar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Editar Produto */}
+      {modalAbertoEditar && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-8 relative">
+            <h3 className="text-2xl font-bold mb-6 text-gray-900">Editar Produto</h3>
             <form onSubmit={salvarEdicao} className="space-y-6">
               <input
                 type="text"
@@ -256,7 +277,7 @@ export default function Perfil() {
               <div className="flex justify-between mt-6">
                 <button
                   type="button"
-                  onClick={() => setModalAberto(false)}
+                  onClick={() => setModalAbertoEditar(false)}
                   className="bg-gray-300 px-5 py-2 rounded-lg hover:bg-gray-400 transition font-semibold"
                 >
                   Cancelar

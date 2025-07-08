@@ -1,7 +1,7 @@
 export default function ProductScroll({ products, onAddToCart }) {
   return (
     <div className="relative">
-      <div className="overflow-x-auto snap-x snap-mandatory py-6 w-[calc(240px*4+15px*3)] mx-auto">
+      <div className="overflow-x-auto snap-x snap-mandatory py-6 mx-auto">
         <div className="flex gap-[15px] w-max">
           {products.map((product) => (
             <div
