@@ -24,18 +24,25 @@ export default function Home({ onAddToCart }) {
   return (
     <main className="max-w-8xl mx-auto px-6 py-12 space-y-20">
       {/* Produtos em Destaque */}
-      <section className="force-margin">
-        <h1 className="text-3xl font-extrabold text-gray-900 mb-8 border-b border-gray-300 pb-3">
+      <section className="px-4 md:px-24">
+        <div className= "inline-block bg-white shadow-[0_8px_20px_rgba(0,0,0,0.15)] rounded-lg p-3 sm:p-4 md:p-6 lg:p-8 mb-8">
+          <h1 className="text-2xl font-extrabold bg-gradient-to-r from-black via-gray-700 to-gray-800 
+               bg-clip-text text-transparent">
           Produtos em Destaque
-        </h1>
+          </h1>
+          <div className="h-[2px] w-full mt-2 bg-gradient-to-r from-black via-gray-700 to-gray-500 rounded-full"></div>
+        </div>
         <Carousel products={products.slice(0, 10)} />
       </section>
 
       {/* Masculino */}
-      <section className="force-margin">
-        <h2 className="text-4xl font-extrabold text-center bg-gradient-to-r text-gray-800 mb-6">
+      <section>
+        <div className="bg-white shadow-[0_8px_20px_rgba(0,0,0,0.15)] rounded-lg p-3 sm:p-4 md:p-6 lg:p-8">
+          <h2 className="text-2xl font-extrabold text-center bg-gradient-to-r from-blue-900 via-gray-700 to-gray-500 
+               bg-clip-text text-transparent">
           Masculino
-        </h2>
+          </h2>
+        </div>
         <ProductScroll
           products={products.filter((p) => p.categoria === "masculino")}
           onAddToCart={onAddToCart}
@@ -43,10 +50,13 @@ export default function Home({ onAddToCart }) {
       </section>
 
       {/* Feminino */}
-      <section className="force-margin">
-        <h2 className="text-4xl font-extrabold text-center bg-gradient-to-r text-gray-800 mb-6">
+      <section>
+        <div className="bg-white shadow-[0_8px_20px_rgba(0,0,0,0.15)] rounded-lg p-3 sm:p-4 md:p-6 lg:p-8">
+          <h2 className="text-2xl font-extrabold text-center bg-gradient-to-r from-blue-900 via-gray-700 to-gray-500 
+               bg-clip-text text-transparent">
           Feminino
-        </h2>
+          </h2>
+        </div>
         <ProductScroll
           products={products.filter((p) => p.categoria === "feminino")}
           onAddToCart={onAddToCart}
