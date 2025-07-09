@@ -7,24 +7,42 @@ import { Link } from "react-router-dom";
 export default function Navbar({ onCarrinhoClick }) {
   const [showNavbar, setShowNavbar] = useState(true);
   const lastScrollY = useRef(0);
+  const timeoutRef = useRef(null);
 
   useEffect(() => {
     function handleScroll() {
-      if (window.scrollY > lastScrollY.current && window.scrollY > 100) {
+      const currentScroll = window.scrollY;
+
+      // Rolando para baixo
+      if (currentScroll > lastScrollY.current && currentScroll > 100) {
         setShowNavbar(false);
-      } else {
-        setShowNavbar(true);
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
       }
-      lastScrollY.current = window.scrollY;
+
+      // Rolando para cima
+      else if (currentScroll < lastScrollY.current) {
+        if (!showNavbar) {
+          // Aplica atraso para mostrar
+          if (timeoutRef.current) clearTimeout(timeoutRef.current);
+          timeoutRef.current = setTimeout(() => {
+            setShowNavbar(true);
+          }, 300); // Ajuste esse valor como quiser (ms)
+        }
+      }
+
+      lastScrollY.current = currentScroll;
     }
 
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, [showNavbar]);
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 bg-white shadow-md flex items-center justify-between px-6 py-2 transition-transform duration-300 z-50
+      className={`fixed top-0 left-0 right-0 bg-white shadow-lg flex items-center justify-between px-6 py-2 transition-transform duration-300 z-50
         ${showNavbar ? "translate-y-0" : "-translate-y-full"}`}
     >
       <Link to="/">

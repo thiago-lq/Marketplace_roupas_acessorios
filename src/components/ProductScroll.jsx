@@ -9,7 +9,8 @@ export default function ProductScroll({ products, onAddToCart }) {
               className="snap-start 
                          w-[200px] sm:w-[220px] md:w-[240px] lg:w-[260px]
                          flex-shrink-0 bg-white rounded-2xl shadow-lg 
-                         p-3 flex flex-col"
+                         p-3 flex flex-col border border-transparent hover:border-gray-300 
+                         transition-all duration-300"
             >
               <div className="relative w-full aspect-[4/5]">
                 <img

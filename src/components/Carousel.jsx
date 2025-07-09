@@ -3,6 +3,9 @@ import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import "./carousel.css";
+
+
 
 export default function Carousel({ products }) {
   return (
