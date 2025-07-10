@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase/configs";
-
+import LancamentosScroll from "../components/LancamentosScroll";
 import ProductScroll from "../components/ProductScroll";
 import Carousel from "../components/Carousel";
 
@@ -59,6 +59,18 @@ export default function Home({ onAddToCart }) {
         </div>
         <ProductScroll
           products={products.filter((p) => p.categoria === "feminino")}
+          onAddToCart={onAddToCart}
+        />
+      </section>
+      <section>
+        <div className="bg-white shadow-[0_8px_20px_rgba(0,0,0,0.15)] rounded-lg p-3 sm:p-4 md:p-6 lg:p-8">
+          <h2 className="text-2xl font-extrabold text-center bg-gradient-to-r from-blue-900 via-gray-700 to-gray-500 
+               bg-clip-text text-transparent">
+          Lançamentos
+          </h2>
+        </div>
+        <LancamentosScroll
+          products={products}
           onAddToCart={onAddToCart}
         />
       </section>

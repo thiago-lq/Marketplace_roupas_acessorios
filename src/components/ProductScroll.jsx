@@ -7,7 +7,7 @@ export default function ProductScroll({ products, onAddToCart }) {
             <div
               key={product.id}
               className="snap-start 
-                         w-[200px] sm:w-[220px] md:w-[240px] lg:w-[260px]
+                         w-[170px] sm:w-[220px] md:w-[240px] lg:w-[260px]
                          flex-shrink-0 bg-white rounded-2xl shadow-lg 
                          p-3 flex flex-col border border-transparent hover:border-gray-300 
                          transition-all duration-300"
@@ -20,7 +20,7 @@ export default function ProductScroll({ products, onAddToCart }) {
                 />
               </div>
 
-              <div className="p-3 flex flex-col gap-2 
+              <div className="p-3 flex flex-col 
                               h-[140px] sm:h-[150px] md:h-[180px] 
                               justify-between items-center text-center">
                 <h2 className="font-semibold text-gray-800 
