@@ -34,7 +34,7 @@ export default function LancamentosScroll({ products, onAddToCart }) {
                       className="bg-black text-white px-2 sm:px-3 py-1 sm:py-2 text-sm sm:text-base md:text-lg relative z-10
                                  transition-transform duration-300 
                                  group-hover:translate-x-[-2px] group-hover:translate-y-[-3px]
-                                 group-hover:text-gray-300"
+                                 group-hover:text-gray-300 leading-tight"
                     >
                       Adicionar ao carrinho
                     </button>

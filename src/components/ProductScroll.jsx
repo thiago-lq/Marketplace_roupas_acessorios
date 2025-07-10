@@ -40,7 +40,7 @@ export default function ProductScroll({ products, onAddToCart }) {
                              text-sm sm:text-base md:text-lg 
                              relative z-10 transition-transform duration-300
                              group-hover:translate-x-[-2px] group-hover:translate-y-[-3px]
-                             group-hover:text-gray-300"
+                             group-hover:text-gray-300 leading-tight"
                   >
                     Adicionar ao carrinho
                   </button>
