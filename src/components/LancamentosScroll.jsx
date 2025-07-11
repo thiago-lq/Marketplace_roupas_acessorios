@@ -70,7 +70,7 @@ export default function LancamentosScroll({ products, onAddToCart }) {
         <div className="flex-1">
           {/* Submenu horizontal que empurra o grid para baixo */}
           {subFiltroAberto && (
-            <div className="grid grid-cols-3 gap-2 mb-6 md:justify-between">
+            <div className="grid grid-cols-2 items-center gap-2 mb-6 md:justify-between">
               {filtroGenero === "feminino" && (
                 <>
                   <button 
