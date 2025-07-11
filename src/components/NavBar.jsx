@@ -46,7 +46,7 @@ export default function Navbar({ onCarrinhoClick }) {
         ${showNavbar ? "translate-y-0" : "-translate-y-full"}`}
     >
       <Link to="/">
-        <img src={logo} alt="Logo" className="max-h-[5rem] w-auto" />
+        <img src={logo} alt="Logo" className="max-h-[3rem] w-auto" />
       </Link>
       <div className="flex items-center" style={{ gap: "20px" }}>
         <button
