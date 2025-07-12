@@ -55,7 +55,7 @@ export default function Navbar({ onCarrinhoClick }) {
         >
           <img src={carrinho} alt="Carrinho" className="max-h-[2.5rem] w-auto" />
         </button>
-        <Link to="/perfil">
+        <Link to="/PaginaLogin">
           <button className="p-1 hover:opacity-30 transition-opacity bg-transparent border-none">
             <img src={perfil} alt="Perfil" className="max-h-[2.5rem] w-auto" />
           </button>

@@ -9,7 +9,7 @@ import {
 import { db } from "../firebase/configs.js";
 import { useState, useEffect } from "react";
 
-export default function Perfil() {
+export default function PerfilAdm() {
   const [InputProduto, setInputProduto] = useState([]);
   const [modalAbertoEditar, setModalAbertoEditar] = useState(false);
   const [modalAbertoAdicionar, setModalAbertoAdicionar] = useState(false);

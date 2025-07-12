@@ -1,9 +1,9 @@
 import { useState } from "react";
 import Home from "./pages/Home";
 import NavBar from "./components/NavBar";
-import Perfil from "./pages/Perfil";
+import PerfilAdm from "./pages/PerfilAdm";
 import CarrinhoFlutuante from "./components/CarrinhoFlutuante";
-
+import PaginaLogin from "./pages/PaginaLogin";
 import {
   BrowserRouter,
   Routes,
@@ -35,7 +35,8 @@ function App() {
           path="/"
           element={<Home onAddToCart={handleAddToCart} />}
         />
-        <Route path="/perfil" element={<Perfil />} />
+        <Route path="/PaginaLogin" element={<PaginaLogin/>} />
+        <Route path="/PaginaLogin/PerfilAdm" element={<PerfilAdm/>} />
       </Routes>
 
       <CarrinhoFlutuante
