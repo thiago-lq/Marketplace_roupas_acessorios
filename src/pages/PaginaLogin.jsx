@@ -4,14 +4,24 @@ import { Link } from "react-router-dom";
 import PerfilAdm from "./PerfilAdm";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/configs";
+import Deslogar from "../components/Deslogar";
 
 function PaginaLogin() {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       setUser(user);
+      setLoading(false);
     });
   }, []);
+
+  if(loading) {
+    return( 
+    <div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Loading..." className="mx-auto mt-40" />
+    </div>
+    )}
 
   if (!user) {
     return (
@@ -25,6 +35,7 @@ function PaginaLogin() {
   return (
     <div>
       <PerfilAdm />
+      <Deslogar setUser={setUser} />
     </div>
   );
 }
