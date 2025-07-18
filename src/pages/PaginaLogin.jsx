@@ -34,8 +34,8 @@ function PaginaLogin() {
 
   return (
     <div>
-      <PerfilAdm />
       <Deslogar setUser={setUser} />
+      <PerfilAdm />
     </div>
   );
 }

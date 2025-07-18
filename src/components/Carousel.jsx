@@ -21,8 +21,7 @@ export default function Carousel({ products }) {
         className="h-full"
       >
         {products
-          .slice(0, 10) // Limita a 20 produtos
-          .map((product) => (
+          .map((product) => ( 
             <SwiperSlide key={product.id} className="h-full">
               <div className="relative w-full h-full overflow-hidden rounded-lg aspect-[5/2]">
                 <img

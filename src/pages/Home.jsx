@@ -32,7 +32,7 @@ export default function Home({ onAddToCart }) {
           </h1>
           <div className="h-[2px] w-full mt-2 bg-gradient-to-r from-black via-gray-700 to-gray-500 rounded-full"></div>
         </div>
-        <Carousel products={products.slice(0, 10)} />
+        <Carousel products={products.filter((p) => p.exibicao === "produtos_destaque")} />
       </section>
 
       {/* Masculino */}
@@ -44,7 +44,7 @@ export default function Home({ onAddToCart }) {
           </h2>
         </div>
         <ProductScroll
-          products={products.filter((p) => p.categoria === "masculino")}
+          products={products.filter((p) => p.exibicao === "masculino")}
           onAddToCart={onAddToCart}
         />
       </section>
@@ -58,7 +58,7 @@ export default function Home({ onAddToCart }) {
           </h2>
         </div>
         <ProductScroll
-          products={products.filter((p) => p.categoria === "feminino")}
+          products={products.filter((p) => p.exibicao === "feminino")}
           onAddToCart={onAddToCart}
         />
       </section>
@@ -70,7 +70,7 @@ export default function Home({ onAddToCart }) {
           </h2>
         </div>
         <LancamentosScroll
-          products={products}
+          products={products.filter((p) => p.exibicao === "lancamentos")}
           onAddToCart={onAddToCart}
         />
       </section>

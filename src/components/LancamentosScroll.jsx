@@ -13,15 +13,19 @@ export default function LancamentosScroll({ products, onAddToCart }) {
   const produtosSubFiltrados =
     subFiltro === ""
       ? produtosFiltrados
-      : produtosFiltrados.filter((p) => p.subCategoria === subFiltro);
+      : produtosFiltrados.filter((p) => p.subcategoria === subFiltro);
   
   function handleFiltroClick(genero) {
     setFiltroGenero(genero);
     setSubFiltroAberto(genero !== "todos");
     setSubFiltro("");
   }
-  function handleSubFiltroClick(subCategoria) {
-    setSubFiltro(subCategoria);
+  function handleSubFiltroClick(subcategoria) {
+    if(subFiltro === subcategoria) {
+      setSubFiltro("");
+    } else {
+      setSubFiltro(subcategoria);
+    }
     
     // Aqui você pode adicionar lógica para filtrar ainda mais os produtos
   }
@@ -30,8 +34,6 @@ export default function LancamentosScroll({ products, onAddToCart }) {
       <div className="flex flex-col md:flex-row items-start gap-6">
         {/* Sidebar - Filtro */}
         <aside className="w-max md:w-[200px]">
-          <h2 className="text-lg font-semibold mb-4 bg-gradient-to-r from-black via-gray-700 to-gray-800 
-               bg-clip-text text-transparent">Filtro</h2>
           <div className="flex md:flex-col gap-3">
             <button
               onClick={() => handleFiltroClick("todos")}
