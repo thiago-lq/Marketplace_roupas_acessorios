@@ -4,6 +4,7 @@ import NavBar from "./components/NavBar";
 import PerfilAdm from "./pages/PerfilAdm";
 import CarrinhoFlutuante from "./components/CarrinhoFlutuante";
 import PaginaLogin from "./pages/PaginaLogin";
+import Footer from "./components/Footer";
 import {
   BrowserRouter,
   Routes,
@@ -45,6 +46,9 @@ function App() {
         onClose={() => setMostrarCarrinho(false)}
          onRemoveFromCart={handleRemoveFromCart}  // <-- passar aqui
       />
+      <div className="pt-16">
+        <Footer />
+      </div>
     </BrowserRouter>
   );
 }

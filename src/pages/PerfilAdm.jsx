@@ -8,6 +8,10 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase/configs.js";
 import { useState, useEffect, useMemo } from "react";
+import ModalAdicionarProduto from "../components/ModalAdicionarProduto";
+import ModalEditarProduto from "../components/ModalEditarProduto";
+import ProdutoTable from "../components/ProdutoTable";
+
 
 export default function PerfilAdm() {
   const [InputProduto, setInputProduto] = useState([]);
@@ -169,266 +173,38 @@ export default function PerfilAdm() {
       </button>
 
       {/* Lista de produtos */}
-      <div className="w-full max-w-7xl p-4 bg-white rounded-xl shadow-lg overflow-x-auto">
-        <h2 className="text-3xl font-extrabold mb-6 text-gray-800">
-          Lista de Produtos
-        </h2>
-        <table className="min-w-full border-collapse table-auto text-left">
-          <thead className="bg-gray-100 text-gray-600 uppercase text-sm select-none">
-            <tr>
-              <th className="p-4 border-b border-gray-300">Nome</th>
-              <th className="p-4 border-b border-gray-300">Preço</th>
-              <th className="p-4 border-b border-gray-300">Categoria</th>
-              <th className="p-4 border-b border-gray-300">Imagem</th>
-              <th className="p-4 border-b border-gray-300">Ações</th>
-            </tr>
-          </thead>
-          <tbody className="text-gray-700 text-sm">
-            {InputProduto.map((p) => (
-              <tr
-                key={p.id}
-                className="border-b last:border-b-0 hover:bg-gray-50 transition"
-              >
-                <td className="p-4 align-middle font-medium">{p.nome}</td>
-                <td className="p-4 align-middle font-semibold text-green-600">
-                  R$ {parseFloat(p.preco).toFixed(2)}
-                </td>
-                <td className="p-4 align-middle capitalize">{p.categoria}</td>
-                <td className="p-4 align-middle">
-                  <img
-                    src={p.imagem}
-                    alt={p.nome}
-                    className="h-12 w-12 object-cover rounded-lg border border-gray-200"
-                  />
-                </td>
-                <td className="p-4 align-middle space-x-2">
-                  <button
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm font-semibold"
-                    onClick={() => editarProduto(p)}
-                  >
-                    Editar
-                  </button>
-                  <button
-                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-sm font-semibold"
-                    onClick={() => excluirProduto(p.id)}
-                  >
-                    Excluir
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+<ProdutoTable
+  produtos={InputProduto}
+  onEditar={editarProduto}
+  onExcluir={excluirProduto}
+/>
+
 
       {/* Modal Adicionar Produto */}
-      {modalAbertoAdicionar && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-8 relative">
-            <h3 className="text-2xl font-bold mb-6 text-gray-900">
-              Adicionar Produto
-            </h3>
-            <form
-              id="formularioAdicionar"
-              onSubmit={SalvaDB}
-              className="space-y-6"
-            >
-              <input
-                type="text"
-                name="nome"
-                placeholder="Nome do produto"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 transition"
-                required
-              />
-              <input
-                type="number"
-                name="preco"
-                placeholder="Preço do produto"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 transition"
-                min="0"
-                step="0.01"
-                required
-              />
-              <select
-                name="categoria"
-                required
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 transition"
-                value={categoriaSelecionada}
-                onChange={(e) => setCategoriaSelecionada(e.target.value)}
-              >
-                <option value="" disabled>
-                  Selecione a categoria...
-                </option>
-                <option value="masculino">Masculino</option>
-                <option value="feminino">Feminino</option>
-              </select>
-              {categoriaSelecionada && (
-                <select
-                  name="subcategoria"
-                  required
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 transition"
-                  defaultValue=""
-                >
-                  <option value="" disabled>Seleciona a subcategoria...</option>
-                  {subcategoriasPorGenero[categoriaSelecionada]?.map((sub) => (
-                    <option key={sub.value} value={sub.value}>{sub.label}</option>
-                  ))}
-                </select>
-              )}
-              {categoriaSelecionada && (
-                <select
-                name="exibicao"
-                required
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 transition"
-                value={exibicao}
-                onChange={(e) => setExibicao(e.target.value)}
-              >
-                <option value="" disabled>Selecione onde exibir...</option>
-                  {exibicaoPorGenero[categoriaSelecionada]?.map((sub) => (
-                    <option key={sub.value} value={sub.value}>{sub.label}</option>
-                  ))}
-              </select>
-              )}
-              <input
-                type="url"
-                name="imagem"
-                placeholder="URL da imagem do produto"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 transition"
-                required
-              />
-              <div className="flex justify-end mt-6 gap-4">
-                <button
-                  type="button"
-                  onClick={() => setModalAbertoAdicionar(false)}
-                  className="bg-gray-300 px-5 py-2 rounded-lg hover:bg-gray-400 transition font-semibold"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 transition font-semibold"
-                >
-                  Adicionar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <ModalAdicionarProduto
+  aberto={modalAbertoAdicionar}
+  aoFechar={() => setModalAbertoAdicionar(false)}
+  aoSalvar={SalvaDB}
+  categoriaSelecionada={categoriaSelecionada}
+  setCategoriaSelecionada={setCategoriaSelecionada}
+  exibicao={exibicao}
+  setExibicao={setExibicao}
+  subcategoriasPorGenero={subcategoriasPorGenero}
+  exibicaoPorGenero={exibicaoPorGenero}
+  resetarFormulario={resetarFormularioAdicionar}
+/>
 
       {/* Modal Editar Produto */}
-      {modalAbertoEditar && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-8 relative">
-            <h3 className="text-2xl font-bold mb-6 text-gray-900">Editar Produto</h3>
-            <form onSubmit={salvarEdicao} className="space-y-6">
-              <input
-                type="text"
-                placeholder="Nome"
-                value={produtoEditando.nome}
-                onChange={(e) =>
-                  setProdutoEditando({
-                    ...produtoEditando,
-                    nome: e.target.value,
-                  })
-                }
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 transition"
-                required
-              />
-              <input
-                type="number"
-                placeholder="Preço"
-                value={produtoEditando.preco}
-                onChange={(e) =>
-                  setProdutoEditando({
-                    ...produtoEditando,
-                    preco: e.target.value,
-                  })
-                }
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 transition"
-                min="0"
-                step="0.01"
-                required
-              />
-              <select
-                value={produtoEditando.categoria}
-                onChange={(e) =>
-                  setProdutoEditando({
-                    ...produtoEditando,
-                    categoria: e.target.value,
-                  })
-                }
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 transition"
-                required
-              >
-                <option value="">Selecione...</option>
-                <option value="masculino">Masculino</option>
-                <option value="feminino">Feminino</option>
-              </select>
-              <select
-                value={produtoEditando.subcategoria || ""}
-                onChange={(e) =>
-                  setProdutoEditando({
-                    ...produtoEditando,
-                    subcategoria: e.target.value,
-                  })
-                }
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 transition"
-                required
-              >
-               <option value="" disabled>Seleciona a subcategoria...</option>
-                  {subcategoriasPorGenero[produtoEditando.categoria]?.map((sub) => (
-                    <option key={sub.value} value={sub.value}>{sub.label}</option>
-                  ))} 
-              </select>
-              <select
-                value={produtoEditando.exibicao || ""}
-                onChange={(e) =>
-                  setProdutoEditando({
-                    ...produtoEditando,
-                    exibicao: e.target.value,
-                  })
-                }
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 transition"
-                required
-              >
-                <option value="" disabled>Selecione onde exibir...</option>
-                  {exibicaoPorGenero[produtoEditando.categoria]?.map((sub) => (
-                    <option key={sub.value} value={sub.value}>{sub.label}</option>
-                  ))}
-              </select>
-              <input
-                type="url"
-                placeholder="URL da imagem"
-                value={produtoEditando.imagem}
-                onChange={(e) =>
-                  setProdutoEditando({
-                    ...produtoEditando,
-                    imagem: e.target.value,
-                  })
-                }
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-400 transition"
-                required
-              />
-              <div className="flex justify-between mt-6">
-                <button
-                  type="button"
-                  onClick={() => setModalAbertoEditar(false)}
-                  className="bg-gray-300 px-5 py-2 rounded-lg hover:bg-gray-400 transition font-semibold"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition font-semibold"
-                >
-                  Salvar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <ModalEditarProduto
+  aberto={modalAbertoEditar}
+  aoFechar={() => setModalAbertoEditar(false)}
+  aoSalvar={salvarEdicao}
+  produtoEditando={produtoEditando}
+  setProdutoEditando={setProdutoEditando}
+  subcategoriasPorGenero={subcategoriasPorGenero}
+  exibicaoPorGenero={exibicaoPorGenero}
+/>
+
     </div>
   );
 }
