@@ -9,7 +9,7 @@ export default function Footer() {
         <p className="text-sm text-gray-400">Desenvolvido por Thiago Lima</p>
         <div className="flex justify-center space-x-4">
             <p>Contato: thiagolq100@gmail.com</p>
-            <a href="https://www.linkedin.com/in/thiago-lima-21131a324/" target="_blank" rel="noreferrer" aria-label="Linkedin">
+            <a href="https://www.linkedin.com/in/thiago-lima-21131a324/" target="_blank" rel="noreferrer">
                 <img src="src\assets\linkedin.png" alt="Linkedin" />
             </a>
         </div>
