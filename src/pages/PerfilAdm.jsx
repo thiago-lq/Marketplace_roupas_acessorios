@@ -12,7 +12,6 @@ import ModalAdicionarProduto from "../components/ModalAdicionarProduto";
 import ModalEditarProduto from "../components/ModalEditarProduto";
 import ProdutoTable from "../components/ProdutoTable";
 
-
 export default function PerfilAdm() {
   const [InputProduto, setInputProduto] = useState([]);
   const [modalAbertoEditar, setModalAbertoEditar] = useState(false);
@@ -20,36 +19,42 @@ export default function PerfilAdm() {
   const [produtoEditando, setProdutoEditando] = useState(null);
   const [categoriaSelecionada, setCategoriaSelecionada] = useState("");
   const [exibicao, setExibicao] = useState("");
-  const subcategoriasPorGenero = useMemo(() => ({
-    feminino: [
-    { value: "blusas_camisetas", label: "Blusas & Camisetas" },
-    { value: "vestidos_saias", label: "Vestidos & Saias" },
-    { value: "acessorios", label: "Acessórios" },
-    { value: "calcas_leggings", label: "Calças & Leggings" },
-    { value: "casacos_jaquetas", label: "Casacos & Jaquetas" },
-    { value: "calcados", label: "Calçados" }
-  ],
-    masculino: [
-    { value: "camisetas_regatas", label: "Camisetas & Regatas" },
-    { value: "camisas_sociais_polo", label: "Camisas Sociais & Polo" },
-    { value: "acessorios", label: "Acessórios" },
-    { value: "calcas_bermudas", label: "Calças & Bermudas" },
-    { value: "jaquetas_moletons", label: "Jaquetas & Moletons" },
-    { value: "calcados", label: "Calçados" }
-  ]
-}), []);
-  const exibicaoPorGenero = useMemo(() => ({
-    feminino: [
-      { value: "produtos_destaque", label: "Produtos em Destaque" },
-      { value: "feminino", label: "Exibir em Feminino" },
-      { value: "lancamentos", label: "Lançamentos" }
-    ],
-    masculino: [
-      { value: "produtos_destaque", label: "Produtos em Destaque" },
-      { value: "masculino", label: "Exibir em Masculino" },
-      { value: "lancamentos", label: "Lançamentos" }
-    ]
-  }), []);
+  const subcategoriasPorGenero = useMemo(
+    () => ({
+      feminino: [
+        { value: "blusas_camisetas", label: "Blusas & Camisetas" },
+        { value: "vestidos_saias", label: "Vestidos & Saias" },
+        { value: "acessorios", label: "Acessórios" },
+        { value: "calcas_leggings", label: "Calças & Leggings" },
+        { value: "casacos_jaquetas", label: "Casacos & Jaquetas" },
+        { value: "calcados", label: "Calçados" },
+      ],
+      masculino: [
+        { value: "camisetas_regatas", label: "Camisetas & Regatas" },
+        { value: "camisas_sociais_polo", label: "Camisas Sociais & Polo" },
+        { value: "acessorios", label: "Acessórios" },
+        { value: "calcas_bermudas", label: "Calças & Bermudas" },
+        { value: "jaquetas_moletons", label: "Jaquetas & Moletons" },
+        { value: "calcados", label: "Calçados" },
+      ],
+    }),
+    []
+  );
+  const exibicaoPorGenero = useMemo(
+    () => ({
+      feminino: [
+        { value: "produtos_destaque", label: "Produtos em Destaque" },
+        { value: "feminino", label: "Exibir em Feminino" },
+        { value: "lancamentos", label: "Lançamentos" },
+      ],
+      masculino: [
+        { value: "produtos_destaque", label: "Produtos em Destaque" },
+        { value: "masculino", label: "Exibir em Masculino" },
+        { value: "lancamentos", label: "Lançamentos" },
+      ],
+    }),
+    []
+  );
 
   useEffect(() => {
     const q = collection(db, "Produtos");
@@ -65,30 +70,30 @@ export default function PerfilAdm() {
   }, []);
 
   useEffect(() => {
-  if (
-    modalAbertoEditar &&
-    produtoEditando.nome &&
-    produtoEditando.preco &&
-    produtoEditando.categoria &&
-    produtoEditando.subcategoria &&
-    produtoEditando.imagem &&
-    produtoEditando.exibicao
-  ) {
-    const categoriaValida = produtoEditando.categoria.toLowerCase();
-    const subcategorias = subcategoriasPorGenero[categoriaValida] || [];
+    if (
+      modalAbertoEditar &&
+      produtoEditando.nome &&
+      produtoEditando.preco &&
+      produtoEditando.categoria &&
+      produtoEditando.subcategoria &&
+      produtoEditando.imagem &&
+      produtoEditando.exibicao
+    ) {
+      const categoriaValida = produtoEditando.categoria.toLowerCase();
+      const subcategorias = subcategoriasPorGenero[categoriaValida] || [];
 
-    const subValida = subcategorias.find(
-      (sub) => sub.value === produtoEditando.subcategoria
-    );
+      const subValida = subcategorias.find(
+        (sub) => sub.value === produtoEditando.subcategoria
+      );
 
-    if (!subValida) {
-      setProdutoEditando((prev) => ({
-        ...prev,
-        subcategoria: "",
-      }));
+      if (!subValida) {
+        setProdutoEditando((prev) => ({
+          ...prev,
+          subcategoria: "",
+        }));
+      }
     }
-  }
-}, [modalAbertoEditar, produtoEditando, subcategoriasPorGenero]);
+  }, [modalAbertoEditar, produtoEditando, subcategoriasPorGenero]);
 
   function serializeForm(formElement) {
     const formData = new FormData(formElement);
@@ -114,7 +119,14 @@ export default function PerfilAdm() {
     const formulario = document.getElementById("formularioAdicionar");
     const produto = serializeForm(formulario);
     const { nome, preco, categoria, subcategoria, imagem, exibicao } = produto;
-    if (!nome || !preco || !categoria || !subcategoria || !imagem || !exibicao) {
+    if (
+      !nome ||
+      !preco ||
+      !categoria ||
+      !subcategoria ||
+      !imagem ||
+      !exibicao
+    ) {
       alert("Por favor, preencha todos os campos.");
       return;
     }
@@ -122,11 +134,11 @@ export default function PerfilAdm() {
     setModalAbertoAdicionar(false);
   };
 
-    function resetarFormularioAdicionar() {
-  setCategoriaSelecionada("");
-  setExibicao("");
-  const form = document.getElementById("formularioAdicionar");
-  if (form) form.reset();
+  function resetarFormularioAdicionar() {
+    setCategoriaSelecionada("");
+    setExibicao("");
+    const form = document.getElementById("formularioAdicionar");
+    if (form) form.reset();
   }
 
   async function excluirProduto(id) {
@@ -143,8 +155,16 @@ export default function PerfilAdm() {
   async function salvarEdicao(e) {
     e.preventDefault();
     const ref = doc(db, "Produtos", produtoEditando.id);
-    const { nome, preco, categoria, subcategoria , imagem, exibicao } = produtoEditando;
-    if (!nome || !preco || !categoria || !subcategoria || !imagem || !exibicao) {
+    const { nome, preco, categoria, subcategoria, imagem, exibicao } =
+      produtoEditando;
+    if (
+      !nome ||
+      !preco ||
+      !categoria ||
+      !subcategoria ||
+      !imagem ||
+      !exibicao
+    ) {
       alert("Por favor, preencha todos os campos.");
       return;
     }
@@ -164,47 +184,42 @@ export default function PerfilAdm() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 flex flex-col items-center">
-      {/* Botão para abrir modal de adicionar */}
-      <button
-        onClick={() => {setModalAbertoAdicionar(true); resetarFormularioAdicionar()}}
-        className="mb-8 px-6 py-3 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition"
-      >
-        Adicionar Produto
-      </button>
-
       {/* Lista de produtos */}
-<ProdutoTable
-  produtos={InputProduto}
-  onEditar={editarProduto}
-  onExcluir={excluirProduto}
-/>
-
+      <ProdutoTable
+        produtos={InputProduto}
+        onEditar={editarProduto}
+        onExcluir={excluirProduto}
+        subcategoriasPorGenero={subcategoriasPorGenero}
+        categoriaSelecionada={categoriaSelecionada}
+        exibicaoPorGenero={exibicaoPorGenero}
+        setModalAbertoAdicionar={setModalAbertoAdicionar}
+        resetarFormularioAdicionar={resetarFormularioAdicionar}
+      />
 
       {/* Modal Adicionar Produto */}
       <ModalAdicionarProduto
-  aberto={modalAbertoAdicionar}
-  aoFechar={() => setModalAbertoAdicionar(false)}
-  aoSalvar={SalvaDB}
-  categoriaSelecionada={categoriaSelecionada}
-  setCategoriaSelecionada={setCategoriaSelecionada}
-  exibicao={exibicao}
-  setExibicao={setExibicao}
-  subcategoriasPorGenero={subcategoriasPorGenero}
-  exibicaoPorGenero={exibicaoPorGenero}
-  resetarFormulario={resetarFormularioAdicionar}
-/>
+        aberto={modalAbertoAdicionar}
+        aoFechar={() => setModalAbertoAdicionar(false)}
+        aoSalvar={SalvaDB}
+        categoriaSelecionada={categoriaSelecionada}
+        setCategoriaSelecionada={setCategoriaSelecionada}
+        exibicao={exibicao}
+        setExibicao={setExibicao}
+        subcategoriasPorGenero={subcategoriasPorGenero}
+        exibicaoPorGenero={exibicaoPorGenero}
+        resetarFormulario={resetarFormularioAdicionar}
+      />
 
       {/* Modal Editar Produto */}
       <ModalEditarProduto
-  aberto={modalAbertoEditar}
-  aoFechar={() => setModalAbertoEditar(false)}
-  aoSalvar={salvarEdicao}
-  produtoEditando={produtoEditando}
-  setProdutoEditando={setProdutoEditando}
-  subcategoriasPorGenero={subcategoriasPorGenero}
-  exibicaoPorGenero={exibicaoPorGenero}
-/>
-
+        aberto={modalAbertoEditar}
+        aoFechar={() => setModalAbertoEditar(false)}
+        aoSalvar={salvarEdicao}
+        produtoEditando={produtoEditando}
+        setProdutoEditando={setProdutoEditando}
+        subcategoriasPorGenero={subcategoriasPorGenero}
+        exibicaoPorGenero={exibicaoPorGenero}
+      />
     </div>
   );
 }

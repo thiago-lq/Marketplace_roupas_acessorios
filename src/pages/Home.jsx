@@ -4,7 +4,6 @@ import { db } from "../firebase/configs";
 import LancamentosScroll from "../components/LancamentosScroll";
 import ProductScroll from "../components/ProductScroll";
 import Carousel from "../components/Carousel";
-
 export default function Home({ onAddToCart }) {
   const [products, setProducts] = useState([]);
 

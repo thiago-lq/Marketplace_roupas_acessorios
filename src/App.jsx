@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 import NavBar from "./components/NavBar";
 import PerfilAdm from "./pages/PerfilAdm";
 import CarrinhoFlutuante from "./components/CarrinhoFlutuante";
-import PaginaLogin from "./pages/PaginaLogin";
+import PaginaLogin from "./components/PaginaLogin";
 import Footer from "./components/Footer";
 import {
   BrowserRouter,
@@ -37,7 +37,7 @@ function App() {
           element={<Home onAddToCart={handleAddToCart} />}
         />
         <Route path="/PaginaLogin" element={<PaginaLogin/>} />
-        <Route path="/PaginaLogin/PerfilAdm" element={<PerfilAdm/>} />
+        <Route path="/PerfilAdm" element={<PerfilAdm/>} />
       </Routes>
 
       <CarrinhoFlutuante
@@ -46,7 +46,7 @@ function App() {
         onClose={() => setMostrarCarrinho(false)}
          onRemoveFromCart={handleRemoveFromCart}  // <-- passar aqui
       />
-      <div className="pt-16">
+      <div>
         <Footer />
       </div>
     </BrowserRouter>

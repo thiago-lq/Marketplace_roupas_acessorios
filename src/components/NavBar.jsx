@@ -3,7 +3,6 @@ import logo from "../assets/logo.png";
 import carrinho from "../assets/carrinho.png";
 import perfil from "../assets/perfil.png";
 import { Link } from "react-router-dom";
-
 export default function Navbar({ onCarrinhoClick }) {
   const [showNavbar, setShowNavbar] = useState(true);
   const lastScrollY = useRef(0);
