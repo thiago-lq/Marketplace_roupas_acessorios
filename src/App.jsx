@@ -14,8 +14,10 @@ import {
 function App() {
   const [cart, setCart] = useState([]);
   const [mostrarCarrinho, setMostrarCarrinho] = useState(false);
+  const [mostrarLogin, setMostrarLogin] = useState(false);
 
   const toggleCarrinho = () => setMostrarCarrinho(prev => !prev);
+  const toggleLogin = () => setMostrarLogin(prev => !prev);
 
   const handleAddToCart = (product) => {
     setCart(prev => [...prev, product]);
@@ -28,7 +30,9 @@ function App() {
   return (
     <BrowserRouter>
       <div className="pt-16 pb-8"> {/* Espaço para o NavBar (top) e fundo (bottom) */}
-        <NavBar onCarrinhoClick={toggleCarrinho} />
+        <NavBar onCarrinhoClick={toggleCarrinho}
+                onLoginClick={toggleLogin}         
+        />
       </div>
 
       <Routes>
@@ -36,7 +40,6 @@ function App() {
           path="/"
           element={<Home onAddToCart={handleAddToCart} />}
         />
-        <Route path="/PaginaLogin" element={<PaginaLogin/>} />
         <Route path="/PerfilAdm" element={<PerfilAdm/>} />
       </Routes>
 
@@ -45,6 +48,10 @@ function App() {
         produtos={cart}
         onClose={() => setMostrarCarrinho(false)}
          onRemoveFromCart={handleRemoveFromCart}  // <-- passar aqui
+      />
+      <PaginaLogin
+        visivel={mostrarLogin}
+        onClose={() => setMostrarLogin(false)}
       />
       <div>
         <Footer />

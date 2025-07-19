@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function ProdutoTable({ produtos, onEditar, onExcluir, subcategoriasPorGenero, exibicaoPorGenero, setModalAbertoAdicionar, resetarFormularioAdicionar }) {
   
   return (

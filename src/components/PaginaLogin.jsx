@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import PerfilAdm from "../pages/PerfilAdm";
 import { onAuthStateChanged, signInWithPopup } from "firebase/auth";
 import { auth, providerGoogle } from "../firebase/configs";
-import Deslogar from "../components/Deslogar";
+import Deslogar from "./Deslogar";
 
-function PaginaLogin() {
+function PaginaLogin({visivel, onClose}) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -31,8 +31,10 @@ function PaginaLogin() {
         <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Loading..." className="mx-auto mt-40" />
     </div>
     )}
-
-  if (!user) {
+  
+  if (!visivel) {
+    return null;
+  } else if (visivel && !user) {
     return (
       <div className="fixed inset-0 bg-[rgba(0,0,0,0.6)] flex items-center justify-center z-50">
         <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-8 ">
@@ -41,6 +43,10 @@ function PaginaLogin() {
                   className="mb-8 px-6 py-3 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition">
                     Logar com o Google
           </button>
+          <button onClick={onClose}
+                  className="text-red-500 text-sm hover:underline">
+            Fechar
+        </button>
         </div>
       </div>
     );

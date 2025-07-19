@@ -3,7 +3,7 @@ import logo from "../assets/logo.png";
 import carrinho from "../assets/carrinho.png";
 import perfil from "../assets/perfil.png";
 import { Link } from "react-router-dom";
-export default function Navbar({ onCarrinhoClick }) {
+export default function Navbar({ onCarrinhoClick, onLoginClick }) {
   const [showNavbar, setShowNavbar] = useState(true);
   const lastScrollY = useRef(0);
   const timeoutRef = useRef(null);
@@ -54,8 +54,9 @@ export default function Navbar({ onCarrinhoClick }) {
         >
           <img src={carrinho} alt="Carrinho" className="max-h-[2.5rem] w-auto" />
         </button>
-        <Link to="/PaginaLogin">
-          <button className="p-1 hover:opacity-30 transition-opacity bg-transparent border-none">
+        <Link to="/PerfilAdm">
+          <button className="p-1 hover:opacity-30 transition-opacity bg-transparent border-none"
+            onClick={onLoginClick}>
             <img src={perfil} alt="Perfil" className="max-h-[2.5rem] w-auto" />
           </button>
         </Link>
