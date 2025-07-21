@@ -54,12 +54,10 @@ export default function Navbar({ onCarrinhoClick, onLoginClick }) {
         >
           <img src={carrinho} alt="Carrinho" className="max-h-[2.5rem] w-auto" />
         </button>
-        <Link to="/PerfilAdm">
           <button className="p-1 hover:opacity-30 transition-opacity bg-transparent border-none"
             onClick={onLoginClick}>
             <img src={perfil} alt="Perfil" className="max-h-[2.5rem] w-auto" />
           </button>
-        </Link>
       </div>
     </nav>
   );

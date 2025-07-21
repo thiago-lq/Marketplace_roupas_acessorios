@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import PerfilAdm from "../pages/PerfilAdm";
-import { onAuthStateChanged, signInWithPopup } from "firebase/auth";
+import { Link } from "react-router-dom";
+import { onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
 import { auth, providerGoogle } from "../firebase/configs";
-import Deslogar from "./Deslogar";
+import { Navigate } from "react-router-dom";
 
 function PaginaLogin({visivel, onClose}) {
   const [user, setUser] = useState(null);
@@ -14,6 +14,8 @@ function PaginaLogin({visivel, onClose}) {
     });
   }, []);
 
+  
+
   async function logarGoogle() {
         try {
             const result = await signInWithPopup(auth, providerGoogle);
@@ -24,6 +26,13 @@ function PaginaLogin({visivel, onClose}) {
             console.error("Erro ao logar:", err);
         }
     }
+  
+      function deslogar() {
+      signOut(auth).then(() => {
+        setUser(null);
+        onClose(); // Fecha a janela de login
+      });
+     }
 
   if(loading) {
     return( 
@@ -31,8 +40,8 @@ function PaginaLogin({visivel, onClose}) {
         <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Loading..." className="mx-auto mt-40" />
     </div>
     )}
-  
-  if (!visivel) {
+
+    if (!visivel) {
     return null;
   } else if (visivel && !user) {
     return (
@@ -54,8 +63,29 @@ function PaginaLogin({visivel, onClose}) {
 
   return (
     <div>
-      <Deslogar setUser={setUser} />
-      <PerfilAdm />
+      <div className="fixed top-[4.5rem] right-0 w-80 max-h-[210vh] bg-white border border-gray-300 shadow-2xl rounded-xl z-50 p-4">
+        <div className="flex justify-between items-center py-3 mr-5">
+          <button
+            onClick={onClose}
+            className="text-red-500 text-sm fixed top-[4.8rem] right-1 hover:text-white font-semibold hover:bg-red-500 rounded-3xl w-4 h-max"
+          >
+            X
+          </button>
+          <Link to="/PerfilAdm">
+            <button className="text-black font-semibold hover:text-white hover:bg-black max-w rounded-md px-1"
+                    onClick={onClose}>
+              Ir para o seu perfil
+            </button>
+          </Link>
+          <button className="text-black font-semibold hover:text-white hover:bg-black max-w rounded-md px-1">
+            Ver carrinho
+          </button>
+          <button className="text-black font-semibold hover:text-white hover:bg-black max-w rounded-md px-1"
+            onClick={deslogar}>
+            Desconectar
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

@@ -2,14 +2,14 @@ export default function CarrinhoFlutuante({ visivel, produtos, onClose, onRemove
   if (!visivel) return null;
 
   return (
-    <div className="fixed top-[4.5rem] right-6 w-80 max-h-[70vh] overflow-y-auto bg-white border border-gray-300 shadow-2xl rounded-xl z-50 p-4 animate-slide-in">
+    <div className="fixed top-[4.5rem] right-6 w-80 max-h-[70vh] bg-white border border-gray-300 shadow-2xl rounded-xl z-50 p-4">
       <div className="flex justify-between items-center mb-3">
         <h2 className="text-lg font-bold text-gray-800">Carrinho</h2>
         <button
           onClick={onClose}
-          className="text-red-500 text-sm hover:underline"
+          className="text-red-500 text-sm fixed top-[4.8rem] right-8 hover:text-white font-semibold hover:bg-red-500 rounded-3xl w-4 h-max"
         >
-          Fechar
+          X
         </button>
       </div>
 

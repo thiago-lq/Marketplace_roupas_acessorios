@@ -10,7 +10,6 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-
 function App() {
   const [cart, setCart] = useState([]);
   const [mostrarCarrinho, setMostrarCarrinho] = useState(false);
@@ -40,7 +39,10 @@ function App() {
           path="/"
           element={<Home onAddToCart={handleAddToCart} />}
         />
-        <Route path="/PerfilAdm" element={<PerfilAdm/>} />
+        <Route path="/PerfilAdm" element={
+            <PerfilAdm />
+          }
+        /> 
       </Routes>
 
       <CarrinhoFlutuante
