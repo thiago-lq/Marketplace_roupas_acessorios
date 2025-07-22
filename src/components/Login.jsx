@@ -113,7 +113,13 @@ function Login({ visivel, onClose }) {
           <div className="flex flex-wrap justify-between gap-5">
             <div className="border border-black hover:opacity-60">
               <button
-              onClick={logarGoogle}
+              onClick={() => {
+                  if (isPWA()) {
+                    signInWithRedirect(auth, providerGoogle); // 🔑 deve ser chamado direto
+                  } else {
+                    logarGoogle();
+                  }
+                }}
               className="p-2">
                 <img src={google} alt="google" className="max-h-[2rem]"></img>
               </button>
