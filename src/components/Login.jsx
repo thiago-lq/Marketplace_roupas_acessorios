@@ -24,17 +24,18 @@ function Login({ visivel, onClose }) {
 
   // Este roda uma vez para tratar o redirecionamento do login
   useEffect(() => {
-    getRedirectResult(auth)
-      .then((result) => {
-        if (result) {
-          console.log("Usuário redirecionado:", result.user);
-          // Aqui você pode redirecionar ou atualizar estado, se quiser
-        }
-      })
-      .catch((error) => {
-        console.error("Erro após redirecionamento:", error);
-      });
-  }, []); // ← sem dependências = roda uma única vez
+    async function verificarRedirect() {
+    try {
+      const result = await getRedirectResult(auth);
+      if (result && result.user) {
+        console.log("Usuário redirecionado:", result.user);
+      }
+    } catch (error) {
+      console.error("Erro após redirecionamento:", error);
+    }
+  }
+  verificarRedirect();
+}, []);
 
 
   async function enviarFormulario(e) {
@@ -58,8 +59,8 @@ function Login({ visivel, onClose }) {
         await signInWithRedirect(auth, providerGoogle);
       } else {
         await signInWithPopup(auth, providerGoogle);
+        onClose(); // fecha a janela se quiser
       }
-      onClose(); // fecha a janela se quiser
     } catch (err) {
       console.error("Erro ao logar:", err);
     }
