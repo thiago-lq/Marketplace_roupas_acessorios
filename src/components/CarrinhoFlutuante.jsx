@@ -3,14 +3,16 @@ export default function CarrinhoFlutuante({ visivel, produtos, onClose, onRemove
 
   return (
     <div className="fixed top-[4.5rem] right-6 w-80 max-h-[70vh] bg-white border border-gray-300 shadow-2xl rounded-xl z-50 p-4">
-      <div className="flex justify-between items-center mb-3">
-        <h2 className="text-lg font-bold text-gray-800">Carrinho</h2>
-        <button
-          onClick={onClose}
-          className="text-red-500 text-sm fixed top-[4.8rem] right-8 hover:text-white font-semibold hover:bg-red-500 rounded-3xl w-4 h-max"
-        >
-          X
-        </button>
+      <div className="w-full max-w mb-2">
+        <div className="flex justify-between">
+          <h2 className="text-lg font-bold text-gray-800">Carrinho</h2>
+          <button
+            onClick={onClose}
+            className="text-red-500 text-sm hover:text-white font-semibold hover:bg-red-500 rounded-2xl h-max px-1"
+          >
+            X
+          </button>
+        </div>
       </div>
 
       {produtos.length === 0 ? (

@@ -3,13 +3,16 @@ import Home from "./pages/Home";
 import NavBar from "./components/NavBar";
 import PerfilAdm from "./pages/PerfilAdm";
 import CarrinhoFlutuante from "./components/CarrinhoFlutuante";
-import PaginaLogin from "./components/PaginaLogin";
+import PaginaLogin from "./components/Login";
 import Footer from "./components/Footer";
 import {
   BrowserRouter,
   Routes,
   Route
 } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
+import PrivateRoute from "./routes/PrivateRoute";
+
 function App() {
   const [cart, setCart] = useState([]);
   const [mostrarCarrinho, setMostrarCarrinho] = useState(false);
@@ -28,7 +31,8 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="pt-16 pb-8"> {/* Espaço para o NavBar (top) e fundo (bottom) */}
+      <AuthProvider>
+        <div className="pt-16 pb-8"> {/* Espaço para o NavBar (top) e fundo (bottom) */}
         <NavBar onCarrinhoClick={toggleCarrinho}
                 onLoginClick={toggleLogin}         
         />
@@ -40,7 +44,9 @@ function App() {
           element={<Home onAddToCart={handleAddToCart} />}
         />
         <Route path="/PerfilAdm" element={
-            <PerfilAdm />
+            <PrivateRoute adminOnly={true}>
+              <PerfilAdm />
+            </PrivateRoute>
           }
         /> 
       </Routes>
@@ -58,6 +64,7 @@ function App() {
       <div>
         <Footer />
       </div>
+      </AuthProvider>
     </BrowserRouter>
   );
 }
