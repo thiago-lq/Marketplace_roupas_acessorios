@@ -59,7 +59,7 @@ function Login({ visivel, onClose }) {
       } else {
         await signInWithPopup(auth, providerGoogle);
       }
-      onClose(); // fecha a janela se quiser
+      
     } catch (err) {
       console.error("Erro ao logar:", err);
     }
