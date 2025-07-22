@@ -32,7 +32,7 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <div className="pt-16 pb-8"> {/* Espaço para o NavBar (top) e fundo (bottom) */}
+        <div className="pt-16 pb-8">
         <NavBar onCarrinhoClick={toggleCarrinho}
                 onLoginClick={toggleLogin}         
         />
@@ -55,7 +55,7 @@ function App() {
         visivel={mostrarCarrinho}
         produtos={cart}
         onClose={() => setMostrarCarrinho(false)}
-         onRemoveFromCart={handleRemoveFromCart}  // <-- passar aqui
+         onRemoveFromCart={handleRemoveFromCart}
       />
       <PaginaLogin
         visivel={mostrarLogin}

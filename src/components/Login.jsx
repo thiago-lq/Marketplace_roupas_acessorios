@@ -59,7 +59,7 @@ function Login({ visivel, onClose }) {
         await signInWithRedirect(auth, providerGoogle);
       } else {
         await signInWithPopup(auth, providerGoogle);
-        onClose(); // fecha a janela se quiser
+        onClose();
       }
     } catch (err) {
       console.error("Erro ao logar:", err);
@@ -115,7 +115,7 @@ function Login({ visivel, onClose }) {
               <button
               onClick={() => {
                   if (isPWA()) {
-                    signInWithRedirect(auth, providerGoogle); // 🔑 deve ser chamado direto
+                    signInWithRedirect(auth, providerGoogle);
                   } else {
                     logarGoogle();
                   }
