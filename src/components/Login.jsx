@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup, signOut, signInWithRedirect, getRedirectResult } from "firebase/auth";
 import { auth, providerGoogle } from "../firebase/configs";
 import { useAuth } from "../contexts/AuthContext";
 import logo from "../assets/logo.png";
 import google from "../assets/google.png";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-
 
 function Login({ visivel, onClose }) {
   const { user, loading } = useAuth();
@@ -14,14 +13,29 @@ function Login({ visivel, onClose }) {
   const [ senha, setSenha] = useState("");
   const [modoCriarConta, setModoCriarConta] = useState(false);
 
+  // Este limpa o formulário quando o modal abre
   useEffect(() => {
     if (visivel && !user) {
-      // limpa os campos sempre que o formulário for aberto e o usuário não estiver logado
       setEmail("");
       setSenha("");
-      setModoCriarConta(false); // opcional, reseta o modo também
+      setModoCriarConta(false);
     }
   }, [visivel, user]);
+
+  // Este roda uma vez para tratar o redirecionamento do login
+  useEffect(() => {
+    getRedirectResult(auth)
+      .then((result) => {
+        if (result) {
+          console.log("Usuário redirecionado:", result.user);
+          // Aqui você pode redirecionar ou atualizar estado, se quiser
+        }
+      })
+      .catch((error) => {
+        console.error("Erro após redirecionamento:", error);
+      });
+  }, []); // ← sem dependências = roda uma única vez
+
 
   async function enviarFormulario(e) {
     e.preventDefault();
@@ -40,7 +54,11 @@ function Login({ visivel, onClose }) {
 
   async function logarGoogle() {
     try {
-      await signInWithPopup(auth, providerGoogle);
+      if (isPWA()) {
+        await signInWithRedirect(auth, providerGoogle);
+      } else {
+        await signInWithPopup(auth, providerGoogle);
+      }
       onClose(); // fecha a janela se quiser
     } catch (err) {
       console.error("Erro ao logar:", err);
@@ -56,6 +74,10 @@ function Login({ visivel, onClose }) {
   function resetarFormularioLogin() {
     setEmail("");
     setSenha("");
+  }
+
+  function isPWA() {
+    return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
   }
 
   if (loading) {
