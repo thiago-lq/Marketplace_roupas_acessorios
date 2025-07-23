@@ -22,6 +22,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [cargo, setCargo] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [loadingLoginGoogle, setLoadingLoginGoogle] = useState(false);
 
   useEffect(() => {
     async function checkRedirectResult() {
@@ -64,10 +65,18 @@ export function AuthProvider({ children }) {
   }, []);
 
   async function loginGoogle() {
-    if (isPWA()) {
-      await signInWithRedirect(auth, providerGoogle);
-    } else {
-      await signInWithPopup(auth, providerGoogle);
+    if (loadingLoginGoogle) return; // bloqueia reentradas
+    setLoadingLoginGoogle(true);
+    try {
+      if (isPWA()) {
+        await signInWithRedirect(auth, providerGoogle);
+      } else {
+        await signInWithPopup(auth, providerGoogle);
+      }
+    } catch (err) {
+      console.error("Erro ao logar:", err);
+    } finally {
+      setLoadingLoginGoogle(false);
     }
   }
 
