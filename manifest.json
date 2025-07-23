@@ -2,6 +2,7 @@
     "name": "",
     "short_name": "Loja",
     "start_url": "/",
+    "scope": "/",
     "display": "standalone",
     "background_colar": "#ffffff",
     "theme_color": "#000000",
