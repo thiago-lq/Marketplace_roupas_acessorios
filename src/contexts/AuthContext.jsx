@@ -1,41 +1,51 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { auth, providerGoogle } from "../firebase/configs";
+import { auth, providerGoogle, db } from "../firebase/configs";
 import { onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
-// Criação do contexto
 const AuthContext = createContext();
 
-// Provedor do contexto
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [cargo, setCargo] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+  setLoading(true); // início do carregamento geral
+
+  const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      const ref = doc(db, "Funcionários", user.uid);
+      const snap = await getDoc(ref);
+      setCargo(snap.exists() ? snap.data().cargo : null);
       setUser(user);
-      setLoading(false);
-    });
-    return () => unsubscribe();
-  }, []);
+    } else {
+      setUser(null);
+      setCargo(null);
+    }
+    setLoading(false); // terminou tudo
+  });
+
+  return () => unsubscribe();
+}, []);
 
   async function loginGoogle() {
-    const result = await signInWithPopup(auth, providerGoogle);
-    setUser(result.user);
+    await signInWithPopup(auth, providerGoogle);
   }
 
   async function logout() {
     await signOut(auth);
     setUser(null);
+    setCargo(null);
   }
 
   return (
-    <AuthContext.Provider value={{ user, loginGoogle, logout, loading }}>
+    <AuthContext.Provider value={{ user, cargo, loginGoogle, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
 }
 
-// Hook customizado
 export function useAuth() {
   return useContext(AuthContext);
 }

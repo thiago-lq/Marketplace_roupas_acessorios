@@ -8,7 +8,7 @@ export default function CarrinhoFlutuante({ visivel, produtos, onClose, onRemove
           <h2 className="text-lg font-bold text-gray-800">Carrinho</h2>
           <button
             onClick={onClose}
-            className="text-red-500 text-sm hover:text-white font-semibold hover:bg-red-500 rounded-2xl h-max px-1"
+            className="text-black text-sm hover:text-white font-semibold hover:bg-black rounded-2xl h-max px-1"
           >
             X
           </button>

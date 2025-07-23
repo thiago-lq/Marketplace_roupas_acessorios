@@ -5,6 +5,7 @@ import PerfilAdm from "./pages/PerfilAdm";
 import CarrinhoFlutuante from "./components/CarrinhoFlutuante";
 import PaginaLogin from "./components/Login";
 import Footer from "./components/Footer";
+import PerfilUsuario from "./pages/PerfilUsuario";
 import {
   BrowserRouter,
   Routes,
@@ -39,16 +40,25 @@ function App() {
       </div>
 
       <Routes>
+        <Route path="/" element={<Home onAddToCart={handleAddToCart} />} />
+
         <Route
-          path="/"
-          element={<Home onAddToCart={handleAddToCart} />}
-        />
-        <Route path="/PerfilAdm" element={
+          path="/PerfilAdm"
+          element={
             <PrivateRoute adminOnly={true}>
               <PerfilAdm />
             </PrivateRoute>
           }
-        /> 
+        />
+
+        <Route
+          path="/PerfilUsuario"
+          element={
+            <PrivateRoute>
+              <PerfilUsuario />
+            </PrivateRoute>
+          }
+        />
       </Routes>
 
       <CarrinhoFlutuante
