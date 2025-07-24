@@ -33,8 +33,7 @@ export function AuthProvider({ children }) {
           const ref = doc(db, "Funcionários", result.user.uid);
           const snap = await getDoc(ref);
           setCargo(snap.exists() ? snap.data().cargo : null);
-          setLoading(false);
-          return true; // redirect login tratado
+          return true; // login via redirect tratado
         }
       } catch (error) {
         console.error("Erro getRedirectResult:", error);
@@ -44,7 +43,13 @@ export function AuthProvider({ children }) {
 
     setLoading(true);
 
+    // se tinha flag de redirect, mostra loading até resolver
+    const redirecting = localStorage.getItem("redirecting") === "true";
+    if (redirecting) console.log("Voltando de login via redirect");
+
     checkRedirectResult().then((redirectHandled) => {
+      localStorage.removeItem("redirecting");
+
       if (!redirectHandled) {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
           if (user) {
@@ -58,17 +63,20 @@ export function AuthProvider({ children }) {
           }
           setLoading(false);
         });
-
         return () => unsubscribe();
+      } else {
+        setLoading(false);
       }
     });
   }, []);
 
   async function loginGoogle() {
-    if (loadingLoginGoogle) return; // bloqueia reentradas
+    if (loadingLoginGoogle) return; // evita cliques duplos
     setLoadingLoginGoogle(true);
+
     try {
       if (isPWA()) {
+        localStorage.setItem("redirecting", "true");
         await signInWithRedirect(auth, providerGoogle);
       } else {
         await signInWithPopup(auth, providerGoogle);
