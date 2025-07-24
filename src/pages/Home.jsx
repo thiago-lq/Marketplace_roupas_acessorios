@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase/configs";
-import LancamentosScroll from "../components/LancamentosScroll";
-import ProductScroll from "../components/ProductScroll";
-import Carousel from "../components/Carousel";
+import { LancamentosScroll, ProductScroll }  from "../components/produtos";
+import Carrossel from "../components/carrosseis";
 export default function Home({ onAddToCart }) {
   const [products, setProducts] = useState([]);
 
@@ -31,7 +30,7 @@ export default function Home({ onAddToCart }) {
           </h1>
           <div className="h-[2px] w-full mt-2 bg-gradient-to-r from-black via-gray-700 to-gray-500 rounded-full"></div>
         </div>
-        <Carousel products={products.filter((p) => p.exibicao === "produtos_destaque")} />
+        <Carrossel products={products.filter((p) => p.exibicao === "produtos_destaque")} />
       </section>
 
       {/* Masculino */}

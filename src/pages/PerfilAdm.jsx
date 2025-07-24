@@ -8,9 +8,8 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase/configs.js";
 import { useState, useEffect, useMemo } from "react";
-import ModalAdicionarProduto from "../components/ModalAdicionarProduto";
-import ModalEditarProduto from "../components/ModalEditarProduto";
-import ProdutoTable from "../components/ProdutoTable";
+import { ModalAdicionarProduto, ModalEditarProduto } from "../components/modais";
+import { ProdutoTable } from "../components/produtos";
 
 export default function PerfilAdm() {
   const [InputProduto, setInputProduto] = useState([]);

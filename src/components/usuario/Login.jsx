@@ -3,12 +3,12 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
-import { auth } from "../firebase/configs";
-import { useAuth } from "../contexts/AuthContext";
-import FormularioLogin from "../components/FormularioLogin";
-import ModalLogin from "../components/ModalLogin";
+import { auth } from "../../firebase/configs";
+import { useAuth } from "../../contexts/AuthContext";
+import FormularioLogin from "../formularios";
+import {ModalLogin} from "../modais";
 
-function Login({ visivel, onClose }) {
+export default function Login({ visivel, onClose }) {
   const { user, loading, loginGoogle, logout } = useAuth();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -76,4 +76,3 @@ function Login({ visivel, onClose }) {
   return <ModalLogin onClose={onClose} deslogar={logout} />;
 }
 
-export default Login;

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import Home from "./pages/Home";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/navbar";
 import PerfilAdm from "./pages/PerfilAdm";
-import CarrinhoFlutuante from "./components/CarrinhoFlutuante";
-import PaginaLogin from "./components/Login";
-import Footer from "./components/Footer";
+import CarrinhoFlutuante from "./components/carrinhos";
+import { Login } from "./components/usuario";
+import Footer from "./components/footers";
 import PerfilUsuario from "./pages/PerfilUsuario";
 import {
   BrowserRouter,
@@ -67,7 +67,7 @@ function App() {
         onClose={() => setMostrarCarrinho(false)}
          onRemoveFromCart={handleRemoveFromCart}
       />
-      <PaginaLogin
+      <Login
         visivel={mostrarLogin}
         onClose={() => setMostrarLogin(false)}
       />

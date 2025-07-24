@@ -1,5 +1,5 @@
-import logo from "../assets/logo.png";
-import google from "../assets/google.png";
+import logo from "../../assets/logo.png";
+import google from "../../assets/google.png";
 
 export default function FormularioLogin({
   onClose,

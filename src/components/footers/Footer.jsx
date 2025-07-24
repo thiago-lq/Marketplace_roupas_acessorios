@@ -1,4 +1,4 @@
-import linkedinIcon from '../assets/linkedin.png';
+import linkedinIcon from '../../assets/linkedin.png';
 export default function Footer() {
   return (
     <footer className="bg-black text-white py-4 w-full">

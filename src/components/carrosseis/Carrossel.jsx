@@ -3,11 +3,11 @@ import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import "./carousel.css";
+import "./carrossel.css";
 
 
 
-export default function Carousel({ products }) {
+export default function Carrossel({ products }) {
   return (
     <div className="relative w-full max-w-7xl mx-auto h-64 sm:h-80 md:h-96 xl:h-[40rem] overflow-hidden rounded-xl shadow-md">
       <Swiper
