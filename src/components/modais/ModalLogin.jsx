@@ -24,12 +24,21 @@ export default function ModalLogin({ onClose, deslogar }) {
             <p className="text-gray-500">Carregando perfil...</p>
           ) : (
             <Link to={cargo === "admin" ? "/PerfilAdm" : "/PerfilUsuario"}>
+              {cargo === "admin" ?
               <button
+                onClick={onClose}
+                className="text-black text-start font-semibold hover:text-white hover:bg-black w-max rounded-md px-1"
+              >
+                Ir para o gerenciador do site
+              </button>
+              :
+                <button
                 onClick={onClose}
                 className="text-black text-start font-semibold hover:text-white hover:bg-black w-max rounded-md px-1"
               >
                 Ir para o seu perfil
               </button>
+              }
             </Link>
           )}
 
