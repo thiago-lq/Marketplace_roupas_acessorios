@@ -218,7 +218,7 @@ export default function Busca() {
             </div>
           )}
           <div>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-[7px] md:gap-[25px] transition-all duration-500 md:px-10">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-[7px] md:gap-[25px] transition-all duration-500 md:px-10 h-auto">
               {produtosSubFiltrados.map((product) => (
                 <div
                   key={product.id}

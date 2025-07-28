@@ -169,7 +169,7 @@ export default function LancamentosScroll({ products, onAddToCart }) {
           )}
 
           {/* Grid dos produtos */}
-          <div className="overflow-y-auto snap-y snap-mandatory max-h-[85vh]">
+          <div className="overflow-y-auto snap-y snap-mandatory h-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 md:gap-[15px] gap-3 md:p-10 p-3 transition-all duration-500">
               {produtosSubFiltrados.map((product) => (
                 <div
