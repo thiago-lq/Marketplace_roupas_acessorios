@@ -68,7 +68,7 @@ export default function Navbar({ onCarrinhoClick, onLoginClick }) {
       <Link to="/">
         <img src={logo} alt="Logo" className="max-h-[3rem] w-auto" />
       </Link>
-      <div className="mt-8">
+      <div className="mt-10">
         <button
           onClick={handleAbrirExtra}
           className={`absolute left-1/2 -translate-x-1/2 transition-transform duration-300 ${
