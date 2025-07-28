@@ -1,23 +1,9 @@
-import { useEffect, useState } from "react";
-import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "../firebase/configs";
 import { LancamentosScroll, ProductScroll }  from "../components/produtos";
 import Carrossel from "../components/carrosseis";
+import { useProducts } from "../contexts/ProductsContext";
+
 export default function Home({ onAddToCart }) {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    const q = collection(db, "Produtos");
-    const unsub = onSnapshot(q, (snapshot) => {
-      const lista = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setProducts(lista);
-    });
-
-    return () => unsub();
-  }, []);
+  const products = useProducts();
 
   return (
     <main className="max-w-8xl mx-auto px-6 py-12 space-y-20">
