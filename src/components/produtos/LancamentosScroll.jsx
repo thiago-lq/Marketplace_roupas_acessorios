@@ -30,11 +30,11 @@ export default function LancamentosScroll({ products, onAddToCart }) {
     // Aqui você pode adicionar lógica para filtrar ainda mais os produtos
   }
   return (
-    <div className="relative py-8 px-6">
+    <div className="relative">
       <div className="flex flex-col md:flex-row items-start gap-6">
         {/* Sidebar - Filtro */}
         <aside className="w-max md:w-[200px]">
-          <div className="flex md:flex-col gap-3">
+          <div className="flex md:flex-col gap-3 mt-5 mx-3">
             <button
               onClick={() => handleFiltroClick("todos")}
               className={`block w-full text-left px-4 py-2 rounded ${
@@ -170,11 +170,11 @@ export default function LancamentosScroll({ products, onAddToCart }) {
 
           {/* Grid dos produtos */}
           <div className="overflow-y-auto snap-y snap-mandatory max-h-[90vh]">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-[15px] pr-2 transition-all duration-500">
+            <div className="grid grid-cols-2 md:grid-cols-4 md:gap-[15px] gap-3 md:p-10 transition-all duration-500">
               {produtosSubFiltrados.map((product) => (
                 <div
                   key={product.id}
-                  className="snap-start w-full sm:w-[220px] md:w-[240px] lg:w-[260px] flex-shrink-0 bg-white rounded-2xl shadow-lg 
+                  className="snap-start sm:w-[220px] md:w-[240px] lg:w-[260px] flex-shrink-0 bg-white rounded-2xl shadow-lg 
                              p-3 flex flex-col border border-transparent hover:border-gray-300 transition-all duration-300"
                 >
                   <div className="relative w-full aspect-[4/5]">

@@ -50,7 +50,7 @@ export default function Busca() {
   }
 
   return (
-    <div className="relative p-6">
+    <div className="relative p-3 md:p-6">
       <div className="flex flex-col items-start gap-6">
         <div className="flex flex-row gap-3 ">
           <button
@@ -218,11 +218,11 @@ export default function Busca() {
             </div>
           )}
           <div>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-[25px] transition-all duration-500 p-10">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-[7px] md:gap-[25px] transition-all duration-500 md:px-10">
               {produtosSubFiltrados.map((product) => (
                 <div
                   key={product.id}
-                  className="w-full sm:w-[220px] md:w-[240px] lg:w-[260px] flex-shrink-0 bg-white rounded-2xl shadow-lg 
+                  className="sm:w-[220px] md:w-[240px] lg:w-[260px] flex-shrink-0 bg-white rounded-2xl shadow-lg 
                              p-3 flex flex-col border border-transparent hover:border-gray-300 transition-all duration-300"
                 >
                   <div className="relative w-full aspect-[4/5]">

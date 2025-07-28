@@ -56,6 +56,10 @@ export default function Navbar({ onCarrinhoClick, onLoginClick }) {
     }
   }
 
+  function closeNavbarExtra(){
+    setExtraAberto(false)
+  }
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 bg-white shadow-lg flex items-center justify-between px-6 py-2 transition-transform duration-300 z-50
@@ -75,33 +79,34 @@ export default function Navbar({ onCarrinhoClick, onLoginClick }) {
         </button>
           <NavBarExtra
             extraAberto = {extraAberto}
+            closeNavbarExtra = {closeNavbarExtra}
           />
       </div>
-      <div className="flex items-center gap-3">
-        <form onSubmit={handleBuscar} className="relative w-full mas-w-xs">
+      <div className="flex items-center gap-5 relative ml-5">
+        <form onSubmit={handleBuscar} className="relative">
           <input type="text" value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)}
                 placeholder="Buscar..."
-                className="-full border rounded px-2 py-1 focus:outline-none">
+                className="-full border rounded px-2 py-1 focus:outline-none md:max-w-100 w-full">
           </input>
-          <button type="submit" className="absolute right-10 top-1/2 -translate-y-1/2 cursor-pointer">
+          <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer">
             <img src={busca} alt="buscar" />
           </button>
         </form>
         <button
-          className="pr-2 hover:opacity-30 transition-opacity bg-transparent border-none"
+          className="hover:opacity-30 transition-opacity bg-transparent border-none cursor-pointer"
           onClick={onCarrinhoClick}
         >
           <img
             src={carrinho}
             alt="Carrinho"
-            className="max-h-[3rem] w-auto"
+            className="max-h-[2rem] w-auto"
           />
         </button>
         <button
-          className="pl-1 hover:opacity-30 transition-opacity bg-transparent border-none"
+          className="hover:opacity-30 transition-opacity bg-transparent border-none"
           onClick={onLoginClick}
         >
-          <img src={perfil} alt="Perfil" className="max-h-[3rem] w-auto" />
+          <img src={perfil} alt="Perfil" className="max-h-[2rem] w-auto" />
         </button>
       </div>
     </nav>
