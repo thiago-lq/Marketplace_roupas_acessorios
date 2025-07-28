@@ -34,7 +34,7 @@ export default function LancamentosScroll({ products, onAddToCart }) {
       <div className="flex flex-col md:flex-row items-start gap-6">
         {/* Sidebar - Filtro */}
         <aside className="w-max md:w-[200px]">
-          <div className="flex md:flex-col gap-3 mt-5 mx-3">
+          <div className="flex md:flex-col gap-3 mx-3">
             <button
               onClick={() => handleFiltroClick("todos")}
               className={`block w-full text-left px-4 py-2 rounded ${
