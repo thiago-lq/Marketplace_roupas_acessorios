@@ -9,28 +9,32 @@ export default function LancamentosScroll({ products, onAddToCart }) {
     filtroGenero === "todos"
       ? products
       : products.filter((p) => p.categoria === filtroGenero);
-
+  
   const produtosSubFiltrados =
     subFiltro === ""
       ? produtosFiltrados
       : produtosFiltrados.filter((p) => p.subcategoria === subFiltro);
-
+  
   function handleFiltroClick(genero) {
     setFiltroGenero(genero);
     setSubFiltroAberto(genero !== "todos");
     setSubFiltro("");
   }
   function handleSubFiltroClick(subcategoria) {
-    setSubFiltro(subFiltro === subcategoria ? "" : subcategoria);
+    if(subFiltro === subcategoria) {
+      setSubFiltro("");
+    } else {
+      setSubFiltro(subcategoria);
+    }
+    
+    // Aqui você pode adicionar lógica para filtrar ainda mais os produtos
   }
-
   return (
     <div className="relative">
       <div className="flex flex-col md:flex-row items-start gap-6">
-
-        {/* Sidebar - Filtro com sticky */}
-        <aside className="w-max md:w-[200px] sticky top-0 bg-white z-20 shadow-sm">
-          <div className="flex md:flex-col gap-3 mt-5 mx-3 py-3">
+        {/* Sidebar - Filtro */}
+        <aside className="w-max md:w-[200px]">
+          <div className="flex md:flex-col gap-3 mt-5 mx-3">
             <button
               onClick={() => handleFiltroClick("todos")}
               className={`block w-full text-left px-4 py-2 rounded ${
@@ -66,133 +70,97 @@ export default function LancamentosScroll({ products, onAddToCart }) {
 
         {/* Conteúdo principal */}
         <div className="flex-1">
-          {/* Submenu horizontal também sticky */}
+          {/* Submenu horizontal que empurra o grid para baixo */}
           {subFiltroAberto && (
-            <div className="sticky top-0 bg-white z-20 shadow-sm py-3 grid grid-cols-2 items-center gap-2 mb-6 md:justify-between">
+            <div className="grid grid-cols-2 items-center gap-2 mb-6 md:justify-between">
               {filtroGenero === "feminino" && (
                 <>
-                  <button
-                    onClick={() => handleSubFiltroClick("blusas_camisetas")}
-                    className={`px-4 py-1 rounded text-sm ${
-                      subFiltro === "blusas_camisetas"
-                        ? "bg-black text-white"
-                        : " bg-gray-100 hover:bg-gray-200"
-                    }`}
-                  >
+                  <button 
+                  onClick={() => handleSubFiltroClick("blusas_camisetas")}
+                  className={`px-4 py-1 rounded text-sm} ${
+                    subFiltro === "blusas_camisetas" ? "bg-black text-white" : " bg-gray-100 hover:bg-gray-200"
+                  }`}>
                     Blusas & Camisetas
                   </button>
-                  <button
-                    onClick={() => handleSubFiltroClick("calcas_leggings")}
-                    className={`px-4 py-1 rounded text-sm ${
-                      subFiltro === "calcas_leggings"
-                        ? "bg-black text-white"
-                        : " bg-gray-100 hover:bg-gray-200"
-                    }`}
-                  >
+                  <button 
+                  onClick={() => handleSubFiltroClick("calcas_leggings")}
+                  className={`px-4 py-1 rounded text-sm} ${
+                    subFiltro === "calcas_leggings" ? "bg-black text-white" : " bg-gray-100 hover:bg-gray-200"
+                  }`}>
                     Calças & Leggings
                   </button>
-                  <button
-                    onClick={() => handleSubFiltroClick("vestidos_saias")}
-                    className={`px-4 py-1 rounded text-sm ${
-                      subFiltro === "vestidos_saias"
-                        ? "bg-black text-white"
-                        : " bg-gray-100 hover:bg-gray-200"
-                    }`}
-                  >
+                  <button 
+                  onClick={() => handleSubFiltroClick("vestidos_saias")}
+                  className={`px-4 py-1 rounded text-sm} ${
+                    subFiltro === "vestidos_saias" ? "bg-black text-white" : " bg-gray-100 hover:bg-gray-200"
+                  }`}>
                     Vestidos & Saias
                   </button>
-                  <button
-                    onClick={() => handleSubFiltroClick("casacos_jaquetas")}
-                    className={`px-4 py-1 rounded text-sm ${
-                      subFiltro === "casacos_jaquetas"
-                        ? "bg-black text-white"
-                        : " bg-gray-100 hover:bg-gray-200"
-                    }`}
-                  >
+                  <button 
+                  onClick={() => handleSubFiltroClick("casacos_jaquetas")}
+                  className={`px-4 py-1 rounded text-sm} ${
+                    subFiltro === "casacos_jaquetas" ? "bg-black text-white" : " bg-gray-100 hover:bg-gray-200"
+                  }`}>
                     Casacos & Jaquetas
                   </button>
-                  <button
-                    onClick={() => handleSubFiltroClick("acessorios")}
-                    className={`px-4 py-1 rounded text-sm ${
-                      subFiltro === "acessorios"
-                        ? "bg-black text-white"
-                        : " bg-gray-100 hover:bg-gray-200"
-                    }`}
-                  >
+                  <button 
+                  onClick={() => handleSubFiltroClick("acessorios")}
+                  className={`px-4 py-1 rounded text-sm} ${
+                    subFiltro === "acessorios" ? "bg-black text-white" : " bg-gray-100 hover:bg-gray-200"
+                  }`}>
                     Acessórios
                   </button>
-                  <button
-                    onClick={() => handleSubFiltroClick("calcados")}
-                    className={`px-4 py-1 rounded text-sm ${
-                      subFiltro === "calcados"
-                        ? "bg-black text-white"
-                        : " bg-gray-100 hover:bg-gray-200"
-                    }`}
-                  >
+                  <button 
+                  onClick={() => handleSubFiltroClick("calcados")}
+                  className={`px-4 py-1 rounded text-sm} ${
+                    subFiltro === "calcados" ? "bg-black text-white" : " bg-gray-100 hover:bg-gray-200"
+                  }`}>
                     Calçados
                   </button>
                 </>
               )}
               {filtroGenero === "masculino" && (
                 <>
-                  <button
-                    onClick={() => handleSubFiltroClick("camisetas_regatas")}
-                    className={`px-4 py-1 rounded text-sm ${
-                      subFiltro === "camisetas_regatas"
-                        ? "bg-black text-white"
-                        : " bg-gray-100 hover:bg-gray-200"
-                    }`}
-                  >
+                  <button 
+                  onClick={() => handleSubFiltroClick("camisetas_regatas")}
+                  className={`px-4 py-1 rounded text-sm} ${
+                    subFiltro === "camisetas_regatas" ? "bg-black text-white" : " bg-gray-100 hover:bg-gray-200"
+                  }`}>
                     Camisetas & Regatas
                   </button>
-                  <button
-                    onClick={() => handleSubFiltroClick("calcas_bermudas")}
-                    className={`px-4 py-1 rounded text-sm ${
-                      subFiltro === "calcas_bermudas"
-                        ? "bg-black text-white"
-                        : " bg-gray-100 hover:bg-gray-200"
-                    }`}
-                  >
+                  <button 
+                  onClick={() => handleSubFiltroClick("calcas_bermudas")}
+                  className={`px-4 py-1 rounded text-sm} ${
+                    subFiltro === "calcas_bermudas" ? "bg-black text-white" : " bg-gray-100 hover:bg-gray-200"
+                  }`}>
                     Calças & Bermudas
                   </button>
-                  <button
-                    onClick={() => handleSubFiltroClick("camisas_sociais_polo")}
-                    className={`px-4 py-1 rounded text-sm ${
-                      subFiltro === "camisas_sociais_polo"
-                        ? "bg-black text-white"
-                        : " bg-gray-100 hover:bg-gray-200"
-                    }`}
-                  >
+                  <button 
+                  onClick={() => handleSubFiltroClick("camisas_sociais_polo")}
+                  className={`px-4 py-1 rounded text-sm} ${
+                    subFiltro === "camisas_sociais_polo" ? "bg-black text-white" : " bg-gray-100 hover:bg-gray-200"
+                  }`}>
                     Camisas Sociais & Polo
                   </button>
-                  <button
-                    onClick={() => handleSubFiltroClick("jaquetas_moletons")}
-                    className={`px-4 py-1 rounded text-sm ${
-                      subFiltro === "jaquetas_moletons"
-                        ? "bg-black text-white"
-                        : " bg-gray-100 hover:bg-gray-200"
-                    }`}
-                  >
+                  <button 
+                  onClick={() => handleSubFiltroClick("jaquetas_moletons")}
+                  className={`px-4 py-1 rounded text-sm} ${
+                    subFiltro === "jaquetas_moletons" ? "bg-black text-white" : " bg-gray-100 hover:bg-gray-200"
+                  }`}>
                     Jaquetas & Moletons
                   </button>
-                  <button
-                    onClick={() => handleSubFiltroClick("acessorios")}
-                    className={`px-4 py-1 rounded text-sm ${
-                      subFiltro === "acessorios"
-                        ? "bg-black text-white"
-                        : " bg-gray-100 hover:bg-gray-200"
-                    }`}
-                  >
+                  <button 
+                  onClick={() => handleSubFiltroClick("acessorios")}
+                  className={`px-4 py-1 rounded text-sm} ${
+                    subFiltro === "acessorios" ? "bg-black text-white" : " bg-gray-100 hover:bg-gray-200"
+                  }`}>
                     Acessórios
                   </button>
-                  <button
-                    onClick={() => handleSubFiltroClick("calcados")}
-                    className={`px-4 py-1 rounded text-sm ${
-                      subFiltro === "calcados"
-                        ? "bg-black text-white"
-                        : " bg-gray-100 hover:bg-gray-200"
-                    }`}
-                  >
+                  <button 
+                  onClick={() => handleSubFiltroClick("calcados")}
+                  className={`px-4 py-1 rounded text-sm} ${
+                    subFiltro === "calcados" ? "bg-black text-white" : " bg-gray-100 hover:bg-gray-200"
+                  }`}>
                     Calçados
                   </button>
                 </>
