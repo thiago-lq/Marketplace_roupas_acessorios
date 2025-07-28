@@ -51,11 +51,11 @@ export default function Busca() {
 
   return (
     <div className="relative p-3 md:p-6">
-      <div className="flex flex-col items-start gap-6">
-        <div className="flex flex-row gap-3 ">
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-row gap-3">
           <button
             onClick={() => handleFiltroClick("todos")}
-            className={`block w-full text-left px-4 py-2 rounded ${
+            className={`block w-max text-center px-4 py-2 rounded ${
               filtroGenero === "todos"
                 ? "bg-black text-white"
                 : "bg-gray-100 hover:bg-gray-200"
@@ -65,7 +65,7 @@ export default function Busca() {
           </button>
           <button
             onClick={() => handleFiltroClick("feminino")}
-            className={`block w-full text-left px-4 py-2 rounded ${
+            className={`block w-max text-center px-4 py-2 rounded ${
               filtroGenero === "feminino"
                 ? "bg-black text-white"
                 : "bg-gray-100 hover:bg-gray-200"
@@ -75,7 +75,7 @@ export default function Busca() {
           </button>
           <button
             onClick={() => handleFiltroClick("masculino")}
-            className={`block w-full text-left px-4 py-2 rounded ${
+            className={`block w-max text-center px-4 py-2 rounded ${
               filtroGenero === "masculino"
                 ? "bg-black text-white"
                 : "bg-gray-100 hover:bg-gray-200"
