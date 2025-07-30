@@ -18,6 +18,22 @@ export default function PerfilAdm() {
   const [produtoEditando, setProdutoEditando] = useState(null);
   const [categoriaSelecionada, setCategoriaSelecionada] = useState("");
   const [exibicao, setExibicao] = useState("");
+  const [quantidadeCampos, setQuantidadeCampos] = useState(1);
+  const maxCampos = 5
+  const minCampos = 1
+  
+  const adicionarCampo = () => {
+    if (quantidadeCampos < maxCampos) {
+      setQuantidadeCampos(quantidadeCampos + 1);
+    }
+  };
+
+  const removerCampo = () => {
+    if (quantidadeCampos > minCampos) {
+      setQuantidadeCampos(quantidadeCampos - 1)
+    }
+  }
+
   const subcategoriasPorGenero = useMemo(
     () => ({
       feminino: [
@@ -39,17 +55,20 @@ export default function PerfilAdm() {
     }),
     []
   );
+
   const exibicaoPorGenero = useMemo(
     () => ({
       feminino: [
         { value: "produtos_destaque", label: "Produtos em Destaque" },
         { value: "feminino", label: "Exibir em Feminino" },
         { value: "lancamentos", label: "Lançamentos" },
+        { value: "null", label: "Nenhum"},
       ],
       masculino: [
         { value: "produtos_destaque", label: "Produtos em Destaque" },
         { value: "masculino", label: "Exibir em Masculino" },
         { value: "lancamentos", label: "Lançamentos" },
+        { value: "null", label: "Nenhum"},
       ],
     }),
     []
@@ -76,6 +95,7 @@ export default function PerfilAdm() {
       produtoEditando.categoria &&
       produtoEditando.subcategoria &&
       produtoEditando.imagem &&
+      produtoEditando.imagensExtras &&
       produtoEditando.exibicao
     ) {
       const categoriaValida = produtoEditando.categoria.toLowerCase();
@@ -117,7 +137,7 @@ export default function PerfilAdm() {
     e.preventDefault();
     const formulario = document.getElementById("formularioAdicionar");
     const produto = serializeForm(formulario);
-    const { nome, preco, categoria, subcategoria, imagem, exibicao } = produto;
+    const { nome, preco, categoria, subcategoria, imagem, imagensExtras, exibicao } = produto;
     if (
       !nome ||
       !preco ||
@@ -129,6 +149,9 @@ export default function PerfilAdm() {
       alert("Por favor, preencha todos os campos.");
       return;
     }
+    if (!imagensExtras || imagensExtras.length === 0) {
+        alert("Por favor, preencha todos os campos.");
+      }
     await addDoc(collection(db, "Produtos"), produto);
     setModalAbertoAdicionar(false);
   };
@@ -154,7 +177,7 @@ export default function PerfilAdm() {
   async function salvarEdicao(e) {
     e.preventDefault();
     const ref = doc(db, "Produtos", produtoEditando.id);
-    const { nome, preco, categoria, subcategoria, imagem, exibicao } =
+    const { nome, preco, categoria, subcategoria, imagem, imagensExtras, exibicao } =
       produtoEditando;
     if (
       !nome ||
@@ -168,12 +191,17 @@ export default function PerfilAdm() {
       return;
     }
 
+    if (!imagensExtras || imagensExtras.length === 0) {
+        alert("Por favor, preencha todos os campos.");
+      }
+
     await updateDoc(ref, {
       nome,
       preco,
       categoria,
       subcategoria,
       imagem,
+      imagensExtras,
       exibicao,
     });
 
@@ -207,6 +235,11 @@ export default function PerfilAdm() {
         subcategoriasPorGenero={subcategoriasPorGenero}
         exibicaoPorGenero={exibicaoPorGenero}
         resetarFormulario={resetarFormularioAdicionar}
+        quantidadeCampos={quantidadeCampos}
+        maxCampos={maxCampos}
+        adicionarCampo={adicionarCampo}
+        removerCampo={removerCampo}
+        minCampos={minCampos}
       />
 
       {/* Modal Editar Produto */}
