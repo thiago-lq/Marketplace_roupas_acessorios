@@ -19,7 +19,7 @@ export default function PerfilAdm() {
   const [categoriaSelecionada, setCategoriaSelecionada] = useState("");
   const [exibicao, setExibicao] = useState("");
   const [quantidadeCampos, setQuantidadeCampos] = useState(1);
-  const maxCampos = 5
+  const maxCampos = 7
   const minCampos = 1
   
   const adicionarCampo = () => {
@@ -251,6 +251,11 @@ export default function PerfilAdm() {
         setProdutoEditando={setProdutoEditando}
         subcategoriasPorGenero={subcategoriasPorGenero}
         exibicaoPorGenero={exibicaoPorGenero}
+        quantidadeCampos={quantidadeCampos}
+        maxCampos={maxCampos}
+        adicionarCampo={adicionarCampo}
+        removerCampo={removerCampo}
+        minCampos={minCampos}
       />
     </div>
   );

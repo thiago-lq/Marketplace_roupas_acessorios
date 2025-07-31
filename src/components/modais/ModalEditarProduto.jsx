@@ -5,13 +5,18 @@ export default function ModalEditarProduto({
   produtoEditando,
   setProdutoEditando,
   subcategoriasPorGenero,
-  exibicaoPorGenero
+  exibicaoPorGenero,
+  quantidadeCampos,
+  maxCampos,
+  adicionarCampo,
+  removerCampo,
+  minCampos
 }) {
   if (!aberto || !produtoEditando) return null;
 
   return (
     <div className="fixed inset-0 bg-[rgba(0,0,0,0.6)] flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-8 relative">
+      <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-8 relative overflow-y-auto max-h-[90vh]">
         <h3 className="text-2xl font-bold mb-6 text-gray-900">Editar Produto</h3>
         <form onSubmit={aoSalvar} className="space-y-6">
           <input
@@ -91,7 +96,7 @@ export default function ModalEditarProduto({
           </select>
           <input
             type="url"
-            placeholder="URL da imagem"
+            placeholder="URL da imagem principal do produto"
             value={produtoEditando.imagem}
             onChange={(e) =>
               setProdutoEditando({
@@ -102,6 +107,37 @@ export default function ModalEditarProduto({
             className="w-full p-3 border border-gray-300 rounded-lg"
             required
           />
+          {Array.from({ length: quantidadeCampos}).map((_, index) => (
+            <input
+              key={index}
+              type="url"
+              placeholder={`URL da imagem ${index + 1}`}
+              value={produtoEditando.imagensExtras?.[index] || ""}
+              onChange={(e) => {
+                const novasImagens = [...(produtoEditando.imagensExtras || [])];
+                novasImagens[index] = e.target.value;
+                setProdutoEditando({
+                  ...produtoEditando,
+                  imagensExtras: novasImagens
+                })
+              }}
+              className="w-full p-3 border border-gray-300 rounded-lg"
+              required
+            />
+          ))}
+          <div className="flex flex-row gap-3">
+            {quantidadeCampos < maxCampos && (
+            <button type="button" onClick={adicionarCampo} className="flex justify-center rounded-2xl w-10 h-7 text-black hover:bg-black hover:text-white transition"
+            >
+              +
+            </button>
+            )}
+            {quantidadeCampos > minCampos && (
+              <button type="button" onClick={removerCampo} className="flex justify-center rounded-2xl w-10 h-7 text-black hover:bg-black hover:text-white transition">
+                -
+              </button>
+            )}
+          </div>
           <div className="flex justify-between mt-6">
             <button
               type="button"
