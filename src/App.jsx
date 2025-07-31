@@ -11,6 +11,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { ProductsProvider } from "./contexts/ProductsContext";
 import PrivateRoute from "./routes/PrivateRoute";
 import Busca from "./pages/Busca";
+import ProdutoPag from "./pages/ProdutoPag";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -63,6 +64,15 @@ function App() {
               path="/Busca"
               element={<Busca />}
             />
+
+            <Route path="/produto/:id"
+                   element={<ProdutoPag/>}
+            />
+
+            <Route path="/Busca/produto/:id"
+                   element={<ProdutoPag/>}
+            />
+
           </Routes>
           <CarrinhoFlutuante
             visivel={mostrarCarrinho}
@@ -70,13 +80,16 @@ function App() {
             onClose={() => setMostrarCarrinho(false)}
             onRemoveFromCart={handleRemoveFromCart}
           />
+
           <Login
             visivel={mostrarLogin}
             onClose={() => setMostrarLogin(false)}
           />
+
           <div>
             <Footer />
           </div>
+          
         </AuthProvider>
       </ProductsProvider>
     </BrowserRouter>

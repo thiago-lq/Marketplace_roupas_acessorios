@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useProducts } from "../contexts/ProductsContext";
 import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Busca() {
   const products = useProducts();
@@ -10,6 +11,7 @@ export default function Busca() {
   const [subFiltro, setSubFiltro] = useState("");
   const [subFiltroAberto, setSubFiltroAberto] = useState(false);
   const [buscaTermo, setBuscaTermo] = useState("");
+
 
   const produtosFiltrados =
     filtroGenero === "todos"
@@ -225,6 +227,7 @@ export default function Busca() {
         <div>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-[7px] md:gap-[25px] transition-all duration-500 md:px-10 h-auto">
             {produtosSubFiltrados.map((product) => (
+              <Link to={`produto/${product.id}`}>
               <div
                 key={product.id}
                 className="sm:w-[220px] md:w-[240px] lg:w-[260px] flex-shrink-0 bg-white rounded-2xl shadow-lg 
@@ -246,6 +249,7 @@ export default function Busca() {
                   </p>
                 </div>
               </div>
+              </Link>
             ))}
           </div>
         </div>
