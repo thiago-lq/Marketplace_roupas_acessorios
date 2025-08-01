@@ -4,13 +4,13 @@ export default function ProductScroll({ products, onAddToCart }) {
   return (
     <div className="relative">
       <div className="overflow-x-auto snap-x snap-mandatory py-6 mx-auto w-full sm:w-[530px] md:w-[800px] lg:w-[1280px] max-w-full">
-        <div className="flex gap-[15px] w-max">
+        <div className="flex gap-[30px] w-max">
           {products.map((product) => (
             <Link to={`produto/${product.id}`}>
               <div
                 key={product.id}
                 className="snap-start 
-                         w-[170px] sm:w-[220px] md:w-[240px] lg:w-[260px]
+                         w-[170px] sm:w-[220px] md:w-[240px] lg:w-[300px]
                          flex-shrink-0 bg-white rounded-2xl shadow-lg 
                          p-3 flex flex-col border border-transparent hover:border-gray-300 
                          transition-all duration-300"

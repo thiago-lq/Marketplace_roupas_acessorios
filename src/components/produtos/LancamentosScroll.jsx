@@ -38,7 +38,7 @@ export default function LancamentosScroll({ products, onAddToCart }) {
           <div className="flex md:flex-col gap-3 mx-3">
             <button
               onClick={() => handleFiltroClick("todos")}
-              className={`block w-full text-left px-4 py-2 rounded ${
+              className={`block w-full text-left font-semibold px-4 py-2 rounded ${
                 filtroGenero === "todos"
                   ? "bg-black text-white"
                   : "bg-gray-100 hover:bg-gray-200"
@@ -48,7 +48,7 @@ export default function LancamentosScroll({ products, onAddToCart }) {
             </button>
             <button
               onClick={() => handleFiltroClick("feminino")}
-              className={`block w-full text-left px-4 py-2 rounded ${
+              className={`block w-full text-left font-semibold px-4 py-2 rounded ${
                 filtroGenero === "feminino"
                   ? "bg-black text-white"
                   : "bg-gray-100 hover:bg-gray-200"
@@ -58,7 +58,7 @@ export default function LancamentosScroll({ products, onAddToCart }) {
             </button>
             <button
               onClick={() => handleFiltroClick("masculino")}
-              className={`block w-full text-left px-4 py-2 rounded ${
+              className={`block w-full text-left font-semibold px-4 py-2 rounded ${
                 filtroGenero === "masculino"
                   ? "bg-black text-white"
                   : "bg-gray-100 hover:bg-gray-200"
@@ -78,7 +78,7 @@ export default function LancamentosScroll({ products, onAddToCart }) {
                 <>
                   <button
                     onClick={() => handleSubFiltroClick("blusas_camisetas")}
-                    className={`px-4 py-1 rounded text-sm} ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "blusas_camisetas"
                         ? "bg-black text-white"
                         : " bg-gray-100 hover:bg-gray-200"
@@ -88,7 +88,7 @@ export default function LancamentosScroll({ products, onAddToCart }) {
                   </button>
                   <button
                     onClick={() => handleSubFiltroClick("calcas_leggings")}
-                    className={`px-4 py-1 rounded text-sm} ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "calcas_leggings"
                         ? "bg-black text-white"
                         : " bg-gray-100 hover:bg-gray-200"
@@ -98,7 +98,7 @@ export default function LancamentosScroll({ products, onAddToCart }) {
                   </button>
                   <button
                     onClick={() => handleSubFiltroClick("vestidos_saias")}
-                    className={`px-4 py-1 rounded text-sm} ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "vestidos_saias"
                         ? "bg-black text-white"
                         : " bg-gray-100 hover:bg-gray-200"
@@ -108,7 +108,7 @@ export default function LancamentosScroll({ products, onAddToCart }) {
                   </button>
                   <button
                     onClick={() => handleSubFiltroClick("casacos_jaquetas")}
-                    className={`px-4 py-1 rounded text-sm} ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "casacos_jaquetas"
                         ? "bg-black text-white"
                         : " bg-gray-100 hover:bg-gray-200"
@@ -118,7 +118,7 @@ export default function LancamentosScroll({ products, onAddToCart }) {
                   </button>
                   <button
                     onClick={() => handleSubFiltroClick("acessorios")}
-                    className={`px-4 py-1 rounded text-sm} ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "acessorios"
                         ? "bg-black text-white"
                         : " bg-gray-100 hover:bg-gray-200"
@@ -128,7 +128,7 @@ export default function LancamentosScroll({ products, onAddToCart }) {
                   </button>
                   <button
                     onClick={() => handleSubFiltroClick("calcados")}
-                    className={`px-4 py-1 rounded text-sm} ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "calcados"
                         ? "bg-black text-white"
                         : " bg-gray-100 hover:bg-gray-200"
@@ -142,7 +142,7 @@ export default function LancamentosScroll({ products, onAddToCart }) {
                 <>
                   <button
                     onClick={() => handleSubFiltroClick("camisetas_regatas")}
-                    className={`px-4 py-1 rounded text-sm} ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "camisetas_regatas"
                         ? "bg-black text-white"
                         : " bg-gray-100 hover:bg-gray-200"
@@ -152,7 +152,7 @@ export default function LancamentosScroll({ products, onAddToCart }) {
                   </button>
                   <button
                     onClick={() => handleSubFiltroClick("calcas_bermudas")}
-                    className={`px-4 py-1 rounded text-sm} ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "calcas_bermudas"
                         ? "bg-black text-white"
                         : " bg-gray-100 hover:bg-gray-200"
@@ -162,7 +162,7 @@ export default function LancamentosScroll({ products, onAddToCart }) {
                   </button>
                   <button
                     onClick={() => handleSubFiltroClick("camisas_sociais_polo")}
-                    className={`px-4 py-1 rounded text-sm} ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "camisas_sociais_polo"
                         ? "bg-black text-white"
                         : " bg-gray-100 hover:bg-gray-200"
@@ -172,7 +172,7 @@ export default function LancamentosScroll({ products, onAddToCart }) {
                   </button>
                   <button
                     onClick={() => handleSubFiltroClick("jaquetas_moletons")}
-                    className={`px-4 py-1 rounded text-sm} ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "jaquetas_moletons"
                         ? "bg-black text-white"
                         : " bg-gray-100 hover:bg-gray-200"
@@ -182,7 +182,7 @@ export default function LancamentosScroll({ products, onAddToCart }) {
                   </button>
                   <button
                     onClick={() => handleSubFiltroClick("acessorios")}
-                    className={`px-4 py-1 rounded text-sm} ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "acessorios"
                         ? "bg-black text-white"
                         : " bg-gray-100 hover:bg-gray-200"
@@ -192,7 +192,7 @@ export default function LancamentosScroll({ products, onAddToCart }) {
                   </button>
                   <button
                     onClick={() => handleSubFiltroClick("calcados")}
-                    className={`px-4 py-1 rounded text-sm} ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "calcados"
                         ? "bg-black text-white"
                         : " bg-gray-100 hover:bg-gray-200"
@@ -207,12 +207,12 @@ export default function LancamentosScroll({ products, onAddToCart }) {
 
           {/* Grid dos produtos */}
           <div className="overflow-y-auto snap-y snap-mandatory h-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 md:gap-[15px] gap-3 md:p-10 p-3 transition-all duration-500">
+            <div className="grid grid-cols-2 md:grid-cols-4 md:gap-[30px] gap-3 p-3 transition-all duration-500">
               {produtosSubFiltrados.map((product) => (
                 <Link to={`produto/${product.id}`}>
                   <div
                     key={product.id}
-                    className="snap-start sm:w-[220px] md:w-[240px] lg:w-[260px] flex-shrink-0 bg-white rounded-2xl shadow-lg 
+                    className="snap-start sm:w-[220px] lg:w-[260px] xl:w-[300px] flex-shrink-0 bg-white rounded-2xl shadow-lg 
                              p-3 flex flex-col border border-transparent hover:border-gray-300 transition-all duration-300"
                   >
                     <div className="relative w-full aspect-[4/5]">

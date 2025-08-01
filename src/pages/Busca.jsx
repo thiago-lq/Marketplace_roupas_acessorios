@@ -59,7 +59,7 @@ export default function Busca() {
           <div className="flex flex-row gap-3 mb-5">
             <button
               onClick={() => handleFiltroClick("todos")}
-              className={`block w-max text-center px-4 py-2 rounded ${
+              className={`block w-max text-center font-semibold px-4 py-2 rounded ${
                 filtroGenero === "todos"
                   ? "bg-black text-white"
                   : "bg-gray-100 hover:bg-gray-200"
@@ -69,7 +69,7 @@ export default function Busca() {
             </button>
             <button
               onClick={() => handleFiltroClick("feminino")}
-              className={`block w-max text-center px-4 py-2 rounded ${
+              className={`block w-max text-center font-semibold px-4 py-2 rounded ${
                 filtroGenero === "feminino"
                   ? "bg-black text-white"
                   : "bg-gray-100 hover:bg-gray-200"
@@ -79,7 +79,7 @@ export default function Busca() {
             </button>
             <button
               onClick={() => handleFiltroClick("masculino")}
-              className={`block w-max text-center px-4 py-2 rounded ${
+              className={`block w-max text-center font-semibold px-4 py-2 rounded ${
                 filtroGenero === "masculino"
                   ? "bg-black text-white"
                   : "bg-gray-100 hover:bg-gray-200"
@@ -95,7 +95,7 @@ export default function Busca() {
                 <>
                   <button
                     onClick={() => handleSubFiltroClick("blusas_camisetas")}
-                    className={`px-4 py-1 rounded text-sm ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "blusas_camisetas"
                         ? "bg-black text-white"
                         : "bg-gray-100 hover:bg-gray-200"
@@ -105,7 +105,7 @@ export default function Busca() {
                   </button>
                   <button
                     onClick={() => handleSubFiltroClick("calcas_leggings")}
-                    className={`px-4 py-1 rounded text-sm ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "calcas_leggings"
                         ? "bg-black text-white"
                         : "bg-gray-100 hover:bg-gray-200"
@@ -115,7 +115,7 @@ export default function Busca() {
                   </button>
                   <button
                     onClick={() => handleSubFiltroClick("vestidos_saias")}
-                    className={`px-4 py-1 rounded text-sm ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "vestidos_saias"
                         ? "bg-black text-white"
                         : "bg-gray-100 hover:bg-gray-200"
@@ -125,7 +125,7 @@ export default function Busca() {
                   </button>
                   <button
                     onClick={() => handleSubFiltroClick("casacos_jaquetas")}
-                    className={`px-4 py-1 rounded text-sm ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "casacos_jaquetas"
                         ? "bg-black text-white"
                         : "bg-gray-100 hover:bg-gray-200"
@@ -135,7 +135,7 @@ export default function Busca() {
                   </button>
                   <button
                     onClick={() => handleSubFiltroClick("acessorios")}
-                    className={`px-4 py-1 rounded text-sm ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "acessorios"
                         ? "bg-black text-white"
                         : "bg-gray-100 hover:bg-gray-200"
@@ -145,7 +145,7 @@ export default function Busca() {
                   </button>
                   <button
                     onClick={() => handleSubFiltroClick("calcados")}
-                    className={`px-4 py-1 rounded text-sm ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "calcados"
                         ? "bg-black text-white"
                         : "bg-gray-100 hover:bg-gray-200"
@@ -159,7 +159,7 @@ export default function Busca() {
                 <>
                   <button
                     onClick={() => handleSubFiltroClick("camisetas_regatas")}
-                    className={`px-4 py-1 rounded text-sm ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "camisetas_regatas"
                         ? "bg-black text-white"
                         : "bg-gray-100 hover:bg-gray-200"
@@ -169,7 +169,7 @@ export default function Busca() {
                   </button>
                   <button
                     onClick={() => handleSubFiltroClick("calcas_bermudas")}
-                    className={`px-4 py-1 rounded text-sm ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "calcas_bermudas"
                         ? "bg-black text-white"
                         : "bg-gray-100 hover:bg-gray-200"
@@ -179,7 +179,7 @@ export default function Busca() {
                   </button>
                   <button
                     onClick={() => handleSubFiltroClick("camisas_sociais_polo")}
-                    className={`px-4 py-1 rounded text-sm ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "camisas_sociais_polo"
                         ? "bg-black text-white"
                         : "bg-gray-100 hover:bg-gray-200"
@@ -189,7 +189,7 @@ export default function Busca() {
                   </button>
                   <button
                     onClick={() => handleSubFiltroClick("jaquetas_moletons")}
-                    className={`px-4 py-1 rounded text-sm ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "jaquetas_moletons"
                         ? "bg-black text-white"
                         : "bg-gray-100 hover:bg-gray-200"
@@ -199,7 +199,7 @@ export default function Busca() {
                   </button>
                   <button
                     onClick={() => handleSubFiltroClick("acessorios")}
-                    className={`px-4 py-1 rounded text-sm ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "acessorios"
                         ? "bg-black text-white"
                         : "bg-gray-100 hover:bg-gray-200"
@@ -209,7 +209,7 @@ export default function Busca() {
                   </button>
                   <button
                     onClick={() => handleSubFiltroClick("calcados")}
-                    className={`px-4 py-1 rounded text-sm ${
+                    className={`px-4 py-1 rounded text-sm font-semibold ${
                       subFiltro === "calcados"
                         ? "bg-black text-white"
                         : "bg-gray-100 hover:bg-gray-200"
@@ -225,12 +225,12 @@ export default function Busca() {
 
         {/* --- Produtos --- */}
         <div>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-[7px] md:gap-[25px] transition-all duration-500 md:px-10 h-auto">
+          <div className="max-w-[1920px] mx-auto grid grid-cols-2 md:grid-cols-5 gap-[7px] md:gap-[15px] transition-all duration-500 h-auto">
             {produtosSubFiltrados.map((product) => (
               <Link to={`produto/${product.id}`}>
               <div
                 key={product.id}
-                className="sm:w-[220px] md:w-[240px] lg:w-[260px] flex-shrink-0 bg-white rounded-2xl shadow-lg 
+                className="sm:w-[220px] md:w-[240px] lg:w-[280px] flex-shrink-0 bg-white rounded-2xl shadow-lg 
                         p-3 flex flex-col border border-transparent hover:border-gray-300 transition-all duration-300"
               >
                 <div className="relative w-full aspect-[4/5]">
