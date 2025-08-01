@@ -4,7 +4,7 @@ export default function ProductScroll({ products, onAddToCart }) {
   return (
     <div className="relative">
       <div className="overflow-x-auto snap-x snap-mandatory py-6 mx-auto w-full sm:w-[530px] md:w-[800px] lg:w-[1280px] max-w-full">
-        <div className="flex gap-[30px] w-max">
+        <div className="flex gap-[50px] w-max">
           {products.map((product) => (
             <Link to={`produto/${product.id}`}>
               <div
@@ -30,7 +30,7 @@ export default function ProductScroll({ products, onAddToCart }) {
                 >
                   <h2
                     className="font-semibold text-gray-800 
-                               text-sm sm:text-base md:text-lg 
+                               text-sm sm:text-lg md:text-xl 
                                leading-tight line-clamp-2"
                   >
                     {product.nome}
