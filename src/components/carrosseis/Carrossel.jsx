@@ -9,7 +9,7 @@ import "./carrossel.css";
 
 export default function Carrossel({ products }) {
   return (
-    <div className="relative w-full max-w-[1920px] mx-auto h-64 sm:h-80 md:h-96 lg:h-[40rem] 2xl:h-[700px] max-h-[1280px] overflow-hidden rounded-xl shadow-md">
+    <div className="relative w-full max-w-[1920px] mx-auto h-64 sm:h-80 md:h-96 lg:h-[40rem] 2xl:h-[750px] max-h-[1280px] overflow-hidden rounded-xl shadow-md">
       <Swiper
         modules={[Autoplay, Navigation, Pagination]}
         spaceBetween={30}
