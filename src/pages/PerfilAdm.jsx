@@ -210,7 +210,7 @@ export default function PerfilAdm() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 flex flex-col items-center">
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center">
       {/* Lista de produtos */}
       <ProdutoTable
         produtos={InputProduto}
