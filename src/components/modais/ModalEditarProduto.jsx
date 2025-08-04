@@ -33,7 +33,7 @@ export default function ModalEditarProduto({
               })
             }
             className="w-full p-3 border border-gray-300 rounded-lg"
-            required
+            
           />
           <h1>Preço</h1>
           <input
@@ -49,7 +49,7 @@ export default function ModalEditarProduto({
             className="w-full p-3 border border-gray-300 rounded-lg"
             min="0"
             step="0.01"
-            required
+            
           />
           <h1>Categoria</h1>
           <select
@@ -61,7 +61,7 @@ export default function ModalEditarProduto({
               })
             }
             className="w-full p-3 border border-gray-300 rounded-lg"
-            required
+            
           >
             <option value="">Selecione...</option>
             <option value="masculino">Masculino</option>
@@ -77,7 +77,7 @@ export default function ModalEditarProduto({
               })
             }
             className="w-full p-3 border border-gray-300 rounded-lg"
-            required
+            
           >
             <option value="" disabled>Seleciona a subcategoria...</option>
             {subcategoriasPorGenero[produtoEditando.categoria]?.map((sub) => (
@@ -94,7 +94,7 @@ export default function ModalEditarProduto({
               })
             }
             className="w-full p-3 border border-gray-300 rounded-lg"
-            required
+            
           >
             <option value="" disabled>Selecione onde exibir...</option>
             {exibicaoPorGenero[produtoEditando.categoria]?.map((sub) => (
@@ -113,7 +113,7 @@ export default function ModalEditarProduto({
               })
             }
             className="w-full p-3 border border-gray-300 rounded-lg"
-            required
+            
           />
           <h1>Imagens extras</h1>
           {Array.from({ length: quantidadeCampos}).map((_, index) => (
@@ -131,28 +131,9 @@ export default function ModalEditarProduto({
                 })
               }}
               className="w-full p-3 border border-gray-300 rounded-lg"
-              required
+              
             />
           ))}
-
-          <textarea
-            name="descricao"
-            placeholder="Digite a descrição (máx. 400 palavras)"
-            className="w-full h-40 px-3 py-3 border border-gray-300 rounded-lg resize-none"
-            value={produtoEditando.descricao || ""}
-            onChange={(e) => {
-              const valor = e.target.value;
-              const palavras = valor.trim().split(/\s+/);
-              if (palavras.length <= 400) {
-                setProdutoEditando({ ...produtoEditando, descricao: valor });
-              }
-            }}
-            required
-          />
-
-          <p className="text-sm text-gray-500">
-            {produtoEditando.descricao.trim().split(/\s+/).length} / 400 palavras
-          </p>
 
           <div className="flex flex-row gap-3">
             {quantidadeCampos < maxCampos && (
@@ -167,6 +148,31 @@ export default function ModalEditarProduto({
               </button>
             )}
           </div>
+
+          <textarea
+            name="descricao"
+            placeholder="Digite a descrição (máx. 400 palavras)"
+            className="w-full h-40 px-3 py-3 border border-gray-300 rounded-lg resize-none"
+            value={produtoEditando?.descricao || ""}
+            onChange={(e) => {
+              const valor = e.target.value;
+              // Verificação segura para valores nulos/undefined
+              const palavras = valor ? valor.trim().split(/\s+/).filter(Boolean) : [];
+              
+              if (palavras.length <= 400) {
+                setProdutoEditando({ 
+                  ...produtoEditando, 
+                  descricao: valor || null // Armazena null se estiver vazio
+                });
+              }
+            }}
+          />
+
+          <p className="text-sm text-gray-500">
+            {produtoEditando?.descricao 
+              ? produtoEditando.descricao.trim().split(/\s+/).filter(Boolean).length 
+              : 0} / 400 palavras
+          </p>
 
           <div>
               <h3 className="font-semibold mb-2">Cores disponíveis</h3>
