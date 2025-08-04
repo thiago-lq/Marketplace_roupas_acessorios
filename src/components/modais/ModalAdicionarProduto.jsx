@@ -156,6 +156,10 @@ export default function ModalAdicionarProduto({
             required
           />
 
+          <p className="text-sm text-gray-500">
+            {descricao.trim().split(/\s+/).length} / 400 palavras
+          </p>
+
           <div>
             <h3 className="font-semibold mb-2">Cores disponíveis</h3>
             <div className="flex flex-wrap gap-3">

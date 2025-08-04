@@ -31,7 +31,7 @@ export default function Navbar({ onCarrinhoClick, onLoginClick }) {
           if (timeoutRef.current) clearTimeout(timeoutRef.current);
           timeoutRef.current = setTimeout(() => {
             setShowNavbar(true);
-          }, 300); // Ajuste esse valor como quiser (ms)
+          }, 800); // Ajuste esse valor como quiser (ms)
         }
       }
 

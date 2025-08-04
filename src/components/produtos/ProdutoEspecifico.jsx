@@ -31,6 +31,22 @@ export default function ProdutoEspecifico({ produtoID }) {
                       className="object-cover object-center w-full h-full hover:opacity-60"
                     />
                   </button>
+                  <div className="relative inline-block group">
+                        <button
+                          onClick={() => onAddToCart(product)}
+                          className="bg-black text-white px-2 sm:px-3 py-1 sm:py-2 text-sm sm:text-base md:text-lg relative z-10
+                                   transition-transform duration-300 
+                                   group-hover:translate-x-[-2px] group-hover:translate-y-[-3px]
+                                   group-hover:text-gray-300 leading-tight"
+                        >
+                          Adicionar ao carrinho
+                        </button>
+                        <div
+                          className="absolute bottom-0 right-0 w-full h-full bg-gray-600 z-0 transition-transform duration-300 
+                                   group-hover:translate-x-[-2px] group-hover:translate-y-[-3px]"
+                          style={{ transform: "translate(6px, 6px)" }}
+                        />
+                  </div>
                 </div>
               </div>
             ))}

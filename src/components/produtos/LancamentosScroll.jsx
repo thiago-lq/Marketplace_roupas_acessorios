@@ -222,29 +222,13 @@ export default function LancamentosScroll({ products, onAddToCart }) {
                         className="absolute inset-0 w-full h-full object-cover object-center rounded-xl"
                       />
                     </div>
-                    <div className="p-3 flex flex-col h-[120px] sm:h-[150px] md:h-[180px] justify-between items-center text-center">
+                    <div className="p-3 flex flex-col h-[80px] sm:h-[90px] md:h-[110px] justify-between items-center text-center">
                       <h2 className="font-semibold text-gray-800 text-sm sm:text-lg md:text-xl leading-tight">
                         {product.nome}
                       </h2>
                       <p className="text-black font-semibold text-base sm:text-lg md:text-xl">
                         R$ {Number(product.preco).toFixed(2)}
                       </p>
-                      <div className="relative inline-block group">
-                        <button
-                          onClick={() => onAddToCart(product)}
-                          className="bg-black text-white px-2 sm:px-3 py-1 sm:py-2 text-sm sm:text-base md:text-lg relative z-10
-                                   transition-transform duration-300 
-                                   group-hover:translate-x-[-2px] group-hover:translate-y-[-3px]
-                                   group-hover:text-gray-300 leading-tight"
-                        >
-                          Adicionar ao carrinho
-                        </button>
-                        <div
-                          className="absolute bottom-0 right-0 w-full h-full bg-gray-600 z-0 transition-transform duration-300 
-                                   group-hover:translate-x-[-2px] group-hover:translate-y-[-3px]"
-                          style={{ transform: "translate(6px, 6px)" }}
-                        />
-                      </div>
                     </div>
                   </div>
                 </Link>

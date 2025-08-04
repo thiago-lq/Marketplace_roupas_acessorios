@@ -4,8 +4,8 @@ export default function NavBarExtra({ extraAberto, closeNavbarExtra }) {
   return (
     <div
       className={`absolute top-full left-0 w-full bg-white shadow-lg z-40
-        origin-top transform overflow-hidden transition-transform duration-300 ease-in-out
-        ${extraAberto ? "scale-y-100 opacity-100" : "scale-y-0 opacity-0"}`}
+        origin-top overflow-hidden transition-all duration-800 ease-in-out
+        ${extraAberto ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
     >
       <div className="py-3 px-5 flex sm:flex-row md:flex-col md:justify-between md:items-center gap-6">
         {/* Feminino */}

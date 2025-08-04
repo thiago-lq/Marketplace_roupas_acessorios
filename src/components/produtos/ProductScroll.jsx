@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function ProductScroll({ products, onAddToCart }) {
+export default function ProductScroll({ products }) {
   return (
     <div className="relative">
       <div className="overflow-x-auto snap-x snap-mandatory py-6 mx-auto w-full sm:w-[530px] md:w-[800px] lg:w-[1280px] max-w-full">
@@ -25,7 +25,7 @@ export default function ProductScroll({ products, onAddToCart }) {
 
                 <div
                   className="p-3 flex flex-col 
-                              h-[140px] sm:h-[150px] md:h-[180px] 
+                              h-[80px] sm:h-[90px] md:h-[120px] 
                               justify-between items-center text-center"
                 >
                   <h2
@@ -42,17 +42,6 @@ export default function ProductScroll({ products, onAddToCart }) {
                     R$ {Number(product.preco).toFixed(2)}
                   </p>
                   <div className="relative inline-block group">
-                    <button
-                      onClick={() => onAddToCart(product)}
-                      className="bg-black text-white 
-                             px-2 sm:px-3 py-1 sm:py-2 
-                             text-sm sm:text-base md:text-lg 
-                             relative z-10 transition-transform duration-300
-                             group-hover:translate-x-[-2px] group-hover:translate-y-[-3px]
-                             group-hover:text-gray-300 leading-tight"
-                    >
-                      Adicionar ao carrinho
-                    </button>
                     <div
                       className="absolute bottom-0 right-0 w-full h-full bg-gray-600 z-0 
                                transition-transform duration-300 translate-x-0 translate-y-0

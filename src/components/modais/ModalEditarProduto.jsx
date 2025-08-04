@@ -149,6 +149,11 @@ export default function ModalEditarProduto({
             }}
             required
           />
+
+          <p className="text-sm text-gray-500">
+            {produtoEditando.descricao.trim().split(/\s+/).length} / 400 palavras
+          </p>
+
           <div className="flex flex-row gap-3">
             {quantidadeCampos < maxCampos && (
             <button type="button" onClick={adicionarCampo} className="flex justify-center rounded-2xl w-10 h-7 text-black hover:bg-black hover:text-white transition"

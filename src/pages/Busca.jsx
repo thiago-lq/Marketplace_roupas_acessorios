@@ -240,7 +240,7 @@ export default function Busca() {
                     className="absolute inset-0 w-full h-full object-cover object-center rounded-xl"
                   />
                 </div>
-                <div className="p-3 flex flex-col h-[120px] sm:h-[130px] md:h-[150px] justify-between items-center text-center">
+                <div className="p-3 flex flex-col h-[80px] sm:h-[90px] md:h-[110px] justify-between items-center text-center">
                   <h2 className="font-semibold text-gray-800 text-sm sm:text-lg md:text-xl leading-tight">
                     {product.nome}
                   </h2>
