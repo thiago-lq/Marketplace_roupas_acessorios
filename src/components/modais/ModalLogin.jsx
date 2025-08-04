@@ -6,7 +6,7 @@ export default function ModalLogin({ onClose, deslogar }) {
 
   return (
     <div>
-      <div className="fixed top-[4.5rem] right-0 w-80 max-h-[210vh] bg-white border border-gray-300 shadow-2xl rounded-xl z-50 p-3">
+      <div className="fixed top-[4.5rem] right-2 w-80 max-h-[210vh] bg-white border border-gray-300 shadow-2xl rounded-xl z-50 p-3">
         <div className="flex justify-between">
           <p className="text-xl font-semibold bg-gradient-to-r from-black via-gray-700 to-gray-800
             bg-clip-text text-transparent mx-auto">
@@ -27,14 +27,14 @@ export default function ModalLogin({ onClose, deslogar }) {
               {cargo === "admin" ?
               <button
                 onClick={onClose}
-                className="text-black text-start font-semibold hover:text-white hover:bg-black w-max rounded-md px-1"
+                className="text-black text-start font-semibold hover:text-white hover:bg-black w-max rounded-md px-2 py-0.5"
               >
                 Ir para o gerenciador do site
               </button>
               :
                 <button
                 onClick={onClose}
-                className="text-black text-start font-semibold hover:text-white hover:bg-black w-max rounded-md px-1"
+                className="text-black text-start font-semibold hover:text-white hover:bg-black w-max rounded-md px-2 py-0.5"
               >
                 Ir para o seu perfil
               </button>
@@ -42,12 +42,12 @@ export default function ModalLogin({ onClose, deslogar }) {
             </Link>
           )}
 
-          <button className="text-black text-start font-semibold hover:text-white hover:bg-black w-max rounded-md px-1">
+          <button className="text-black text-start font-semibold hover:text-white hover:bg-black w-max rounded-md px-2 py-0.5">
             Ir para os seus pedidos
           </button>
 
           <button
-            className="text-black text-start font-semibold hover:text-white hover:bg-black w-max rounded-md px-1"
+            className="text-black text-start font-semibold hover:text-white hover:bg-black w-max rounded-md px-2 py-0.5"
             onClick={deslogar}
           >
             Desconectar

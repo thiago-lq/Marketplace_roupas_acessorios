@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Feed, Pedidos, Conta } from "../components/usuario";
+
 export default function PerfilUsuario() {
   const [filtroPagina, setFiltroPagina] = useState("inicio");
 
@@ -14,7 +15,7 @@ export default function PerfilUsuario() {
         <aside className="w-full max-w-50 md-[100px] mt-10">
           <div className="flex flex-col gap-3">
             <button onClick={() => handleFiltroClick("inicio")}
-                    className={`block w-full text-left p-3 shadow-md ${
+                    className={`block w-full text-center p-3 shadow-md ${
                       filtroPagina === "inicio"
                       ? "bg-black text-white"
                       : "bg-gray-100 hover:bg-gray-200"
@@ -22,7 +23,7 @@ export default function PerfilUsuario() {
               Ínicio
             </button>
             <button onClick={() => handleFiltroClick("pedidos")}
-                    className={`block w-full text-left p-3 shadow-md ${
+                    className={`block w-full text-center p-3 shadow-md ${
                       filtroPagina === "pedidos"
                       ? "bg-black text-white"
                       : "bg-gray-100 hover:bg-gray-200"
@@ -30,7 +31,7 @@ export default function PerfilUsuario() {
               Pedidos
             </button>
             <button onClick={() => handleFiltroClick("conta")}
-                    className={`block w-full text-left p-3 shadow-md ${
+                    className={`block w-full text-center p-3 shadow-md ${
                       filtroPagina === "conta"
                       ? "bg-black text-white"
                       : "bg-gray-100 hover:bg-gray-200"
@@ -39,7 +40,7 @@ export default function PerfilUsuario() {
             </button>
           </div>
         </aside>
-        <div className="flex-1 mx-15">
+        <div className="flex-1">
           {filtroPagina === "inicio" &&
             <Feed/>
           }
