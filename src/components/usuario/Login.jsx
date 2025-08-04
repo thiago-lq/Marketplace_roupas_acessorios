@@ -6,7 +6,8 @@ import {
 import { auth } from "../../firebase/configs";
 import { useAuth } from "../../contexts/AuthContext";
 import FormularioLogin from "../formularios";
-import {ModalLogin} from "../modais";
+import { ModalLogin } from "../modais";
+import Swal from "sweetalert2";
 
 export default function Login({ visivel, onClose }) {
   const { user, loading, loginGoogle, logout } = useAuth();
@@ -35,6 +36,11 @@ export default function Login({ visivel, onClose }) {
       resetarFormularioLogin();
     } catch (err) {
       console.error("Erro:", err.message);
+      Swal.fire({
+        icon: "error",
+        title: "Erro",
+        text: err.message || "Erro ao tentar realizar a operação.",
+      });
     }
   }
 
@@ -75,4 +81,3 @@ export default function Login({ visivel, onClose }) {
 
   return <ModalLogin onClose={onClose} deslogar={logout} />;
 }
-

@@ -10,6 +10,7 @@ import { db } from "../firebase/configs.js";
 import { useState, useEffect, useMemo } from "react";
 import { ModalAdicionarProduto, ModalEditarProduto } from "../components/modais";
 import { ProdutoTable } from "../components/produtos";
+import Swal from "sweetalert2";
 
 export default function PerfilAdm() {
   const [InputProduto, setInputProduto] = useState([]);
@@ -19,9 +20,9 @@ export default function PerfilAdm() {
   const [categoriaSelecionada, setCategoriaSelecionada] = useState("");
   const [exibicao, setExibicao] = useState("");
   const [quantidadeCampos, setQuantidadeCampos] = useState(1);
-  const maxCampos = 7
-  const minCampos = 1
-  
+  const maxCampos = 7;
+  const minCampos = 1;
+
   const adicionarCampo = () => {
     if (quantidadeCampos < maxCampos) {
       setQuantidadeCampos(quantidadeCampos + 1);
@@ -30,9 +31,9 @@ export default function PerfilAdm() {
 
   const removerCampo = () => {
     if (quantidadeCampos > minCampos) {
-      setQuantidadeCampos(quantidadeCampos - 1)
+      setQuantidadeCampos(quantidadeCampos - 1);
     }
-  }
+  };
 
   const subcategoriasPorGenero = useMemo(
     () => ({
@@ -62,13 +63,13 @@ export default function PerfilAdm() {
         { value: "produtos_destaque", label: "Produtos em Destaque" },
         { value: "feminino", label: "Exibir em Feminino" },
         { value: "lancamentos", label: "Lançamentos" },
-        { value: "null", label: "Nenhum"},
+        { value: "null", label: "Nenhum" },
       ],
       masculino: [
         { value: "produtos_destaque", label: "Produtos em Destaque" },
         { value: "masculino", label: "Exibir em Masculino" },
         { value: "lancamentos", label: "Lançamentos" },
-        { value: "null", label: "Nenhum"},
+        { value: "null", label: "Nenhum" },
       ],
     }),
     []
@@ -80,7 +81,10 @@ export default function PerfilAdm() {
     "Roxo", "Rosa", "Prata", "Dourado"
   ];
 
-  const tamanhosDisponiveis = ["PP", "P", "M", "G", "GG", "XG", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45","Único"];
+  const tamanhosDisponiveis = [
+    "PP", "P", "M", "G", "GG", "XG",
+    "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "Único"
+  ];
 
   useEffect(() => {
     const q = collection(db, "Produtos");
@@ -98,16 +102,16 @@ export default function PerfilAdm() {
   useEffect(() => {
     if (
       modalAbertoEditar &&
-      produtoEditando.nome &&
-      produtoEditando.preco &&
-      produtoEditando.categoria &&
-      produtoEditando.subcategoria &&
-      produtoEditando.imagem &&
-      produtoEditando.imagensExtras &&
-      produtoEditando.descricao &&
-      produtoEditando.exibicao &&
-      produtoEditando.cores &&
-      produtoEditando.tamanhos
+      produtoEditando?.nome &&
+      produtoEditando?.preco &&
+      produtoEditando?.categoria &&
+      produtoEditando?.subcategoria &&
+      produtoEditando?.imagem &&
+      produtoEditando?.imagensExtras &&
+      produtoEditando?.descricao &&
+      produtoEditando?.exibicao &&
+      produtoEditando?.cores &&
+      produtoEditando?.tamanhos
     ) {
       const categoriaValida = produtoEditando.categoria.toLowerCase();
       const subcategorias = subcategoriasPorGenero[categoriaValida] || [];
@@ -145,45 +149,66 @@ export default function PerfilAdm() {
   }
 
   const SalvaDB = async (e) => {
-  e.preventDefault();
-  const formulario = document.getElementById("formularioAdicionar");
-  const produto = serializeForm(formulario);
+    e.preventDefault();
+    const formulario = document.getElementById("formularioAdicionar");
+    const produto = serializeForm(formulario);
 
-  // Garante que cores e tamanhos sejam sempre arrays
-  const cores = Array.isArray(produto.cores) ? produto.cores : [produto.cores].filter(Boolean);
-  const tamanhos = Array.isArray(produto.tamanhos) ? produto.tamanhos : [produto.tamanhos].filter(Boolean);
+    // Garante que cores e tamanhos sejam sempre arrays
+    const cores = Array.isArray(produto.cores) ? produto.cores : [produto.cores].filter(Boolean);
+    const tamanhos = Array.isArray(produto.tamanhos) ? produto.tamanhos : [produto.tamanhos].filter(Boolean);
 
-  const { nome, preco, categoria, subcategoria, imagem, imagensExtras, exibicao, descricao } = produto;
+    const { nome, preco, categoria, subcategoria, imagem, imagensExtras, exibicao, descricao } = produto;
 
-  // Validação dos campos
-  if (
-    !nome ||
-    !preco ||
-    !categoria ||
-    !subcategoria ||
-    !imagem ||
-    !exibicao ||
-    !descricao ||
-    cores.length === 0 ||
-    tamanhos.length === 0
-  ) {
-    alert("Por favor, preencha todos os campos.");
-    return;
-  }
-  if (!imagensExtras || imagensExtras.length === 0) {
-    alert("Por favor, preencha todos os campos.");
-    return;
-  }
+    // Validação dos campos
+    if (
+      !nome ||
+      !preco ||
+      !categoria ||
+      !subcategoria ||
+      !imagem ||
+      !exibicao ||
+      !descricao ||
+      cores.length === 0 ||
+      tamanhos.length === 0
+    ) {
+      await Swal.fire({
+        icon: "warning",
+        title: "Campos incompletos",
+        text: "Por favor, preencha todos os campos.",
+      });
+      return;
+    }
+    if (!imagensExtras || imagensExtras.length === 0) {
+      await Swal.fire({
+        icon: "warning",
+        title: "Campos incompletos",
+        text: "Por favor, preencha todos os campos.",
+      });
+      return;
+    }
 
-  // Salva no Firebase incluindo arrays
-  await addDoc(collection(db, "Produtos"), {
-    ...produto,
-    cores,
-    tamanhos,
-  });
+    try {
+      await addDoc(collection(db, "Produtos"), {
+        ...produto,
+        cores,
+        tamanhos,
+      });
 
-  setModalAbertoAdicionar(false);
-};
+      setModalAbertoAdicionar(false);
+
+      await Swal.fire({
+        icon: "success",
+        title: "Sucesso",
+        text: "Produto adicionado com sucesso!",
+      });
+    } catch (error) {
+      await Swal.fire({
+        icon: "error",
+        title: "Erro",
+        text: "Falha ao adicionar produto.",
+      });
+    }
+  };
 
   function resetarFormularioAdicionar() {
     setCategoriaSelecionada("");
@@ -193,8 +218,30 @@ export default function PerfilAdm() {
   }
 
   async function excluirProduto(id) {
-    if (confirm("Tem certeza que deseja excluir este produto?")) {
-      await deleteDoc(doc(db, "Produtos", id));
+    const result = await Swal.fire({
+      title: "Excluir produto?",
+      text: "Tem certeza que deseja excluir este produto?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sim, excluir",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await deleteDoc(doc(db, "Produtos", id));
+        await Swal.fire({
+          icon: "success",
+          title: "Excluído!",
+          text: "Produto excluído com sucesso.",
+        });
+      } catch {
+        await Swal.fire({
+          icon: "error",
+          title: "Erro",
+          text: "Falha ao excluir produto.",
+        });
+      }
     }
   }
 
@@ -210,6 +257,7 @@ export default function PerfilAdm() {
     const tamanhos = Array.isArray(produtoEditando.tamanhos) ? produtoEditando.tamanhos : [produtoEditando.tamanhos].filter(Boolean);
     const { nome, preco, categoria, subcategoria, imagem, imagensExtras, exibicao, descricao } =
       produtoEditando;
+
     if (
       !nome ||
       !preco ||
@@ -221,29 +269,52 @@ export default function PerfilAdm() {
       cores.length === 0 ||
       tamanhos.length === 0
     ) {
-      alert("Por favor, preencha todos os campos.");
+      await Swal.fire({
+        icon: "warning",
+        title: "Campos incompletos",
+        text: "Por favor, preencha todos os campos.",
+      });
       return;
     }
 
     if (!imagensExtras || imagensExtras.length === 0) {
-        alert("Por favor, preencha todos os campos.");
-      }
+      await Swal.fire({
+        icon: "warning",
+        title: "Campos incompletos",
+        text: "Por favor, preencha todos os campos.",
+      });
+      return;
+    }
 
-    await updateDoc(ref, {
-      nome,
-      preco,
-      categoria,
-      subcategoria,
-      imagem,
-      imagensExtras,
-      exibicao,
-      descricao,
-      cores,
-      tamanhos,
-    });
+    try {
+      await updateDoc(ref, {
+        nome,
+        preco,
+        categoria,
+        subcategoria,
+        imagem,
+        imagensExtras,
+        exibicao,
+        descricao,
+        cores,
+        tamanhos,
+      });
 
-    setModalAbertoEditar(false);
-    setProdutoEditando(null);
+      setModalAbertoEditar(false);
+      setProdutoEditando(null);
+
+      await Swal.fire({
+        icon: "success",
+        title: "Sucesso",
+        text: "Produto atualizado com sucesso!",
+      });
+    } catch {
+      await Swal.fire({
+        icon: "error",
+        title: "Erro",
+        text: "Falha ao atualizar produto.",
+      });
+    }
   }
 
   return (

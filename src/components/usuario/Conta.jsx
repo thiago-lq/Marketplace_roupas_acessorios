@@ -3,6 +3,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase/configs";
 import DadosConta from "./DadosConta";
+import Swal from "sweetalert2";
 
 export default function Conta() {
   const [tab, setTab] = useState("dados");
@@ -25,14 +26,14 @@ export default function Conta() {
       if (!user) return;
 
       try {
-        const ref = doc(db, "Usuarios", user.uid); // nome da coleção sem acento
+        const ref = doc(db, "Usuarios", user.uid);
         const snap = await getDoc(ref);
 
         if (snap.exists()) {
           const dados = snap.data();
           setNome(dados.nome || "");
           setEmail(dados.email || user.email || "");
-          setCpf(dados.cpf || "")
+          setCpf(dados.cpf || "");
           setTelefone(dados.telefone || "");
           setRua(dados.endereco?.rua || "");
           setNumero(dados.endereco?.numero || "");
@@ -58,7 +59,7 @@ export default function Conta() {
     try {
       await setDoc(doc(db, "Usuarios", user.uid), {
         nome,
-        email, // email vem do Auth e não deve ser alterado
+        email,
         cpf,
         telefone,
         endereco: {
@@ -71,10 +72,21 @@ export default function Conta() {
         },
         atualizadoEm: new Date(),
       });
-      alert("Dados salvos com sucesso!");
+
+      Swal.fire({
+        icon: "success",
+        title: "Sucesso!",
+        text: "Dados salvos com sucesso!",
+        confirmButtonColor: "#000",
+      });
     } catch (e) {
       console.error("Erro ao salvar dados:", e);
-      alert("Erro ao salvar dados.");
+      Swal.fire({
+        icon: "error",
+        title: "Erro",
+        text: "Erro ao salvar dados.",
+        confirmButtonColor: "#000",
+      });
     }
   }
 
@@ -115,7 +127,7 @@ export default function Conta() {
             salvarDados={salvarDados}
             nome={nome}
             setNome={setNome}
-            email={email} // email só para exibir
+            email={email}
             telefone={telefone}
             setTelefone={setTelefone}
             cpf={cpf}

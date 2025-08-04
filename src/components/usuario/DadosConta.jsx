@@ -35,6 +35,7 @@ export default function DadosConta({
           value={nome}
           onChange={(e) => setNome(e.target.value)}
           className="border p-2 w-full"
+          required
         />
       </label>
 
@@ -45,6 +46,7 @@ export default function DadosConta({
           value={email}
           readOnly
           className="border p-2 w-full bg-gray-100"
+          required
         />
       </label>
 
@@ -55,6 +57,7 @@ export default function DadosConta({
           value={cpf}
           onChange={(e) => setCpf(e.target.value)}
           className="border p-2 w-full"
+          required
         />
       </label>
 
@@ -65,6 +68,7 @@ export default function DadosConta({
           value={telefone}
           onChange={(e) => setTelefone(e.target.value)}
           className="border p-2 w-full"
+          required
         />
       </label>
 
@@ -75,6 +79,7 @@ export default function DadosConta({
           value={rua}
           onChange={(e) => setRua(e.target.value)}
           className="border p-2 w-full"
+          required
         />
       </label>
 
@@ -85,6 +90,7 @@ export default function DadosConta({
           value={numero}
           onChange={(e) => setNumero(e.target.value)}
           className="border p-2 w-full"
+          required
         />
       </label>
 
@@ -95,6 +101,7 @@ export default function DadosConta({
           value={cidade}
           onChange={(e) => setCidade(e.target.value)}
           className="border p-2 w-full"
+          required
         />
       </label>
 
@@ -105,6 +112,7 @@ export default function DadosConta({
           value={estado}
           onChange={(e) => setEstado(e.target.value)}
           className="border p-2 w-full"
+          required
         />
       </label>
 
@@ -115,6 +123,7 @@ export default function DadosConta({
           value={pais}
           onChange={(e) => setPais(e.target.value)}
           className="border p-2 w-full"
+          required
         />
       </label>
 
@@ -125,6 +134,7 @@ export default function DadosConta({
           value={cep}
           onChange={(e) => setCep(e.target.value)}
           className="border p-2 w-full"
+          required
         />
       </label>
       
