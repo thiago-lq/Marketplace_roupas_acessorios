@@ -12,6 +12,7 @@ import { ProductsProvider } from "./contexts/ProductsContext";
 import PrivateRoute from "./routes/PrivateRoute";
 import Busca from "./pages/Busca";
 import ProdutoPag from "./pages/ProdutoPag";
+import PaginaCarrinho from "./pages/PaginaCarrinho";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -73,6 +74,10 @@ function App() {
                    element={<ProdutoPag/>}
             />
 
+            <Route path="/PaginaCarrinho"
+                   element={<PaginaCarrinho/>}
+            />
+            
           </Routes>
           <CarrinhoFlutuante
             visivel={mostrarCarrinho}

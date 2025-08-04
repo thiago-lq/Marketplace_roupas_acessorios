@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function LancamentosScroll({ products, onAddToCart }) {
+export default function LancamentosScroll({ products }) {
   const [filtroGenero, setFiltroGenero] = useState("todos");
   const [subFiltroAberto, setSubFiltroAberto] = useState(false);
   const [subFiltro, setSubFiltro] = useState("");
@@ -206,7 +206,7 @@ export default function LancamentosScroll({ products, onAddToCart }) {
           )}
 
           {/* Grid dos produtos */}
-          <div className="overflow-y-auto snap-y snap-mandatory h-auto">
+          <div className="overflow-y-auto snap-y snap-mandatory max-h-[120vh]">
             <div className="grid grid-cols-2 md:grid-cols-5 md:gap-[15px] gap-3 sm:p-3 transition-all duration-500">
               {produtosSubFiltrados.map((product) => (
                 <Link to={`produto/${product.id}`}>
