@@ -31,9 +31,8 @@ export default function PerfilUsuario() {
   return (
     <div className="p-6 relative">
       <h1 className="text-2xl font-bold mb-4">{`Olá, ${nome}`} </h1>
-      <div className="flex gap-6">
-        <aside className="w-full max-w-45 md-[100px] mt-10">
-          <div className="flex flex-col gap-3">
+      <div className="flex flex-col md:flex-row gap-4 md:gap-6">
+        <aside className="w-full md:max-w-40 flex md:flex-col gap-2 mt-10 mb-10">
             <button
               onClick={() => handleFiltroClick("inicio")}
               className={`block w-full text-center p-3 shadow-md ${
@@ -64,7 +63,6 @@ export default function PerfilUsuario() {
             >
               Conta
             </button>
-          </div>
         </aside>
         <div className="flex-1">
           {filtroPagina === "inicio" && <Feed />}

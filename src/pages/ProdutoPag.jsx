@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useProducts } from "../contexts/ProductsContext";
 import { ProdutoEspecifico } from "../components/produtos";
 
-export default function ProdutoPag() {
+export default function ProdutoPag({onAddToCart}) {
   const { id } = useParams();
   const produtos = useProducts();
 
@@ -10,7 +10,7 @@ export default function ProdutoPag() {
 
   return (
     <div className="flex flex-wrap">
-      <ProdutoEspecifico produtoID={produtoID} />
+      <ProdutoEspecifico produtoID={produtoID} onAddToCart={onAddToCart}/>
     </div>
   );
 }

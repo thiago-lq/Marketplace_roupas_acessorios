@@ -41,7 +41,7 @@ function App() {
           </div>
 
           <Routes>
-            <Route path="/" element={<Home onAddToCart={handleAddToCart} />} />
+            <Route path="/" element={<Home />} />
 
             <Route
               path="/PerfilAdm"
@@ -67,11 +67,11 @@ function App() {
             />
 
             <Route path="/produto/:id"
-                   element={<ProdutoPag/>}
+                   element={<ProdutoPag onAddToCart={handleAddToCart} />}
             />
 
             <Route path="/Busca/produto/:id"
-                   element={<ProdutoPag/>}
+                   element={<ProdutoPag onAddToCart={handleAddToCart} />}
             />
 
             <Route path="/PaginaCarrinho"
