@@ -80,7 +80,7 @@ export default function PerfilAdm() {
     "Roxo", "Rosa", "Prata", "Dourado"
   ];
 
-  const tamanhosDisponiveis = ["PP", "P", "M", "G", "GG", "XG", "Único"];
+  const tamanhosDisponiveis = ["PP", "P", "M", "G", "GG", "XG", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45","Único"];
 
   useEffect(() => {
     const q = collection(db, "Produtos");
@@ -104,7 +104,10 @@ export default function PerfilAdm() {
       produtoEditando.subcategoria &&
       produtoEditando.imagem &&
       produtoEditando.imagensExtras &&
-      produtoEditando.exibicao
+      produtoEditando.descricao &&
+      produtoEditando.exibicao &&
+      produtoEditando.cores &&
+      produtoEditando.tamanhos
     ) {
       const categoriaValida = produtoEditando.categoria.toLowerCase();
       const subcategorias = subcategoriasPorGenero[categoriaValida] || [];
@@ -150,7 +153,7 @@ export default function PerfilAdm() {
   const cores = Array.isArray(produto.cores) ? produto.cores : [produto.cores].filter(Boolean);
   const tamanhos = Array.isArray(produto.tamanhos) ? produto.tamanhos : [produto.tamanhos].filter(Boolean);
 
-  const { nome, preco, categoria, subcategoria, imagem, imagensExtras, exibicao } = produto;
+  const { nome, preco, categoria, subcategoria, imagem, imagensExtras, exibicao, descricao } = produto;
 
   // Validação dos campos
   if (
@@ -160,6 +163,7 @@ export default function PerfilAdm() {
     !subcategoria ||
     !imagem ||
     !exibicao ||
+    !descricao ||
     cores.length === 0 ||
     tamanhos.length === 0
   ) {
@@ -204,7 +208,7 @@ export default function PerfilAdm() {
     const ref = doc(db, "Produtos", produtoEditando.id);
     const cores = Array.isArray(produtoEditando.cores) ? produtoEditando.cores : [produtoEditando.cores].filter(Boolean);
     const tamanhos = Array.isArray(produtoEditando.tamanhos) ? produtoEditando.tamanhos : [produtoEditando.tamanhos].filter(Boolean);
-    const { nome, preco, categoria, subcategoria, imagem, imagensExtras, exibicao } =
+    const { nome, preco, categoria, subcategoria, imagem, imagensExtras, exibicao, descricao } =
       produtoEditando;
     if (
       !nome ||
@@ -213,6 +217,7 @@ export default function PerfilAdm() {
       !subcategoria ||
       !imagem ||
       !exibicao ||
+      !descricao ||
       cores.length === 0 ||
       tamanhos.length === 0
     ) {
@@ -232,6 +237,7 @@ export default function PerfilAdm() {
       imagem,
       imagensExtras,
       exibicao,
+      descricao,
       cores,
       tamanhos,
     });

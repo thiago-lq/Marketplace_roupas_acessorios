@@ -45,15 +45,9 @@ export default function ProdutoTable({
       {tabMenu === "ListarProdutos" && (
         <>
           <div className="justify-between items-center m-5 flex">
-            <h2 className="text-3xl font-bold mb-6 text-gray-800">
+            <h2 className="text-3xl font-bold text-gray-800">
               Lista de Produtos
             </h2>
-
-            <div className="flex items-center gap-4 mb-5 w-full max-w-2xl">
-              <input type="text" placeholder="Pesquisar por nome..." value={pesquisa} onChange={(e) => setPesquisa(e.target.value)}
-              className="p-2 border rounded-lg flex-1" 
-              />
-            </div>
 
             {/* Botão para abrir modal de adicionar */}
             <button
@@ -61,10 +55,16 @@ export default function ProdutoTable({
                 setModalAbertoAdicionar(true);
                 resetarFormularioAdicionar();
               }}
-              className="mb-5 px-6 py-3 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition"
+              className="px-6 py-3 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition"
             >
               Adicionar Produto
             </button>
+          </div>
+
+          <div className="flex items-center mx-5 mb-10 w-max ">
+              <input type="text" placeholder="Pesquisar por nome..." value={pesquisa} onChange={(e) => setPesquisa(e.target.value)}
+              className="p-2 border rounded-lg flex-1" 
+              />
           </div>
 
           {/* ==== Desktop ==== */}

@@ -135,6 +135,20 @@ export default function ModalEditarProduto({
             />
           ))}
 
+          <textarea
+            name="descricao"
+            placeholder="Digite a descrição (máx. 400 palavras)"
+            className="w-full h-40 px-3 py-3 border border-gray-300 rounded-lg resize-none"
+            value={produtoEditando.descricao || ""}
+            onChange={(e) => {
+              const valor = e.target.value;
+              const palavras = valor.trim().split(/\s+/);
+              if (palavras.length <= 400) {
+                setProdutoEditando({ ...produtoEditando, descricao: valor });
+              }
+            }}
+            required
+          />
           <div className="flex flex-row gap-3">
             {quantidadeCampos < maxCampos && (
             <button type="button" onClick={adicionarCampo} className="flex justify-center rounded-2xl w-10 h-7 text-black hover:bg-black hover:text-white transition"

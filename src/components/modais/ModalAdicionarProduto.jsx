@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export default function ModalAdicionarProduto({
   aberto,
   aoFechar,
@@ -14,14 +16,27 @@ export default function ModalAdicionarProduto({
   maxCampos,
   adicionarCampo,
   removerCampo,
-  minCampos
+  minCampos,
 }) {
+  const [descricao, setDescricao] = useState("");
+
+  const handleDescricaoChange =(e) => {
+    const valor = e.target.value;
+    const palavras = valor.trim().split(/\s+/);
+
+    if (palavras.length <= 400) {
+      setDescricao(valor);
+    }
+  };
+  
   if (!aberto) return null;
 
   return (
     <div className="fixed inset-0 bg-[rgba(0,0,0,0.6)] flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-8 relative overflow-y-auto max-h-[90vh]">
-        <h3 className="text-2xl font-bold mb-6 text-gray-900">Adicionar Produto</h3>
+        <h3 className="text-2xl font-bold mb-6 text-gray-900">
+          Adicionar Produto
+        </h3>
         <form
           id="formularioAdicionar"
           onSubmit={aoSalvar}
@@ -50,7 +65,9 @@ export default function ModalAdicionarProduto({
             value={categoriaSelecionada}
             onChange={(e) => setCategoriaSelecionada(e.target.value)}
           >
-            <option value="" disabled>Selecione a categoria...</option>
+            <option value="" disabled>
+              Selecione a categoria...
+            </option>
             <option value="masculino">Masculino</option>
             <option value="feminino">Feminino</option>
           </select>
@@ -62,9 +79,13 @@ export default function ModalAdicionarProduto({
               className="w-full p-3 border border-gray-300 rounded-lg"
               defaultValue=""
             >
-              <option value="" disabled>Seleciona a subcategoria...</option>
+              <option value="" disabled>
+                Seleciona a subcategoria...
+              </option>
               {subcategoriasPorGenero[categoriaSelecionada]?.map((sub) => (
-                <option key={sub.value} value={sub.value}>{sub.label}</option>
+                <option key={sub.value} value={sub.value}>
+                  {sub.label}
+                </option>
               ))}
             </select>
           )}
@@ -77,9 +98,13 @@ export default function ModalAdicionarProduto({
               value={exibicao}
               onChange={(e) => setExibicao(e.target.value)}
             >
-              <option value="" disabled>Selecione onde exibir...</option>
+              <option value="" disabled>
+                Selecione onde exibir...
+              </option>
               {exibicaoPorGenero[categoriaSelecionada]?.map((sub) => (
-                <option key={sub.value} value={sub.value}>{sub.label}</option>
+                <option key={sub.value} value={sub.value}>
+                  {sub.label}
+                </option>
               ))}
             </select>
           )}
@@ -91,30 +116,46 @@ export default function ModalAdicionarProduto({
             className="w-full p-3 border border-gray-300 rounded-lg"
             required
           />
-          {Array.from({ length: quantidadeCampos}).map((_, index) => (
+          {Array.from({ length: quantidadeCampos }).map((_, index) => (
             <input
               key={index}
               type="url"
               name="imagensExtras"
-              placeholder={`URL da imagem ${index + 1}`}  
+              placeholder={`URL da imagem ${index + 1}`}
               className="w-full p-3 border border-gray-300 rounded-lg"
               required
             />
           ))}
           <div className="flex flex-row gap-3">
             {quantidadeCampos < maxCampos && (
-            <button type="button" onClick={adicionarCampo} className="flex justify-center rounded-2xl w-10 h-7 text-black hover:bg-black hover:text-white transition"
-            >
-              +
-            </button>
+              <button
+                type="button"
+                onClick={adicionarCampo}
+                className="flex justify-center rounded-2xl w-10 h-7 text-black hover:bg-black hover:text-white transition"
+              >
+                +
+              </button>
             )}
             {quantidadeCampos > minCampos && (
-              <button type="button" onClick={removerCampo} className="flex justify-center rounded-2xl w-10 h-7 text-black hover:bg-black hover:text-white transition">
+              <button
+                type="button"
+                onClick={removerCampo}
+                className="flex justify-center rounded-2xl w-10 h-7 text-black hover:bg-black hover:text-white transition"
+              >
                 -
               </button>
             )}
           </div>
-          
+
+          <textarea
+            name="descricao"
+            placeholder="Digite a descrição"
+            className="w-full h-40 px-3 py-3 border border-gray-300 rounded-lg resize-none"
+            value={descricao}
+            onChange={handleDescricaoChange}
+            required
+          />
+
           <div>
             <h3 className="font-semibold mb-2">Cores disponíveis</h3>
             <div className="flex flex-wrap gap-3">
@@ -131,12 +172,13 @@ export default function ModalAdicionarProduto({
             <div className="flex flex-wrap gap-3">
               {tamanhosDisponiveis.map((tamanho) => (
                 <label key={tamanho} className="flex items-center gap-1">
-                  <input type="checkbox" name="tamanhos" value={tamanho} /> {tamanho}
+                  <input type="checkbox" name="tamanhos" value={tamanho} />{" "}
+                  {tamanho}
                 </label>
               ))}
             </div>
           </div>
-            
+
           <div className="flex justify-between mt-6 gap-4">
             <button
               type="button"
