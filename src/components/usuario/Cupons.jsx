@@ -1,21 +1,26 @@
-export default function Cupons() {
-    return (
-        <div className="bg-gradient-to-r from-black via-gray-800 to-gray-400 snap-start flex-shrink-0 w-[250px] rounded-2xl shadow-lg p-3 
-                        border border-gray-200 transition-all duration-300 relative hover:border-black">
-        
-        <div>
-        {/* Valor grande */}
-        <h2 className="text-2xl font-bold text-white">R$ 75</h2>
-        
-        {/* Descrição do cupom */}
-        <p className="text-sm mt-2 text-white">Compras acima de R$ 200</p>
-        
-        {/* Validade */}
-        <p className="text-xs text-white mt-4">Válido até: 29/07/2025</p>
-        </div>
+export default function Cupons({ valor, condicao, validade }) {
+  return (
+    <div
+      className="bg-gradient-to-r from-black via-gray-800 to-gray-500 snap-start flex-shrink-0 
+                 w-[250px] rounded-2xl shadow-lg p-3 border border-gray-300 
+                 transition-all duration-300 hover:scale-105 hover:border-black relative"
+    >
+      {/* Valor grande */}
+      <h2 className="text-3xl font-bold text-white">R$ {valor}</h2>
 
-        </div>
+      {/* Descrição do cupom */}
+      <p className="text-sm mt-3 text-gray-200">{condicao}</p>
 
-        
-    );
+      {/* Validade */}
+      <p className="text-xs text-gray-300 mt-5">Válido até: {validade}</p>
+
+      {/* Botão usar */}
+      <button
+        className="absolute bottom-4 right-4 text-xs px-3 py-1 rounded-full 
+                   bg-white text-black font-semibold shadow hover:bg-gray-200 transition"
+      >
+        Usar
+      </button>
+    </div>
+  );
 }

@@ -1,16 +1,35 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { useState, useEffect } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebase/configs";
 
 export default function ModalLogin({ onClose, deslogar }) {
   const { cargo, loading } = useAuth();
+  const { user } = useAuth();
+  const [nome, setNome] = useState("");
+
+  useEffect(() => {
+      async function buscarNome() {
+        if (!user) return;
+  
+        if (user.displayName) {
+          setNome(user.displayName);
+        } else {
+          const ref = doc(db, "Usuarios", user.uid);
+          const snap = await getDoc(ref);
+          setNome(snap.exists() ? (snap.data().nome || "Usuário") : "Usuário");
+        }
+      }
+      buscarNome();
+    }, [user]);
 
   return (
     <div>
       <div className="fixed top-[4.5rem] right-2 w-80 max-h-[210vh] bg-white border border-gray-300 shadow-2xl rounded-xl z-50 p-3">
         <div className="flex justify-between">
-          <p className="text-xl font-semibold bg-gradient-to-r from-black via-gray-700 to-gray-800
-            bg-clip-text text-transparent mx-auto">
-            Bem vindo
+          <p className="text-xl font-semibold text-black mx-auto">
+            {`Bem vindo, ${nome}`}
           </p>
           <button
             onClick={onClose}
