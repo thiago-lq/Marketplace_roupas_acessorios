@@ -10,6 +10,11 @@ export default function ProdutoTable({
   resetarFormularioAdicionar,
 }) {
   const [tabMenu, setTabMenu] = useState("ListarProdutos");
+  const [pesquisa, setPesquisa] = useState("")
+
+  const produtosFiltrados = produtos.filter((p) =>
+    p.nome.toLowerCase().includes(pesquisa.toLowerCase())
+);
 
   return (
     <div className="w-full max-w-7xl bg-white rounded-2xl shadow-2xl">
@@ -39,17 +44,24 @@ export default function ProdutoTable({
 
       {tabMenu === "ListarProdutos" && (
         <>
-          <div className="justify-between items-center mt-5 mx-5 flex">
+          <div className="justify-between items-center m-5 flex">
             <h2 className="text-3xl font-bold mb-6 text-gray-800">
               Lista de Produtos
             </h2>
+
+            <div className="flex items-center gap-4 mb-5 w-full max-w-2xl">
+              <input type="text" placeholder="Pesquisar por nome..." value={pesquisa} onChange={(e) => setPesquisa(e.target.value)}
+              className="p-2 border rounded-lg flex-1" 
+              />
+            </div>
+
             {/* Botão para abrir modal de adicionar */}
             <button
               onClick={() => {
                 setModalAbertoAdicionar(true);
                 resetarFormularioAdicionar();
               }}
-              className="mb-6 px-6 py-3 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition"
+              className="mb-5 px-6 py-3 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition"
             >
               Adicionar Produto
             </button>
@@ -70,7 +82,7 @@ export default function ProdutoTable({
                 </tr>
               </thead>
               <tbody className="text-gray-700 text-sm">
-                {produtos.map((p) => (
+                {produtosFiltrados.map((p) => (
                   <tr
                     key={p.id}
                     className="bg-white hover:bg-gray-50 rounded-lg shadow-sm transition"
@@ -119,7 +131,7 @@ export default function ProdutoTable({
 
           {/* ==== Mobile ==== */}
           <div className="block md:hidden space-y-4 p-4">
-            {produtos.map((p) => (
+            {produtosFiltrados.map((p) => (
               <div key={p.id}
                    className="bg-white rounded-lg shadow-md p-4 flex items-center space-x-4"
               >

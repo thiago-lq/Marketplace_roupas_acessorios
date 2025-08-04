@@ -74,6 +74,14 @@ export default function PerfilAdm() {
     []
   );
 
+  const coresDisponiveis = [
+    "Preto", "Branco", "Cinza", "Azul", "Vermelho",
+    "Verde", "Amarelo", "Laranja", "Marrom", "Bege",
+    "Roxo", "Rosa", "Prata", "Dourado"
+  ];
+
+  const tamanhosDisponiveis = ["PP", "P", "M", "G", "GG", "XG", "Único"];
+
   useEffect(() => {
     const q = collection(db, "Produtos");
     const unsub = onSnapshot(q, (snapshot) => {
@@ -134,27 +142,44 @@ export default function PerfilAdm() {
   }
 
   const SalvaDB = async (e) => {
-    e.preventDefault();
-    const formulario = document.getElementById("formularioAdicionar");
-    const produto = serializeForm(formulario);
-    const { nome, preco, categoria, subcategoria, imagem, imagensExtras, exibicao } = produto;
-    if (
-      !nome ||
-      !preco ||
-      !categoria ||
-      !subcategoria ||
-      !imagem ||
-      !exibicao
-    ) {
-      alert("Por favor, preencha todos os campos.");
-      return;
-    }
-    if (!imagensExtras || imagensExtras.length === 0) {
-        alert("Por favor, preencha todos os campos.");
-      }
-    await addDoc(collection(db, "Produtos"), produto);
-    setModalAbertoAdicionar(false);
-  };
+  e.preventDefault();
+  const formulario = document.getElementById("formularioAdicionar");
+  const produto = serializeForm(formulario);
+
+  // Garante que cores e tamanhos sejam sempre arrays
+  const cores = Array.isArray(produto.cores) ? produto.cores : [produto.cores].filter(Boolean);
+  const tamanhos = Array.isArray(produto.tamanhos) ? produto.tamanhos : [produto.tamanhos].filter(Boolean);
+
+  const { nome, preco, categoria, subcategoria, imagem, imagensExtras, exibicao } = produto;
+
+  // Validação dos campos
+  if (
+    !nome ||
+    !preco ||
+    !categoria ||
+    !subcategoria ||
+    !imagem ||
+    !exibicao ||
+    cores.length === 0 ||
+    tamanhos.length === 0
+  ) {
+    alert("Por favor, preencha todos os campos.");
+    return;
+  }
+  if (!imagensExtras || imagensExtras.length === 0) {
+    alert("Por favor, preencha todos os campos.");
+    return;
+  }
+
+  // Salva no Firebase incluindo arrays
+  await addDoc(collection(db, "Produtos"), {
+    ...produto,
+    cores,
+    tamanhos,
+  });
+
+  setModalAbertoAdicionar(false);
+};
 
   function resetarFormularioAdicionar() {
     setCategoriaSelecionada("");
@@ -177,6 +202,8 @@ export default function PerfilAdm() {
   async function salvarEdicao(e) {
     e.preventDefault();
     const ref = doc(db, "Produtos", produtoEditando.id);
+    const cores = Array.isArray(produtoEditando.cores) ? produtoEditando.cores : [produtoEditando.cores].filter(Boolean);
+    const tamanhos = Array.isArray(produtoEditando.tamanhos) ? produtoEditando.tamanhos : [produtoEditando.tamanhos].filter(Boolean);
     const { nome, preco, categoria, subcategoria, imagem, imagensExtras, exibicao } =
       produtoEditando;
     if (
@@ -185,7 +212,9 @@ export default function PerfilAdm() {
       !categoria ||
       !subcategoria ||
       !imagem ||
-      !exibicao
+      !exibicao ||
+      cores.length === 0 ||
+      tamanhos.length === 0
     ) {
       alert("Por favor, preencha todos os campos.");
       return;
@@ -203,6 +232,8 @@ export default function PerfilAdm() {
       imagem,
       imagensExtras,
       exibicao,
+      cores,
+      tamanhos,
     });
 
     setModalAbertoEditar(false);
@@ -234,6 +265,8 @@ export default function PerfilAdm() {
         setExibicao={setExibicao}
         subcategoriasPorGenero={subcategoriasPorGenero}
         exibicaoPorGenero={exibicaoPorGenero}
+        coresDisponiveis={coresDisponiveis}
+        tamanhosDisponiveis={tamanhosDisponiveis}
         resetarFormulario={resetarFormularioAdicionar}
         quantidadeCampos={quantidadeCampos}
         maxCampos={maxCampos}
@@ -251,6 +284,8 @@ export default function PerfilAdm() {
         setProdutoEditando={setProdutoEditando}
         subcategoriasPorGenero={subcategoriasPorGenero}
         exibicaoPorGenero={exibicaoPorGenero}
+        coresDisponiveis={coresDisponiveis}
+        tamanhosDisponiveis={tamanhosDisponiveis}
         quantidadeCampos={quantidadeCampos}
         maxCampos={maxCampos}
         adicionarCampo={adicionarCampo}

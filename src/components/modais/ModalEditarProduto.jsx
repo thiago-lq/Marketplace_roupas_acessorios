@@ -6,6 +6,8 @@ export default function ModalEditarProduto({
   setProdutoEditando,
   subcategoriasPorGenero,
   exibicaoPorGenero,
+  coresDisponiveis,
+  tamanhosDisponiveis,
   quantidadeCampos,
   maxCampos,
   adicionarCampo,
@@ -19,6 +21,7 @@ export default function ModalEditarProduto({
       <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-8 relative overflow-y-auto max-h-[90vh]">
         <h3 className="text-2xl font-bold mb-6 text-gray-900">Editar Produto</h3>
         <form onSubmit={aoSalvar} className="space-y-6">
+          <h1>Nome</h1>
           <input
             type="text"
             placeholder="Nome"
@@ -32,6 +35,7 @@ export default function ModalEditarProduto({
             className="w-full p-3 border border-gray-300 rounded-lg"
             required
           />
+          <h1>Preço</h1>
           <input
             type="number"
             placeholder="Preço"
@@ -47,6 +51,7 @@ export default function ModalEditarProduto({
             step="0.01"
             required
           />
+          <h1>Categoria</h1>
           <select
             value={produtoEditando.categoria}
             onChange={(e) =>
@@ -62,6 +67,7 @@ export default function ModalEditarProduto({
             <option value="masculino">Masculino</option>
             <option value="feminino">Feminino</option>
           </select>
+          <h1>Subcategoria</h1>
           <select
             value={produtoEditando.subcategoria || ""}
             onChange={(e) =>
@@ -78,6 +84,7 @@ export default function ModalEditarProduto({
               <option key={sub.value} value={sub.value}>{sub.label}</option>
             ))}
           </select>
+          Exibição
           <select
             value={produtoEditando.exibicao || ""}
             onChange={(e) =>
@@ -94,6 +101,7 @@ export default function ModalEditarProduto({
               <option key={sub.value} value={sub.value}>{sub.label}</option>
             ))}
           </select>
+          <h1>Imagem principal</h1>
           <input
             type="url"
             placeholder="URL da imagem principal do produto"
@@ -107,6 +115,7 @@ export default function ModalEditarProduto({
             className="w-full p-3 border border-gray-300 rounded-lg"
             required
           />
+          <h1>Imagens extras</h1>
           {Array.from({ length: quantidadeCampos}).map((_, index) => (
             <input
               key={index}
@@ -125,6 +134,7 @@ export default function ModalEditarProduto({
               required
             />
           ))}
+
           <div className="flex flex-row gap-3">
             {quantidadeCampos < maxCampos && (
             <button type="button" onClick={adicionarCampo} className="flex justify-center rounded-2xl w-10 h-7 text-black hover:bg-black hover:text-white transition"
@@ -138,6 +148,49 @@ export default function ModalEditarProduto({
               </button>
             )}
           </div>
+
+          <div>
+              <h3 className="font-semibold mb-2">Cores disponíveis</h3>
+              <div className="flex flex-wrap gap-3">
+                {coresDisponiveis.map((cor) => (
+                  <label key={cor} className="flex items-center gap-1">
+                    <input type="checkbox" checked={produtoEditando.cores?.includes(cor) || false}
+                      onChange={(e) => {
+                        let novasCores = [...(produtoEditando.cores || [])];
+                        if (e.target.checked) {
+                          novasCores.push(cor);
+                        } else {
+                          novasCores = novasCores.filter((c) => c !== cor);
+                        }
+                        setProdutoEditando({ ...produtoEditando, cores: novasCores})
+                      }}
+                    /> {cor}
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h3 className="font-semibold mb-2">Tamanhos Disponíveis</h3>
+              <div className="flex flex-wrap gap-3">
+                {tamanhosDisponiveis.map((tamanho) => (
+                  <label key={tamanho} className="flex items-center gap-1">
+                    <input type="checkbox" checked={produtoEditando.tamanhos?.includes(tamanho) || false} 
+                      onChange={(e) => {
+                        let novosTamanhos = [...(produtoEditando.tamanhos || [])];
+                        if (e.target.checked) {
+                          novosTamanhos.push(tamanho);
+                        } else {
+                          novosTamanhos = novosTamanhos.filter((t) => t !== tamanho);
+                        }
+                        setProdutoEditando({...produtoEditando, tamanhos: novosTamanhos });
+                      }}
+                    /> {tamanho}
+                  </label>
+                ))}
+              </div>
+            </div>
+
           <div className="flex justify-between mt-6">
             <button
               type="button"

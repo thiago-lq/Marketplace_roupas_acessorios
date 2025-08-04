@@ -8,6 +8,8 @@ export default function ModalAdicionarProduto({
   setExibicao,
   subcategoriasPorGenero,
   exibicaoPorGenero,
+  coresDisponiveis,
+  tamanhosDisponiveis,
   quantidadeCampos,
   maxCampos,
   adicionarCampo,
@@ -112,8 +114,30 @@ export default function ModalAdicionarProduto({
               </button>
             )}
           </div>
-        
-          <div className="flex justify-end mt-6 gap-4">
+          
+          <div>
+            <h3 className="font-semibold mb-2">Cores disponíveis</h3>
+            <div className="flex flex-wrap gap-3">
+              {coresDisponiveis.map((cor) => (
+                <label key={cor} className="flex items-center gap-1">
+                  <input type="checkbox" name="cores" value={cor} /> {cor}
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h3 className="font-semibold mb-2">Tamanhos disponíveis</h3>
+            <div className="flex flex-wrap gap-3">
+              {tamanhosDisponiveis.map((tamanho) => (
+                <label key={tamanho} className="flex items-center gap-1">
+                  <input type="checkbox" name="tamanhos" value={tamanho} /> {tamanho}
+                </label>
+              ))}
+            </div>
+          </div>
+            
+          <div className="flex justify-between mt-6 gap-4">
             <button
               type="button"
               onClick={aoFechar}
