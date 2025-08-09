@@ -78,7 +78,7 @@ export default function PerfilAdm() {
   const coresDisponiveis = [
     "Preto", "Branco", "Cinza", "Azul", "Vermelho",
     "Verde", "Amarelo", "Laranja", "Marrom", "Bege",
-    "Roxo", "Rosa", "Prata", "Dourado"
+    "Roxo", "Rosa", "Prata", "Dourado", "Única"
   ];
 
   const tamanhosDisponiveis = [
@@ -210,9 +210,13 @@ export default function PerfilAdm() {
     }
   };
 
+   const [descricao, setDescricao] = useState("");
+
   function resetarFormularioAdicionar() {
     setCategoriaSelecionada("");
     setExibicao("");
+    setDescricao("");
+    setQuantidadeCampos(1);
     const form = document.getElementById("formularioAdicionar");
     if (form) form.reset();
   }
@@ -350,6 +354,8 @@ export default function PerfilAdm() {
         adicionarCampo={adicionarCampo}
         removerCampo={removerCampo}
         minCampos={minCampos}
+        setDescricao={setDescricao}
+        descricao={descricao}
       />
 
       {/* Modal Editar Produto */}

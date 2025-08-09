@@ -17,8 +17,9 @@ export default function ModalAdicionarProduto({
   adicionarCampo,
   removerCampo,
   minCampos,
+  setDescricao,
+  descricao
 }) {
-  const [descricao, setDescricao] = useState("");
 
   const handleDescricaoChange =(e) => {
     const valor = e.target.value;
