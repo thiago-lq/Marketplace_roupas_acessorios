@@ -1,4 +1,4 @@
-//Ele é um “corretor ortográfico do código”, mas ao invés de gramática de texto, ele verifica boas práticas, erros e padrões de estilo no código.
+// Corretor ortográfico do código mas ao invés de gramática de texto ele verifica boas práticas, erros e padrões de estilo no código.
 
 import js from '@eslint/js'
 import globals from 'globals'
