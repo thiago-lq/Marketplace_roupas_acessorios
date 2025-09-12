@@ -1,9 +1,26 @@
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useEffect, useState } from "react";
 
+// Função que renderiza o componente CarrinhoFlutuante
 export default function CarrinhoFlutuante({ visivel, produtos, onClose, onRemoveFromCart }) {
-  if (!visivel) return null;
+  const [animar, setAnimar] = useState(false);
+  const [mostrar, setMostrar] = useState(false);
 
+  useEffect(() => {
+    if (visivel) {
+      setMostrar(true);
+      setAnimar(true);
+    } else if (!visivel) {
+      setAnimar(false);
+      const timer = setTimeout(() => setMostrar(false), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [visivel, mostrar]);
+
+  if (!mostrar) return null;
+
+  // Alerts de confirmação para remover itens do carrinho
   const handleRemove = (index) => {
     Swal.fire({
       title: "Tem certeza?",
@@ -14,6 +31,15 @@ export default function CarrinhoFlutuante({ visivel, produtos, onClose, onRemove
       cancelButtonColor: "#d33",
       confirmButtonText: "Sim, remover",
       cancelButtonText: "Cancelar",
+      customClass: {
+        popup:'rounded-2xl shadow-2xl p-4 animate-zoomIn'
+      },
+      showClass: {
+        popup: 'animate-zoomIn'
+      },
+      hideClass: {
+        popup: 'animate-zoomOut'
+      }
     }).then((result) => {
       if (result.isConfirmed) {
         onRemoveFromCart(index);
@@ -23,7 +49,7 @@ export default function CarrinhoFlutuante({ visivel, produtos, onClose, onRemove
   };
 
   return (
-    <div className="fixed top-[4.5rem] right-6 w-80 max-h-[70vh] bg-white border border-gray-300 shadow-2xl rounded-xl z-50 p-4">
+    <div className={`fixed top-[4.5rem] right-6 w-80 max-h-[70vh] bg-white border border-gray-300 shadow-2xl rounded-xl z-50 p-4 ${animar ? "slideDownIn" : "slideDownOut"}`}>
       <div className="w-full max-w mb-2">
         <div className="flex justify-between">
           <h2 className="text-lg font-bold text-gray-800">Carrinho</h2>
