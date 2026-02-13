@@ -49,7 +49,7 @@ export default function CarrinhoFlutuante({ visivel, produtos, onClose, onRemove
   };
 
   return (
-    <div className={`fixed top-[4.5rem] right-6 w-100 max-h-[70vh] bg-white border border-gray-300 shadow-2xl rounded-xl z-50 p-4 ${animar ? "slideDownIn" : "slideDownOut"}`}>
+    <div className={`fixed top-[4.5rem] right-6 w-80 md:w-100 max-h-[70vh] bg-white border border-gray-300 shadow-2xl rounded-xl z-50 p-4 ${animar ? "slideDownIn" : "slideDownOut"}`}>
       <div className="w-full max-w mb-2">
         <div className="flex justify-between">
           <h2 className="text-lg font-bold text-gray-800">Carrinho</h2>
