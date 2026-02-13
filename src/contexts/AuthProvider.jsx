@@ -20,7 +20,14 @@ export function AuthProvider({ children }) {
       if (user) {
         const ref = doc(db, "Funcionarios", user.uid);
         const snap = await getDoc(ref);
-        setCargo(snap.exists() ? snap.data().cargo : null);
+        
+        if (snap.exists()) {
+          setCargo(snap.data()?.cargo);
+        } else {
+          console.log("Documento do funcionário não encontrado");
+          setCargo(null);
+        }
+        
         setUser(user);
       } else {
         setUser(null);

@@ -30,16 +30,6 @@ export default function ProdutoTable({
         >
           Listar Produtos
         </button>
-        <button
-          className={`text-center text-lg font-semibold ${
-            tabMenu === "CriarCupons"
-              ? "text-xl font-bold border-b-2 border-black"
-              : ""
-          }`}
-          onClick={() => setTabMenu("CriarCupons")}
-        >
-          Criar Cupons
-        </button>
       </div>
 
       {tabMenu === "ListarProdutos" && (
