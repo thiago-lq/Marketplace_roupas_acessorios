@@ -91,7 +91,7 @@ export default function CarrinhoFlutuante({ visivel, produtos, onClose, onRemove
       )}
       {produtos.length === 0 ? null : (
         <Link to="/PaginaCarrinho">
-          <div className="w-full flex justify-end items-center">
+          <div className="w-full flex justify-end items-center mt-3">
             <div className="w-max text-sm bg-white hover:bg-black hover:text-white rounded-xl px-2">
               <button>Ir ao carrinho</button>
             </div>

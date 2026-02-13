@@ -13,6 +13,17 @@ export default function PaginaCarrinho({
   const [cupom, setCupom] = useState("");
   const [cupomAplicado, setCupomAplicado] = useState("");
 
+  // Estados para dados de pagamento
+  const [dadosCartao, setDadosCartao] = useState({
+    numero: "",
+    nome: "",
+    validade: "",
+    cvv: "",
+  });
+  const [dadosBoleto, setDadosBoleto] = useState(null);
+  const [dadosPix, setDadosPix] = useState(null);
+  const [etapaPagamento, setEtapaPagamento] = useState("selecao"); // selecao, processando, confirmado
+
   // Cupons fictícios
   const CUPONS = {
     BEMVINDO10: 10,
@@ -33,19 +44,20 @@ export default function PaginaCarrinho({
   // Aplica desconto do Pix (5%)
   const descontoPix = metodoPagamento === "Pix" ? subtotal * 0.05 : 0;
 
-  // Desconto total (cupom + Pix)
+  // Desconto total
   const descontoTotal = descontoCupom + descontoPix;
-
-  // Total final com descontos aplicados
   const totalCarrinho = subtotal - descontoTotal;
   const valorParcela = totalCarrinho / parcelas;
 
-  // Efeito para resetar parcelas quando muda o método de pagamento
   useEffect(() => {
     setParcelas(1);
+    // Resetar dados de pagamento ao mudar método
+    setDadosCartao({ numero: "", nome: "", validade: "", cvv: "" });
+    setDadosBoleto(null);
+    setDadosPix(null);
+    setEtapaPagamento("selecao");
   }, [metodoPagamento]);
 
-  // Alerts de confirmação para remover itens do carrinho
   const handleRemove = (index) => {
     Swal.fire({
       title: "Tem certeza?",
@@ -57,13 +69,7 @@ export default function PaginaCarrinho({
       confirmButtonText: "Sim, remover",
       cancelButtonText: "Cancelar",
       customClass: {
-        popup: "rounded-2xl shadow-2xl p-4 animate-zoomIn",
-      },
-      showClass: {
-        popup: "animate-zoomIn",
-      },
-      hideClass: {
-        popup: "animate-zoomOut",
+        popup: "rounded-2xl shadow-2xl p-4",
       },
     }).then((result) => {
       if (result.isConfirmed) {
@@ -77,7 +83,6 @@ export default function PaginaCarrinho({
     });
   };
 
-  // Função para aplicar cupom
   const handleAplicarCupom = () => {
     const cupomUpper = cupom.toUpperCase().trim();
 
@@ -112,43 +117,80 @@ export default function PaginaCarrinho({
     }
   };
 
-  // Alerta de confirmação de compra
-  const handleFinalizarCompra = () => {
-    if (!metodoPagamento) {
+  const handleGerarBoleto = () => {
+    const codigoBoleto =
+      "34191.79001 01043.510047 91020.150008 9 88110000026000";
+    const dataVencimento = new Date();
+    dataVencimento.setDate(dataVencimento.getDate() + 3);
+
+    setDadosBoleto({
+      codigo: codigoBoleto,
+      vencimento: dataVencimento.toLocaleDateString("pt-BR"),
+      valor: totalCarrinho.toFixed(2),
+    });
+    setEtapaPagamento("processando");
+  };
+
+  const handleGerarPix = () => {
+    const codigoPix =
+      "00020126580014BR.GOV.BCB.PIX0136a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t05204000053039865405260.005802BR5913Fulano de Tal6008BRASILIA62070503***6304E2B4";
+
+    setDadosPix({
+      codigo: codigoPix,
+      qrCode:
+        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='white'/%3E%3Cpath d='M40 40 L160 40 L160 160 L40 160 Z' fill='none' stroke='black' stroke-width='2'/%3E%3C/svg%3E",
+      expiracao: "30 minutos",
+    });
+    setEtapaPagamento("processando");
+  };
+
+  const handleProcessarPagamentoCartao = () => {
+    // Validação básica
+    if (
+      !dadosCartao.numero ||
+      !dadosCartao.nome ||
+      !dadosCartao.validade ||
+      !dadosCartao.cvv
+    ) {
       Swal.fire({
-        title: "Atenção!",
-        text: "Por favor, selecione um método de pagamento.",
+        title: "Campos obrigatórios",
+        text: "Preencha todos os dados do cartão.",
         icon: "warning",
         confirmButtonColor: "#000",
-        confirmButtonText: "OK",
       });
       return;
     }
 
-    if (produtos.length === 0) {
+    if (dadosCartao.numero.replace(/\s/g, "").length < 16) {
       Swal.fire({
-        title: "Carrinho vazio!",
-        text: "Adicione produtos ao carrinho antes de finalizar a compra.",
-        icon: "warning",
+        title: "Número inválido",
+        text: "Digite um número de cartão válido.",
+        icon: "error",
         confirmButtonColor: "#000",
-        confirmButtonText: "OK",
       });
       return;
     }
 
+    setEtapaPagamento("processando");
+
+    // Simulação de processamento
+    setTimeout(() => {
+      setEtapaPagamento("confirmado");
+      finalizarCompra();
+    }, 2000);
+  };
+
+  const finalizarCompra = () => {
     Swal.fire({
       title: "Compra confirmada!",
       html: `
-        <div class="text-left">
-          <p class="mb-2 font-semibold">✅ Pedido realizado com sucesso!</p>
+        <div class="text-left text-sm">
+          <p class="mb-2 font-semibold">Pedido realizado com sucesso!</p>
           <p class="mb-2">Pagamento: <strong>${metodoPagamento}</strong></p>
           ${parcelas > 1 ? `<p class="mb-2">${parcelas}x de R$ ${valorParcela.toFixed(2)}</p>` : ""}
-          ${cupomAplicado ? `<p class="mb-2 text-green-600">Desconto cupom (${CUPONS[cupomAplicado]}%): -R$ ${descontoCupom.toFixed(2)}</p>` : ""}
-          ${metodoPagamento === "Pix" ? `<p class="mb-2 text-green-600">Desconto Pix (5%): -R$ ${descontoPix.toFixed(2)}</p>` : ""}
-          ${descontoTotal > 0 ? `<p class="mb-2 font-semibold">Total de descontos: -R$ ${descontoTotal.toFixed(2)}</p>` : ""}
-          <p class="mb-2 text-lg font-bold">Total final: <span class="text-green-600">R$ ${totalCarrinho.toFixed(2)}</span></p>
-          <p class="text-sm text-gray-600 mt-4">Obrigado por comprar conosco!</p>
-          <p class="text-xs text-gray-500 mt-2">Seu carrinho foi esvaziado.</p>
+          ${cupomAplicado ? `<p class="mb-2 text-green-600">Desconto: -R$ ${descontoCupom.toFixed(2)}</p>` : ""}
+          <p class="mb-2 text-lg font-bold">Total: R$ ${totalCarrinho.toFixed(2)}</p>
+          <p class="text-xs text-gray-600 mt-4">Obrigado por comprar conosco!</p>
         </div>
       `,
       icon: "success",
@@ -158,44 +200,59 @@ export default function PaginaCarrinho({
         popup: "rounded-2xl shadow-2xl p-4",
       },
     }).then(() => {
-      // Limpa o carrinho após a compra
       onClearCart();
-
-      // Reseta os estados locais
       setMetodoPagamento("");
       setParcelas(1);
       setCupom("");
       setCupomAplicado("");
-
-      // Redireciona para a página inicial
+      setEtapaPagamento("selecao");
       navigate("/");
     });
   };
 
-  return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Seus produtos</h1>
+  const formatarNumeroCartao = (value) => {
+    const v = value.replace(/\s/g, "").replace(/\D/g, "").substring(0, 16);
+    const parts = [];
+    for (let i = 0; i < v.length; i += 4) {
+      parts.push(v.substring(i, i + 4));
+    }
+    return parts.length ? parts.join(" ") : value;
+  };
 
-      {/* Lista de produtos */}
-      <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+  const formatarValidade = (value) => {
+    const v = value.replace(/\D/g, "").substring(0, 4);
+    if (v.length >= 3) {
+      return v.substring(0, 2) + "/" + v.substring(2);
+    }
+    return v;
+  };
+
+  return (
+    <div className="p-4 sm:p-6 max-w-4xl mx-auto">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">
+        Seus produtos
+      </h1>
+
+      <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
         {produtos.length > 0 ? (
           <>
+            {/* Lista de produtos - mobile first */}
             <ul className="space-y-3 mb-4 max-h-96 overflow-y-auto">
               {produtos.map((item, index) => (
                 <li
                   key={index}
-                  className="flex justify-between items-center border-b pb-2"
+                  className="flex flex-col sm:flex-row sm:justify-between sm:items-center border-b pb-3 gap-2"
                 >
-                  <div className="text-sm font-medium text-gray-700 truncate flex-1">
+                  <div className="text-sm font-medium text-gray-700">
                     {item.nome}
                   </div>
-                  <div className="flex items-center gap-2 ml-4">
+                  <div className="flex items-center justify-between sm:justify-end gap-2">
                     <div className="text-sm font-semibold text-green-600">
                       R$ {Number(item.preco).toFixed(2)}
                     </div>
                     <button
                       onClick={() => handleRemove(index)}
-                      className="text-red-600 hover:text-red-800 text-xs font-semibold px-2 py-1 rounded bg-red-100"
+                      className="text-red-600 hover:text-red-800 text-xs font-semibold px-3 py-1.5 rounded bg-red-100"
                     >
                       Remover
                     </button>
@@ -204,7 +261,7 @@ export default function PaginaCarrinho({
               ))}
             </ul>
 
-            {/* Botão para limpar todo o carrinho */}
+            {/* Botão limpar carrinho */}
             <div className="flex justify-end mb-4">
               <button
                 onClick={() => {
@@ -219,7 +276,6 @@ export default function PaginaCarrinho({
                     cancelButtonText: "Cancelar",
                   }).then((result) => {
                     if (result.isConfirmed) {
-                      // Usa a função onClearCart que já existe para limpar tudo de uma vez
                       onClearCart();
                       Swal.fire(
                         "Limpo!",
@@ -229,66 +285,60 @@ export default function PaginaCarrinho({
                     }
                   });
                 }}
-                className="text-red-600 hover:text-red-800 text-sm font-semibold px-3 py-1 rounded bg-red-100"
+                className="text-red-600 hover:text-red-800 text-sm font-semibold px-3 py-1.5 rounded bg-red-100"
               >
                 Limpar carrinho
               </button>
             </div>
 
-            {/* Resumo do carrinho */}
+            {/* Resumo */}
             <div className="border-t pt-4">
               <div className="space-y-2 mb-4">
-                <div className="flex justify-between items-center text-sm">
+                <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Subtotal:</span>
                   <span>R$ {subtotal.toFixed(2)}</span>
                 </div>
 
-                {/* Descontos aplicados */}
                 {cupomAplicado && (
-                  <div className="flex justify-between items-center text-sm text-green-600">
-                    <span>Desconto cupom ({CUPONS[cupomAplicado]}%):</span>
+                  <div className="flex justify-between text-sm text-green-600">
+                    <span>Desconto ({CUPONS[cupomAplicado]}%):</span>
                     <span>- R$ {descontoCupom.toFixed(2)}</span>
                   </div>
                 )}
 
                 {metodoPagamento === "Pix" && (
-                  <div className="flex justify-between items-center text-sm text-green-600">
+                  <div className="flex justify-between text-sm text-green-600">
                     <span>Desconto Pix (5%):</span>
                     <span>- R$ {descontoPix.toFixed(2)}</span>
                   </div>
                 )}
 
-                {descontoTotal > 0 && (
-                  <div className="flex justify-between items-center text-sm font-semibold text-green-600 border-t border-green-200 pt-2 mt-2">
-                    <span>Total de descontos:</span>
-                    <span>- R$ {descontoTotal.toFixed(2)}</span>
-                  </div>
-                )}
-
-                <div className="flex justify-between items-center text-lg font-bold border-t pt-2 mt-2">
-                  <span>Total final:</span>
+                <div className="flex justify-between text-lg font-bold border-t pt-2 mt-2">
+                  <span>Total:</span>
                   <span className="text-green-600">
                     R$ {totalCarrinho.toFixed(2)}
                   </span>
                 </div>
               </div>
 
-              {/* Seção de cupom */}
-              <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-                <h4 className="font-medium mb-2">Cupom de desconto:</h4>
-                <div className="flex gap-2">
+              {/* Cupom */}
+              <div className="mb-6 p-3 sm:p-4 bg-gray-50 rounded-lg">
+                <h4 className="font-medium mb-2 text-sm sm:text-base">
+                  Cupom de desconto:
+                </h4>
+                <div className="flex flex-col sm:flex-row gap-2">
                   <input
                     type="text"
                     value={cupom}
                     onChange={(e) => setCupom(e.target.value)}
                     placeholder="Digite seu cupom"
-                    className="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="flex-1 p-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     disabled={cupomAplicado}
                   />
                   <button
                     onClick={handleAplicarCupom}
                     disabled={cupomAplicado}
-                    className={`px-4 py-2 rounded-lg font-semibold transition ${
+                    className={`px-4 py-2 text-sm rounded-lg font-semibold transition ${
                       cupomAplicado
                         ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                         : "bg-blue-600 hover:bg-blue-700 text-white"
@@ -299,142 +349,263 @@ export default function PaginaCarrinho({
                 </div>
                 {cupomAplicado && (
                   <div className="mt-2 flex justify-between items-center">
-                    <span className="text-sm text-green-600">
+                    <span className="text-xs sm:text-sm text-green-600">
                       Cupom {cupomAplicado} aplicado!
                     </span>
                     <button
-                      onClick={() => {
-                        setCupomAplicado("");
-                      }}
+                      onClick={() => setCupomAplicado("")}
                       className="text-xs text-red-600 hover:text-red-800"
                     >
-                      Remover cupom
+                      Remover
                     </button>
                   </div>
                 )}
+                {/* Lista de cupons disponíveis */}
                 <div className="mt-2 text-xs text-gray-500">
                   Cupons disponíveis: BEMVINDO10, BLACKFRIDA, FRETEGRATIS,
                   NATAL25, PRIMAVERA
                 </div>
               </div>
 
-              {/* Opções de pagamento fictícias */}
+              {/* Métodos de pagamento */}
               <div className="space-y-4 mb-6">
-                <h3 className="font-semibold text-lg">Método de pagamento:</h3>
+                <h3 className="font-semibold text-base sm:text-lg">
+                  Método de pagamento:
+                </h3>
 
-                <div className="grid grid-cols-2 gap-3">
-                  <label className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-                    <input
-                      type="radio"
-                      name="pagamento"
-                      value="Cartão de Crédito"
-                      checked={metodoPagamento === "Cartão de Crédito"}
-                      onChange={(e) => setMetodoPagamento(e.target.value)}
-                      className="mr-2"
-                    />
-                    <span>Cartão de Crédito</span>
-                  </label>
-
-                  <label className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-                    <input
-                      type="radio"
-                      name="pagamento"
-                      value="Cartão de Débito"
-                      checked={metodoPagamento === "Cartão de Débito"}
-                      onChange={(e) => setMetodoPagamento(e.target.value)}
-                      className="mr-2"
-                    />
-                    <span>Cartão de Débito</span>
-                  </label>
-
-                  <label className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-                    <input
-                      type="radio"
-                      name="pagamento"
-                      value="Pix"
-                      checked={metodoPagamento === "Pix"}
-                      onChange={(e) => setMetodoPagamento(e.target.value)}
-                      className="mr-2"
-                    />
-                    <span>Pix (5% de desconto)</span>
-                  </label>
-
-                  <label className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-                    <input
-                      type="radio"
-                      name="pagamento"
-                      value="Boleto"
-                      checked={metodoPagamento === "Boleto"}
-                      onChange={(e) => setMetodoPagamento(e.target.value)}
-                      className="mr-2"
-                    />
-                    <span>Boleto Bancário</span>
-                  </label>
-
-                  <label className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-                    <input
-                      type="radio"
-                      name="pagamento"
-                      value="PayPal"
-                      checked={metodoPagamento === "PayPal"}
-                      onChange={(e) => setMetodoPagamento(e.target.value)}
-                      className="mr-2"
-                    />
-                    <span>PayPal</span>
-                  </label>
-
-                  <label className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-                    <input
-                      type="radio"
-                      name="pagamento"
-                      value="Google Pay"
-                      checked={metodoPagamento === "Google Pay"}
-                      onChange={(e) => setMetodoPagamento(e.target.value)}
-                      className="mr-2"
-                    />
-                    <span>Google Pay</span>
-                  </label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {[
+                    "Cartão de Crédito",
+                    "Cartão de Débito",
+                    "Pix",
+                    "Boleto",
+                    "PayPal",
+                    "Google Pay",
+                  ].map((metodo) => (
+                    <label
+                      key={metodo}
+                      className={`flex items-center p-3 border rounded-lg cursor-pointer transition ${
+                        metodoPagamento === metodo
+                          ? "border-black bg-gray-50"
+                          : "hover:bg-gray-50"
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="pagamento"
+                        value={metodo}
+                        checked={metodoPagamento === metodo}
+                        onChange={(e) => setMetodoPagamento(e.target.value)}
+                        className="mr-2"
+                      />
+                      <span className="text-sm">{metodo}</span>
+                    </label>
+                  ))}
                 </div>
 
-                {/* Opção de parcelamento (só aparece para cartão de crédito) */}
-                {metodoPagamento === "Cartão de Crédito" && (
-                  <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-                    <label className="block mb-2 font-medium">
-                      Número de parcelas:
-                    </label>
-                    <select
-                      value={parcelas}
-                      onChange={(e) => setParcelas(Number(e.target.value))}
-                      className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                {/* Formulário do Cartão */}
+                {metodoPagamento === "Cartão de Crédito" &&
+                  etapaPagamento === "selecao" && (
+                    <div className="mt-4 p-4 bg-gray-50 rounded-lg space-y-3">
+                      <h4 className="font-medium text-sm">Dados do cartão:</h4>
+
+                      <input
+                        type="text"
+                        placeholder="Número do cartão"
+                        value={dadosCartao.numero}
+                        onChange={(e) =>
+                          setDadosCartao({
+                            ...dadosCartao,
+                            numero: formatarNumeroCartao(e.target.value),
+                          })
+                        }
+                        className="w-full p-2 text-sm border rounded-lg"
+                        maxLength="19"
+                      />
+
+                      <input
+                        type="text"
+                        placeholder="Nome do titular"
+                        value={dadosCartao.nome}
+                        onChange={(e) =>
+                          setDadosCartao({
+                            ...dadosCartao,
+                            nome: e.target.value,
+                          })
+                        }
+                        className="w-full p-2 text-sm border rounded-lg"
+                      />
+
+                      <div className="grid grid-cols-2 gap-2">
+                        <input
+                          type="text"
+                          placeholder="MM/AA"
+                          value={dadosCartao.validade}
+                          onChange={(e) =>
+                            setDadosCartao({
+                              ...dadosCartao,
+                              validade: formatarValidade(e.target.value),
+                            })
+                          }
+                          className="p-2 text-sm border rounded-lg"
+                          maxLength="5"
+                        />
+                        <input
+                          type="text"
+                          placeholder="CVV"
+                          value={dadosCartao.cvv}
+                          onChange={(e) =>
+                            setDadosCartao({
+                              ...dadosCartao,
+                              cvv: e.target.value
+                                .replace(/\D/g, "")
+                                .substring(0, 3),
+                            })
+                          }
+                          className="p-2 text-sm border rounded-lg"
+                          maxLength="3"
+                        />
+                      </div>
+
+                      {/* Parcelamento */}
+                      <div className="mt-4">
+                        <label className="block mb-2 text-sm font-medium">
+                          Número de parcelas:
+                        </label>
+                        <select
+                          value={parcelas}
+                          onChange={(e) => setParcelas(Number(e.target.value))}
+                          className="w-full p-2 text-sm border rounded-lg"
+                        >
+                          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(
+                            (num) => (
+                              <option key={num} value={num}>
+                                {num}x de R$ {(totalCarrinho / num).toFixed(2)}
+                                {num === 1 ? " (à vista)" : " sem juros"}
+                              </option>
+                            ),
+                          )}
+                        </select>
+                      </div>
+
+                      <button
+                        onClick={handleProcessarPagamentoCartao}
+                        className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg text-sm"
+                      >
+                        Pagar com cartão
+                      </button>
+                    </div>
+                  )}
+
+                {/* Pix */}
+                {metodoPagamento === "Pix" && etapaPagamento === "selecao" && (
+                  <div className="mt-4 p-4 bg-gray-50 rounded-lg text-center">
+                    <p className="text-sm mb-4">
+                      Ganhe 5% de desconto pagando com Pix!
+                    </p>
+                    <button
+                      onClick={handleGerarPix}
+                      className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg text-sm"
                     >
-                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((num) => (
-                        <option key={num} value={num}>
-                          {num}x de R$ {(totalCarrinho / num).toFixed(2)}
-                          {num === 1 ? " (à vista)" : " (sem juros)"}
-                        </option>
-                      ))}
-                    </select>
+                      Gerar código Pix
+                    </button>
+                  </div>
+                )}
+
+                {metodoPagamento === "Pix" && dadosPix && (
+                  <div className="mt-4 p-4 bg-gray-50 rounded-lg text-center">
+                    <div className="mb-4">
+                      <img
+                        src={dadosPix.qrCode}
+                        alt="QR Code Pix"
+                        className="w-48 h-48 mx-auto"
+                      />
+                    </div>
+                    <p className="text-xs bg-white p-2 rounded border mb-2 break-all">
+                      {dadosPix.codigo}
+                    </p>
+                    <p className="text-xs text-gray-500 mb-4">
+                      Código válido por {dadosPix.expiracao}
+                    </p>
+                    <button
+                      onClick={() =>
+                        navigator.clipboard.writeText(dadosPix.codigo)
+                      }
+                      className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg text-sm mr-2"
+                    >
+                      Copiar código
+                    </button>
+                    <button
+                      onClick={finalizarCompra}
+                      className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg text-sm"
+                    >
+                      Já paguei
+                    </button>
+                  </div>
+                )}
+
+                {/* Boleto */}
+                {metodoPagamento === "Boleto" &&
+                  etapaPagamento === "selecao" && (
+                    <div className="mt-4 p-4 bg-gray-50 rounded-lg text-center">
+                      <button
+                        onClick={handleGerarBoleto}
+                        className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg text-sm"
+                      >
+                        Gerar boleto
+                      </button>
+                    </div>
+                  )}
+
+                {metodoPagamento === "Boleto" && dadosBoleto && (
+                  <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                    <p className="text-sm font-medium mb-2">Boleto gerado:</p>
+                    <p className="text-xs bg-white p-2 rounded border mb-2 font-mono break-all">
+                      {dadosBoleto.codigo}
+                    </p>
+                    <p className="text-xs text-gray-600 mb-2">
+                      Vencimento: {dadosBoleto.vencimento}
+                    </p>
+                    <p className="text-xs text-gray-600 mb-4">
+                      Valor: R$ {dadosBoleto.valor}
+                    </p>
+                    <button
+                      onClick={() =>
+                        navigator.clipboard.writeText(dadosBoleto.codigo)
+                      }
+                      className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg text-sm mr-2"
+                    >
+                      Copiar código
+                    </button>
+                    <button
+                      onClick={finalizarCompra}
+                      className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg text-sm"
+                    >
+                      Já paguei
+                    </button>
+                  </div>
+                )}
+
+                {/* Loading */}
+                {etapaPagamento === "processando" && (
+                  <div className="text-center py-8">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <p className="text-sm text-gray-600">
+                      Processando pagamento...
+                    </p>
                   </div>
                 )}
               </div>
-
-              {/* Botão de finalizar compra */}
-              <button
-                onClick={handleFinalizarCompra}
-                className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 transform hover:scale-105"
-              >
-                Finalizar Compra
-              </button>
             </div>
           </>
         ) : (
           <div className="text-center py-12">
-            <p className="text-gray-500 text-lg mb-4">
+            <p className="text-gray-500 text-base sm:text-lg mb-4">
               Seu carrinho está vazio
             </p>
             <button
               onClick={() => navigate("/")}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-200"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg text-sm sm:text-base"
             >
               Continuar comprando
             </button>

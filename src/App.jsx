@@ -79,11 +79,13 @@ function App() {
             <Route
               path="/PaginaCarrinho"
               element={
-                <PaginaCarrinho
-                  produtos={cart}
-                  onRemoveFromCart={handleRemoveFromCart}
-                  onClearCart={handleClearCart} // Nova prop
-                />
+                <PrivateRoute>
+                  <PaginaCarrinho
+                    produtos={cart}
+                    onRemoveFromCart={handleRemoveFromCart}
+                    onClearCart={handleClearCart} // Nova prop
+                  />
+                </PrivateRoute>
               }
             />
           </Routes>
