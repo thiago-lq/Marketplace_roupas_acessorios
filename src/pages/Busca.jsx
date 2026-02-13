@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 export default function Busca() {
-  const { products = [] } = useProducts(); // 🔥 Desestruturação correta com valor padrão
+  const { products = [] } = useProducts();
   const location = useLocation();
 
   const [filtroGenero, setFiltroGenero] = useState("todos");

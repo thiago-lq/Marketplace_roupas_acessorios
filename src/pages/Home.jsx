@@ -4,7 +4,7 @@ import Carrossel from "../components/carrosseis";
 import { useProducts } from "../hooks/useProducts";
 
 export default function Home({ onAddToCart }) {
-  const { products, error } = useProducts(); // 🔥 Desestruturação correta
+  const { products, error } = useProducts(); 
 
   if (error) {
     return (
