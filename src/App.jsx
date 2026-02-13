@@ -21,13 +21,70 @@ function App() {
   const toggleCarrinho = () => setMostrarCarrinho((prev) => !prev);
   const toggleLogin = () => setMostrarLogin((prev) => !prev);
 
+  // Função para adicionar ao carrinho com quantidade
   const handleAddToCart = (product) => {
-    setCart((prev) => [...prev, product]);
+    setCart((prev) => {
+      // Verifica se o produto já existe no carrinho (pela cor e tamanho também)
+      const existingItemIndex = prev.findIndex(
+        (item) =>
+          item.id === product.id &&
+          item.corSelecionada === product.corSelecionada &&
+          item.tamanhoSelecionado === product.tamanhoSelecionado,
+      );
+
+      if (existingItemIndex !== -1) {
+        // Se existe, aumenta a quantidade
+        const updatedCart = [...prev];
+        updatedCart[existingItemIndex] = {
+          ...updatedCart[existingItemIndex],
+          quantidade: (updatedCart[existingItemIndex].quantidade || 1) + 1,
+        };
+        return updatedCart;
+      } else {
+        // Se não existe, adiciona com quantidade 1
+        return [...prev, { ...product, quantidade: 1 }];
+      }
+    });
   };
+
+  // Função para aumentar quantidade
+  const handleIncreaseQuantity = (index) => {
+    setCart((prev) => {
+      const updatedCart = [...prev];
+      updatedCart[index] = {
+        ...updatedCart[index],
+        quantidade: (updatedCart[index].quantidade || 1) + 1,
+      };
+      return updatedCart;
+    });
+  };
+
+  // Função para diminuir quantidade
+  const handleDecreaseQuantity = (index) => {
+    setCart((prev) => {
+      const updatedCart = [...prev];
+      const currentQuantity = updatedCart[index].quantidade || 1;
+
+      if (currentQuantity > 1) {
+        // Se quantidade > 1, diminui
+        updatedCart[index] = {
+          ...updatedCart[index],
+          quantidade: currentQuantity - 1,
+        };
+        return updatedCart;
+      } else {
+        // Se quantidade = 1, remove o item
+        return prev.filter((_, i) => i !== index);
+      }
+    });
+  };
+
+  // Função para remover item completamente
   const handleRemoveFromCart = (index) => {
     setCart((prev) => prev.filter((_, i) => i !== index));
   };
 
+  // Função para limpar carrinho
   const handleClearCart = () => {
     setCart([]);
   };
@@ -81,18 +138,23 @@ function App() {
               element={
                 <PrivateRoute>
                   <PaginaCarrinho
-                    produtos={cart}
+                    cart={cart}
+                    onIncreaseQuantity={handleIncreaseQuantity}
+                    onDecreaseQuantity={handleDecreaseQuantity}
                     onRemoveFromCart={handleRemoveFromCart}
-                    onClearCart={handleClearCart} // Nova prop
+                    onClearCart={handleClearCart}
                   />
                 </PrivateRoute>
               }
             />
           </Routes>
+
           <CarrinhoFlutuante
             visivel={mostrarCarrinho}
-            produtos={cart}
+            cart={cart}
             onClose={() => setMostrarCarrinho(false)}
+            onIncreaseQuantity={handleIncreaseQuantity}
+            onDecreaseQuantity={handleDecreaseQuantity}
             onRemoveFromCart={handleRemoveFromCart}
           />
 

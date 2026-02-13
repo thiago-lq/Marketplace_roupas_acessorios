@@ -3,7 +3,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function PaginaCarrinho({
-  produtos,
+  cart,
+  onIncreaseQuantity,
+  onDecreaseQuantity,
   onRemoveFromCart,
   onClearCart,
 }) {
@@ -22,7 +24,7 @@ export default function PaginaCarrinho({
   });
   const [dadosBoleto, setDadosBoleto] = useState(null);
   const [dadosPix, setDadosPix] = useState(null);
-  const [etapaPagamento, setEtapaPagamento] = useState("selecao"); // selecao, processando, confirmado
+  const [etapaPagamento, setEtapaPagamento] = useState("selecao");
 
   // Cupons fictícios
   const CUPONS = {
@@ -33,8 +35,11 @@ export default function PaginaCarrinho({
     PRIMAVERA: 15,
   };
 
-  // Calcula o total do carrinho
-  const subtotal = produtos.reduce((acc, item) => acc + Number(item.preco), 0);
+  // Calcula o subtotal com quantidades
+  const subtotal = cart.reduce(
+    (acc, item) => acc + Number(item.preco) * (item.quantidade || 1),
+    0,
+  );
 
   // Aplica desconto do cupom
   const descontoCupom = cupomAplicado
@@ -51,17 +56,16 @@ export default function PaginaCarrinho({
 
   useEffect(() => {
     setParcelas(1);
-    // Resetar dados de pagamento ao mudar método
     setDadosCartao({ numero: "", nome: "", validade: "", cvv: "" });
     setDadosBoleto(null);
     setDadosPix(null);
     setEtapaPagamento("selecao");
   }, [metodoPagamento]);
 
-  const handleRemove = (index) => {
+  const handleRemove = (index, nome) => {
     Swal.fire({
       title: "Tem certeza?",
-      text: "Você quer remover este item?",
+      text: `Você quer remover ${nome} do carrinho?`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#000",
@@ -145,7 +149,6 @@ export default function PaginaCarrinho({
   };
 
   const handleProcessarPagamentoCartao = () => {
-    // Validação básica
     if (
       !dadosCartao.numero ||
       !dadosCartao.nome ||
@@ -173,7 +176,6 @@ export default function PaginaCarrinho({
 
     setEtapaPagamento("processando");
 
-    // Simulação de processamento
     setTimeout(() => {
       setEtapaPagamento("confirmado");
       finalizarCompra();
@@ -230,35 +232,78 @@ export default function PaginaCarrinho({
   return (
     <div className="p-4 sm:p-6 max-w-4xl mx-auto">
       <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">
-        Seus produtos
+        Seus produtos ({cart.length} {cart.length === 1 ? "item" : "itens"})
       </h1>
 
       <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
-        {produtos.length > 0 ? (
+        {cart.length > 0 ? (
           <>
-            {/* Lista de produtos - mobile first */}
-            <ul className="space-y-3 mb-4 max-h-96 overflow-y-auto">
-              {produtos.map((item, index) => (
-                <li
-                  key={index}
-                  className="flex flex-col sm:flex-row sm:justify-between sm:items-center border-b pb-3 gap-2"
-                >
-                  <div className="text-sm font-medium text-gray-700">
-                    {item.nome}
-                  </div>
-                  <div className="flex items-center justify-between sm:justify-end gap-2">
-                    <div className="text-sm font-semibold text-green-600">
-                      R$ {Number(item.preco).toFixed(2)}
+            {/* Lista de produtos com quantidade */}
+            <ul className="space-y-4 mb-4 max-h-96 overflow-y-auto">
+              {cart.map((item, index) => {
+                const quantidade = item.quantidade || 1;
+                const subtotalItem = Number(item.preco) * quantidade;
+
+                return (
+                  <li key={index} className="flex flex-col border-b pb-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <div className="font-medium text-gray-700">
+                        {item.nome}
+                      </div>
+                      <div className="font-semibold text-green-600">
+                        R$ {Number(item.preco).toFixed(2)}
+                      </div>
                     </div>
-                    <button
-                      onClick={() => handleRemove(index)}
-                      className="text-red-600 hover:text-red-800 text-xs font-semibold px-3 py-1.5 rounded bg-red-100"
-                    >
-                      Remover
-                    </button>
-                  </div>
-                </li>
-              ))}
+
+                    {/* Detalhes do produto */}
+                    {(item.corSelecionada || item.tamanhoSelecionado) && (
+                      <div className="text-sm text-gray-500 mb-3">
+                        {item.corSelecionada && (
+                          <span className="mr-3">
+                            Cor: {item.corSelecionada}
+                          </span>
+                        )}
+                        {item.tamanhoSelecionado && (
+                          <span>Tamanho: {item.tamanhoSelecionado}</span>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Controles de quantidade */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <button
+                          onClick={() => onDecreaseQuantity(index)}
+                          className="w-8 h-8 flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded-full text-lg font-bold"
+                        >
+                          -
+                        </button>
+                        <span className="text-base font-medium w-10 text-center">
+                          {quantidade}
+                        </span>
+                        <button
+                          onClick={() => onIncreaseQuantity(index)}
+                          className="w-8 h-8 flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded-full text-lg font-bold"
+                        >
+                          +
+                        </button>
+                      </div>
+
+                      <div className="flex items-center gap-4">
+                        <span className="text-sm font-semibold">
+                          Subtotal: R$ {subtotalItem.toFixed(2)}
+                        </span>
+                        <button
+                          onClick={() => handleRemove(index, item.nome)}
+                          className="text-red-600 hover:text-red-800 text-sm font-semibold"
+                        >
+                          Remover
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
 
             {/* Botão limpar carrinho */}
@@ -291,7 +336,7 @@ export default function PaginaCarrinho({
               </button>
             </div>
 
-            {/* Resumo */}
+            {/* Resumo com totais */}
             <div className="border-t pt-4">
               <div className="space-y-2 mb-4">
                 <div className="flex justify-between text-sm">
@@ -321,7 +366,7 @@ export default function PaginaCarrinho({
                 </div>
               </div>
 
-              {/* Cupom */}
+              {/* Seção de cupom */}
               <div className="mb-6 p-3 sm:p-4 bg-gray-50 rounded-lg">
                 <h4 className="font-medium mb-2 text-sm sm:text-base">
                   Cupom de desconto:
@@ -360,7 +405,6 @@ export default function PaginaCarrinho({
                     </button>
                   </div>
                 )}
-                {/* Lista de cupons disponíveis */}
                 <div className="mt-2 text-xs text-gray-500">
                   Cupons disponíveis: BEMVINDO10, BLACKFRIDA, FRETEGRATIS,
                   NATAL25, PRIMAVERA
@@ -403,7 +447,7 @@ export default function PaginaCarrinho({
                   ))}
                 </div>
 
-                {/* Formulário do Cartão */}
+                {/* Formulário do Cartão de Crédito */}
                 {metodoPagamento === "Cartão de Crédito" &&
                   etapaPagamento === "selecao" && (
                     <div className="mt-4 p-4 bg-gray-50 rounded-lg space-y-3">
@@ -527,20 +571,22 @@ export default function PaginaCarrinho({
                     <p className="text-xs text-gray-500 mb-4">
                       Código válido por {dadosPix.expiracao}
                     </p>
-                    <button
-                      onClick={() =>
-                        navigator.clipboard.writeText(dadosPix.codigo)
-                      }
-                      className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg text-sm mr-2"
-                    >
-                      Copiar código
-                    </button>
-                    <button
-                      onClick={finalizarCompra}
-                      className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg text-sm"
-                    >
-                      Já paguei
-                    </button>
+                    <div className="flex gap-2 justify-center">
+                      <button
+                        onClick={() =>
+                          navigator.clipboard.writeText(dadosPix.codigo)
+                        }
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg text-sm"
+                      >
+                        Copiar código
+                      </button>
+                      <button
+                        onClick={finalizarCompra}
+                        className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg text-sm"
+                      >
+                        Já paguei
+                      </button>
+                    </div>
                   </div>
                 )}
 
@@ -569,20 +615,22 @@ export default function PaginaCarrinho({
                     <p className="text-xs text-gray-600 mb-4">
                       Valor: R$ {dadosBoleto.valor}
                     </p>
-                    <button
-                      onClick={() =>
-                        navigator.clipboard.writeText(dadosBoleto.codigo)
-                      }
-                      className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg text-sm mr-2"
-                    >
-                      Copiar código
-                    </button>
-                    <button
-                      onClick={finalizarCompra}
-                      className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg text-sm"
-                    >
-                      Já paguei
-                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() =>
+                          navigator.clipboard.writeText(dadosBoleto.codigo)
+                        }
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg text-sm"
+                      >
+                        Copiar código
+                      </button>
+                      <button
+                        onClick={finalizarCompra}
+                        className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg text-sm"
+                      >
+                        Já paguei
+                      </button>
+                    </div>
                   </div>
                 )}
 
