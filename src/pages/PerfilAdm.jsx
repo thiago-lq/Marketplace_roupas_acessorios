@@ -202,12 +202,12 @@ export default function PerfilAdm() {
         text: "Produto adicionado com sucesso!",
       });
     } catch (error) {
-      await Swal.fire({
+      if (error) {await Swal.fire({
         icon: "error",
         title: "Erro",
         text: "Falha ao adicionar produto.",
       });
-    }
+    }}
   };
 
    const [descricao, setDescricao] = useState("");

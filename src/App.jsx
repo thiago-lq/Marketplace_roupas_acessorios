@@ -1,14 +1,13 @@
 import { useState } from "react";
 import Home from "./pages/Home";
-import {NavBar}  from "./components/navbars";
+import { NavBar } from "./components/navbars";
 import PerfilAdm from "./pages/PerfilAdm";
 import CarrinhoFlutuante from "./components/carrinhos";
 import { Login } from "./components/usuario";
-import Footer from "./components/footers";
 import PerfilUsuario from "./pages/PerfilUsuario";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./contexts/AuthContext";
-import { ProductsProvider } from "./contexts/ProductsContext";
+import { AuthProvider } from "./contexts/AuthProvider";
+import { ProductsProvider } from "./contexts/ProductsProvider";
 import PrivateRoute from "./routes/PrivateRoute";
 import Busca from "./pages/Busca";
 import ProdutoPag from "./pages/ProdutoPag";
@@ -27,6 +26,10 @@ function App() {
   };
   const handleRemoveFromCart = (index) => {
     setCart((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleClearCart = () => {
+    setCart([]);
   };
 
   return (
@@ -61,23 +64,28 @@ function App() {
               }
             />
 
+            <Route path="/Busca" element={<Busca />} />
+
             <Route
-              path="/Busca"
-              element={<Busca />}
+              path="/produto/:id"
+              element={<ProdutoPag onAddToCart={handleAddToCart} />}
             />
 
-            <Route path="/produto/:id"
-                   element={<ProdutoPag onAddToCart={handleAddToCart} />}
+            <Route
+              path="/Busca/produto/:id"
+              element={<ProdutoPag onAddToCart={handleAddToCart} />}
             />
 
-            <Route path="/Busca/produto/:id"
-                   element={<ProdutoPag onAddToCart={handleAddToCart} />}
+            <Route
+              path="/PaginaCarrinho"
+              element={
+                <PaginaCarrinho
+                  produtos={cart}
+                  onRemoveFromCart={handleRemoveFromCart}
+                  onClearCart={handleClearCart} // Nova prop
+                />
+              }
             />
-
-            <Route path="/PaginaCarrinho"
-                   element={<PaginaCarrinho/>}
-            />
-            
           </Routes>
           <CarrinhoFlutuante
             visivel={mostrarCarrinho}
@@ -90,11 +98,6 @@ function App() {
             visivel={mostrarLogin}
             onClose={() => setMostrarLogin(false)}
           />
-
-          <div>
-            <Footer />
-          </div>
-          
         </AuthProvider>
       </ProductsProvider>
     </BrowserRouter>

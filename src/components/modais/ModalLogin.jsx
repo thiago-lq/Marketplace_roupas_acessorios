@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
+import  useCargo from "../../hooks/useCargo";
 import { useState, useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase/configs";
 
 export default function ModalLogin({ onClose, deslogar }) {
-  const { cargo, loading } = useAuth();
-  const { user } = useAuth();
+  const { user, cargo, loading } = useCargo();
   const [nome, setNome] = useState("");
 
   useEffect(() => {
@@ -60,10 +59,6 @@ export default function ModalLogin({ onClose, deslogar }) {
               }
             </Link>
           )}
-
-          <button className="text-black text-start font-semibold hover:text-white hover:bg-black w-max rounded-md px-2 py-0.5">
-            Ir para os seus pedidos
-          </button>
 
           <button
             className="text-black text-start font-semibold hover:text-white hover:bg-black w-max rounded-md px-2 py-0.5"

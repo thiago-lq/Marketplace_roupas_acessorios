@@ -4,7 +4,7 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "../../firebase/configs";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 import FormularioLogin from "../formularios";
 import { ModalLogin } from "../modais";
 import Swal from "sweetalert2";

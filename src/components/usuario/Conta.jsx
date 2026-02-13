@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase/configs";
 import DadosConta from "./DadosConta";
@@ -103,22 +103,6 @@ export default function Conta() {
         >
           Dados pessoais
         </button>
-        <button
-          className={`pb-2 ${
-            tab === "preferencias" ? "border-b-2 border-black font-bold" : ""
-          }`}
-          onClick={() => setTab("preferencias")}
-        >
-          Suas preferências
-        </button>
-        <button
-          className={`pb-2 ${
-            tab === "tamanho" ? "border-b-2 border-black font-bold" : ""
-          }`}
-          onClick={() => setTab("tamanho")}
-        >
-          Perfil de tamanho
-        </button>
       </div>
 
       <div className="mt-6">
@@ -146,8 +130,6 @@ export default function Conta() {
             setCep={setCep}
           />
         )}
-        {tab === "preferencias" && <p>As preferências vão estar aqui</p>}
-        {tab === "tamanho" && <p>Os tamanhos vão estar aqui</p>}
       </div>
     </div>
   );
