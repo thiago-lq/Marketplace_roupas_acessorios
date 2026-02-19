@@ -1,42 +1,69 @@
-# Marketplace de Roupas e Acessórios
+# Clothing & Accessories Marketplace
 
-Este é um projeto em desenvolvimento de um marketplace moderno feito com **React**, com foco em roupas e acessórios
-
-> Projeto em construção
-
-## Objetivo
-
-Desenvolver uma loja online onde usuários possam visualizar produtos e, futuramente, realizar compras
-
-## Tecnologias
-
-- [React](https://reactjs.org/)
-- [Vite](https://vitejs.dev/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Firebase](https://firebase.google.com/)
-
-## Funcionalidades atuais
-
-- [x] Página inicial com produtos
-- [x] Barra de navegação com logo, perfil e carrinho
-- [x] Conexão com banco de dados Firebase
-- [x] Página de administração para inserir e retirar produtos do site, podendo escolher onde serão exibidos
-- [x] Página inicial com produtos completamente filtrados
-
-## Funcionalidades em desenvolvimento
-
-- [ ] Mecanismo de busca com uma página de produtos
-- [ ] Tela de produto com detalhes
-- [ ] Página de perfil com carrinho
-- [ ] Validação de usuário
-
-## Imagens
-
-> Em breve será adicionada uma prévia do visual do site.
-
-## Status
-
-Este projeto está em desenvolvimento e serve como prática e portfólio pessoal.
+A modern and responsive marketplace built with **React**, focused on clothing and accessories.  
+This project was developed for learning purposes and as part of my personal portfolio.
 
 ---
 
+##  About the Project
+
+This application simulates a complete e-commerce experience where users can:
+
+- Browse products
+- Search for clothing items
+- Add products to the shopping cart
+- Complete a simulated checkout process
+
+Note: No real payment gateway is integrated. The checkout process is for demonstration purposes only.
+
+---
+
+## Admin Panel
+
+The project also includes an administrative dashboard where administrators can:
+
+- Create new products
+- Edit existing products
+- Delete products
+- Manage where products are displayed on the platform
+
+---
+
+## Tech Stack
+
+- **React**
+- **Vite**
+- **Tailwind CSS**
+- **Firebase**
+
+---
+
+## Features
+
+- Responsive design (mobile, tablet, desktop)
+- Product filtering and search
+- Shopping cart management
+- Simulated checkout flow
+- Authentication system
+- Admin product management
+
+---
+
+## Project Status
+
+Completed  
+Built for practice and portfolio purposes  
+
+---
+
+## Running Locally
+
+```bash
+# Clone the repository
+git clone <your-repository-url>
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
